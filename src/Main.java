@@ -9,7 +9,7 @@ public class Main {
 
     }
 
-    public void testFunction() {
+    public void testFunction2() {
 
     }
 }
