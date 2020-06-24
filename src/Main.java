@@ -8,5 +8,6 @@ public class Main {
         visualizer.setVisible(true);
         int a = 5;
         int b = 6;
+        string s = "Моя ветка)))))";
     }
 }
