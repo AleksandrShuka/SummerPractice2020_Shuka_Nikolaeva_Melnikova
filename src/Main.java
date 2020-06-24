@@ -14,6 +14,6 @@ public class Main {
     }
 
     public void testFunction2() {
-
+      int a;
     }
 }
