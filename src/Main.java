@@ -9,7 +9,11 @@ public class Main {
 
     }
 
+    public void abracadabra() {
+
+    }
+
     public void testFunction2() {
-        int a;
+      int a;
     }
 }
