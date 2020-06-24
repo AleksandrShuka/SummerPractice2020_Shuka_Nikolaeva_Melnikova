@@ -10,4 +10,14 @@ public class Main {
         int b = 6;
         string s = "Моя ветка)))))";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }
