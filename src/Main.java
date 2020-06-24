@@ -9,6 +9,10 @@ public class Main {
 
     }
 
+    public void abracadabra() {
+
+    }
+
     public void testFunction2() {
 
     }
