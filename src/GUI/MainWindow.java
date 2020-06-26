@@ -10,6 +10,7 @@ import java.awt.*;
 public class MainWindow extends JFrame {
     private CommandPanel commandPanel;
     private ListenableGraph listenableGraph;
+    private ScrollTextPane scrollPane;
 
     public MainWindow() {
         setTitle("Kosaraju's algorithm visualizer");
@@ -19,18 +20,15 @@ public class MainWindow extends JFrame {
 
         setBounds(dimension.width / 6, dimension.height / 6,
                 2 * dimension.width / 3, 2 * dimension.height / 3);
-        this.setResizable(false);
-
-        BorderLayout borderLayout = new BorderLayout();
-        this.setLayout(borderLayout);
+        setResizable(false);
+        setLayout(new BorderLayout());
 
         commandPanel = new CommandPanel();
         listenableGraph = new ListenableGraph();
+        scrollPane = new ScrollTextPane();
 
         //FIX IT
         listenableGraph.testBuild();
-
-        add(commandPanel, BorderLayout.EAST);
 
         //FIX IT
         JGraphXAdapter<Integer, EmptyEdge> graphAdapter = new JGraphXAdapter<Integer, EmptyEdge>(listenableGraph);
@@ -42,15 +40,10 @@ public class MainWindow extends JFrame {
         graphComponent.setBorder(BorderFactory.createEmptyBorder(40, 10, 10, 10));
         graphComponent.setEnabled(false);
 
-        JTextArea label = new JTextArea();
-        label.setText("HELLO");
-        label.setLineWrap(true);
-        JScrollPane scrollPane = new JScrollPane(label);
-        scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        label.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-
+        //FIX IT
         add(graphComponent, BorderLayout.CENTER);
+
+        add(commandPanel, BorderLayout.EAST);
         add(scrollPane, BorderLayout.SOUTH);
     }
 }
