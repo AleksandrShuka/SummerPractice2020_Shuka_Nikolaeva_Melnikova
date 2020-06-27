@@ -6,13 +6,23 @@ import org.jgrapht.ext.JGraphXAdapter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 
 public class MainWindow extends JFrame {
     private CommandPanel commandPanel;
     private ListenableGraph listenableGraph;
     private ScrollTextPane scrollPane;
+    private mxGraphComponent graphComponent;
+    private mxCircleLayout layout;
+    private JGraphXAdapter<Integer, EmptyEdge> graphAdapter;
 
     public MainWindow() {
+        init();
+    }
+
+    private void init() {
         setTitle("Kosaraju's algorithm visualizer");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -26,24 +36,38 @@ public class MainWindow extends JFrame {
         commandPanel = new CommandPanel();
         listenableGraph = new ListenableGraph();
         scrollPane = new ScrollTextPane();
+        graphAdapter = new JGraphXAdapter<>(listenableGraph);
+        layout = new mxCircleLayout(graphAdapter);
 
-        //FIX IT
-        listenableGraph.testBuild();
-
-        //FIX IT
-        JGraphXAdapter<Integer, EmptyEdge> graphAdapter = new JGraphXAdapter<Integer, EmptyEdge>(listenableGraph);
-        mxCircleLayout layout = new mxCircleLayout(graphAdapter);
         layout.setX0((double) dimension.width / 8);
         layout.setRadius((double) dimension.height / 5);
         layout.execute(graphAdapter.getDefaultParent());
-        mxGraphComponent graphComponent = new mxGraphComponent(graphAdapter);
+
+        graphComponent = new mxGraphComponent(graphAdapter);
         graphComponent.setBorder(BorderFactory.createEmptyBorder(40, 10, 10, 10));
         graphComponent.setEnabled(false);
 
-        //FIX IT
         add(graphComponent, BorderLayout.CENTER);
-
         add(commandPanel, BorderLayout.EAST);
         add(scrollPane, BorderLayout.SOUTH);
+
+        commandPanel.getAddVertexButton().addActionListener(new AddVertexButtonActionListener());
+        commandPanel.getDeleteVertexButton().addActionListener(new DeleteVertexButtonActionListener());
+    }
+
+    class AddVertexButtonActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            listenableGraph.newVertex();
+            layout.execute(graphAdapter.getDefaultParent());
+        }
+    }
+
+    class DeleteVertexButtonActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            listenableGraph.deleteVertex();
+            layout.execute(graphAdapter.getDefaultParent());
+        }
     }
 }
