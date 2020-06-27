@@ -1,13 +1,19 @@
 package GUI;
 
 import com.mxgraph.layout.mxCircleLayout;
+import com.mxgraph.model.mxCell;
 import com.mxgraph.swing.mxGraphComponent;
+import com.mxgraph.util.mxEvent;
+import com.mxgraph.util.mxEventObject;
+import com.mxgraph.util.mxEventSource;
+import logger.Logs;
 import org.jgrapht.ext.JGraphXAdapter;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
 
 
 public class MainWindow extends JFrame {
@@ -45,7 +51,18 @@ public class MainWindow extends JFrame {
 
         graphComponent = new mxGraphComponent(graphAdapter);
         graphComponent.setBorder(BorderFactory.createEmptyBorder(40, 10, 10, 10));
-        graphComponent.setEnabled(false);
+        //  graphComponent.setEnabled(false);
+        graphAdapter.setAllowDanglingEdges(false);
+
+        graphAdapter.addListener(mxEvent.CELLS_ADDED, (o, eventObject) -> {
+            mxCell source = (mxCell) eventObject.getProperty("source");
+            mxCell target = (mxCell) eventObject.getProperty("target");
+            if (source != null && target != null) {
+                listenableGraph.addEdge((int) source.getValue(), (int) target.getValue());
+            }
+        });
+
+        graphAdapter.setCellsSelectable(false);
 
         add(graphComponent, BorderLayout.CENTER);
         add(commandPanel, BorderLayout.EAST);
@@ -53,6 +70,14 @@ public class MainWindow extends JFrame {
 
         commandPanel.getAddVertexButton().addActionListener(new AddVertexButtonActionListener());
         commandPanel.getDeleteVertexButton().addActionListener(new DeleteVertexButtonActionListener());
+        commandPanel.getStartButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (listenableGraph.getEdge(0, 1) != null) {
+                    Logs.writeToLog("WOW", Level.INFO);
+                }
+            }
+        });
     }
 
     class AddVertexButtonActionListener implements ActionListener {
