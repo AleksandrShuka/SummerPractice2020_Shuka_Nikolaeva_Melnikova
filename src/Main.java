@@ -3,7 +3,6 @@ import logger.Logs;
 
 import java.util.logging.Level;
 
-
 public class Main {
     public static void main(String[] args) {
         Logs.writeToLog("Start program", Level.INFO);
