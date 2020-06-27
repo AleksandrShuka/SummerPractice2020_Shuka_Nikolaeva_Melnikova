@@ -1,9 +1,13 @@
-public class Algorithm {
-    private int[] id;
-    private int count;
-    private boolean[] marked;
+package graph;
 
-    public Algorithm(Graph graph) {
+import org.jetbrains.annotations.NotNull;
+
+public class Algorithm {
+    private final int[] id;
+    private int count;
+    private final boolean[] marked;
+
+    public Algorithm(@NotNull Graph graph) {
         DepthFirstOrder dfs = new DepthFirstOrder(graph.getTransposedGraph());
 
         marked = new boolean[graph.getVertexList().size()];
@@ -17,12 +21,12 @@ public class Algorithm {
         }
     }
 
-    private void dfs(Vertex vertex) {
+    private void dfs(@NotNull Vertex vertex) {
         marked[vertex.getId()] = true;
         id[vertex.getId()] = count;
         vertex.setComponentId(count);
 
-        for (Vertex v : vertex.getAdjacenciesList()) {
+        for (Vertex v : vertex.getAdjacencyList()) {
             if (!marked[v.getId()]) {
                 dfs(v);
             }

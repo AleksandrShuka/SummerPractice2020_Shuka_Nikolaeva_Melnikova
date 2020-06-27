@@ -1,20 +1,13 @@
+package graph;
+
+
 public class Edge {
-    private double weight;
     private Vertex startVertex;
     private Vertex targetVertex;
 
-    public Edge(double weight, Vertex startVertex, Vertex targetVertex) {
-        this.weight = weight;
+    public Edge(Vertex startVertex, Vertex targetVertex) {
         this.startVertex = startVertex;
         this.targetVertex = targetVertex;
-    }
-
-    public double getWeight() {
-        return weight;
-    }
-
-    public void setWeight(double weight) {
-        this.weight = weight;
     }
 
     public Vertex getStartVertex() {

@@ -4,15 +4,11 @@ import com.mxgraph.layout.mxCircleLayout;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.util.mxEvent;
-import com.mxgraph.util.mxEventObject;
-import com.mxgraph.util.mxEventSource;
 import logger.Logs;
 import org.jgrapht.ext.JGraphXAdapter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.logging.Level;
 
 
@@ -51,8 +47,8 @@ public class MainWindow extends JFrame {
 
         graphComponent = new mxGraphComponent(graphAdapter);
         graphComponent.setBorder(BorderFactory.createEmptyBorder(40, 10, 10, 10));
-        //  graphComponent.setEnabled(false);
         graphAdapter.setAllowDanglingEdges(false);
+        graphAdapter.setCellsSelectable(false);
 
         graphAdapter.addListener(mxEvent.CELLS_ADDED, (o, eventObject) -> {
             mxCell source = (mxCell) eventObject.getProperty("source");
@@ -62,37 +58,23 @@ public class MainWindow extends JFrame {
             }
         });
 
-        graphAdapter.setCellsSelectable(false);
 
         add(graphComponent, BorderLayout.CENTER);
         add(commandPanel, BorderLayout.EAST);
         add(scrollPane, BorderLayout.SOUTH);
 
-        commandPanel.getAddVertexButton().addActionListener(new AddVertexButtonActionListener());
-        commandPanel.getDeleteVertexButton().addActionListener(new DeleteVertexButtonActionListener());
-        commandPanel.getStartButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (listenableGraph.getEdge(0, 1) != null) {
-                    Logs.writeToLog("WOW", Level.INFO);
-                }
-            }
-        });
-    }
-
-    class AddVertexButtonActionListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
+        commandPanel.getAddVertexButton().addActionListener(e -> {
             listenableGraph.newVertex();
             layout.execute(graphAdapter.getDefaultParent());
-        }
-    }
-
-    class DeleteVertexButtonActionListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
+        });
+        commandPanel.getDeleteVertexButton().addActionListener(e -> {
             listenableGraph.deleteVertex();
             layout.execute(graphAdapter.getDefaultParent());
-        }
+        });
+        commandPanel.getStartButton().addActionListener(e -> {
+            if (listenableGraph.getEdge(0, 1) != null) {
+                Logs.writeToLog("WOW", Level.INFO);
+            }
+        });
     }
 }
