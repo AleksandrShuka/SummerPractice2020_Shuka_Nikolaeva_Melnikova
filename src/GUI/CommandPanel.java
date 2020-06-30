@@ -7,34 +7,35 @@ import java.awt.*;
 public class CommandPanel extends JPanel {
     private final JButton startButton;
     private final JButton addVertexButton;
-    private final JButton deleteEdgeButton;
-    private final JButton deleteVertexButton;
+    private final JButton deleteButton;
+    private final JButton clearButton;
 
     CommandPanel() {
+        setBackground(Color.LIGHT_GRAY);
         setLayout(new GridLayout(0, 1, 0, 40));
         setBorder(BorderFactory.createEmptyBorder(50, 10, 50, 10));
 
         startButton = new JButton("start");
         addVertexButton = new JButton("add vertex");
-        deleteEdgeButton = new JButton("delete edge");
-        deleteVertexButton = new JButton("delete vertex");
+        deleteButton = new JButton("delete");
+        clearButton = new JButton("clear");
 
         add(startButton);
         add(addVertexButton);
-        add(deleteEdgeButton);
-        add(deleteVertexButton);
+        add(deleteButton);
+        add(clearButton);
     }
 
     public JButton getAddVertexButton() {
         return addVertexButton;
     }
 
-    public JButton getDeleteEdgeButton() {
-        return deleteEdgeButton;
+    public JButton getDeleteButton() {
+        return deleteButton;
     }
 
-    public JButton getDeleteVertexButton() {
-        return deleteVertexButton;
+    public JButton getClearButton() {
+        return clearButton;
     }
 
     public JButton getStartButton() {

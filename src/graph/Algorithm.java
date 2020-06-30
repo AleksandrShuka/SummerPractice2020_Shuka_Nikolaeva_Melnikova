@@ -1,38 +1,68 @@
 package graph;
 
-import logger.Logs;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.logging.Level;
+import java.util.LinkedList;
+
 
 public class Algorithm {
-    private final int[] id;
+    private final Graph graph;
     private int count;
-    private final boolean[] marked;
+    private final LinkedList<Vertex> orderList;
 
     public Algorithm(@NotNull Graph graph) {
-        DepthFirstOrder dfs = new DepthFirstOrder(graph.getTransposedGraph());
+        this.graph = graph;
+        orderList = new LinkedList<>();
+    }
 
-        marked = new boolean[graph.getVertexList().size()];
-        id = new int[graph.getVertexList().size()];
+    public void run() {
+        unVisit(graph);
+        for (Vertex vertex : graph.getVertexList()) {
+            if (!vertex.isVisited()) {
+                firstDFS(vertex);
+            }
+        }
 
-        for (Vertex vertex : dfs.getReversePost()) {
-            if (!marked[vertex.getId()]) {
-                dfs(vertex);
-                count++;
+        graph.transpose();
+
+        unVisit(graph);
+        for (Vertex vertex : orderList) {
+            if (!vertex.isVisited()) {
+                secondDFS(vertex);
+                ++count;
+            }
+        }
+
+        graph.transpose();
+        unVisit(graph);
+    }
+
+    private void firstDFS(@NotNull Vertex vertex) {
+        vertex.setVisited(true);
+
+        for (Vertex neighbour : vertex.getAdjacencyList()) {
+            if (!neighbour.isVisited()) {
+                firstDFS(neighbour);
+            }
+        }
+
+        orderList.push(vertex);
+    }
+
+    private void secondDFS(@NotNull Vertex vertex) {
+        vertex.setVisited(true);
+        vertex.setComponentId(count);
+
+        for (Vertex neighbour : vertex.getAdjacencyList()) {
+            if (!neighbour.isVisited()) {
+                secondDFS(neighbour);
             }
         }
     }
 
-    private void dfs(@NotNull Vertex vertex) {
-        marked[vertex.getId()] = true;
-        id[vertex.getId()] = count;
-        vertex.setComponentId(count);
-
-        for (Vertex v : vertex.getAdjacencyList()) {
-            if (!marked[v.getId()]) {
-                dfs(v);
-            }
+    private void unVisit(@NotNull Graph graph) {
+        for (Vertex vertex : graph.getVertexList()) {
+            vertex.setVisited(false);
         }
     }
 

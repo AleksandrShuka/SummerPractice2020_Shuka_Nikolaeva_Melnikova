@@ -34,18 +34,22 @@ public class Graph {
         this.edgeList = edgeList;
     }
 
-    public Graph getTransposedGraph() {
-        Graph transposed = new Graph();
-
+    public void transpose() {
         List<Vertex> transposedVertexList = new ArrayList<>(this.vertexList);
+
+        for (Vertex vertex : transposedVertexList) {
+            vertex.getAdjacencyList().clear();
+        }
 
         for (Edge edge : this.edgeList) {
             transposedVertexList.get(transposedVertexList.indexOf(edge.getTargetVertex()))
                     .addNeighbour(edge.getSourceVertex());
+
+            Vertex tmpSourceVertex = edge.getSourceVertex();
+            edge.setSourceVertex(edge.getTargetVertex());
+            edge.setTargetVertex(tmpSourceVertex);
         }
 
-        transposed.setVertexList(transposedVertexList);
-
-        return transposed;
+        setVertexList(transposedVertexList);
     }
 }
