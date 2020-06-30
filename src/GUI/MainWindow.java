@@ -6,14 +6,12 @@ import com.mxgraph.swing.mxGraphComponent;
 import graph.Algorithm;
 import graph.Edge;
 import graph.Vertex;
-import logger.Logs;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.logging.Level;
 
 
 public class MainWindow extends JFrame {
@@ -48,45 +46,31 @@ public class MainWindow extends JFrame {
 
         graphComponent = new mxGraphComponent(graph);
         graphComponent.setBorder(BorderFactory.createEmptyBorder(40, 10, 10, 10));
-
-//        graph.addListener(mxEvent.CELLS_ADDED, (o, eventObject) -> {
-//            mxCell source = (mxCell) eventObject.getProperty("source");
-//            mxCell target = (mxCell) eventObject.getProperty("target");
-//            if (source != null && target != null) {
-
-//                Logs.writeToLog(((Integer) target.getValue()).toString(), Level.INFO);
-//            }
-//        });
+        graphComponent.setBackground(Color.LIGHT_GRAY);
 
         commandPanel.getAddVertexButton().addActionListener(e -> {
             graph.insertVertex();
             executeGraph();
         });
 
-        commandPanel.getDeleteVertexButton().addActionListener(e -> {
-            Object vertex = graph.getSelectionCell();
+        commandPanel.getClearButton().addActionListener(e -> {
+            graph.clear();
+        });
 
-            if (graph.getModel().isVertex(vertex)) {
-                Logs.writeToLog("Hi", Level.INFO);
-                graph.deleteVertex((Integer) graph.getModel().getValue(vertex));
-            } else if (vertex == null) {
-                graph.deleteVertex();
+        commandPanel.getDeleteButton().addActionListener(e -> {
+            Object cell = graph.getSelectionCell();
+
+            if (graph.getModel().isVertex(cell)) {
+                graph.deleteVertex((Integer) graph.getModel().getValue(cell));
+            } else if (graph.getModel().isEdge(cell)) {
+                graph.removeCells();
             }
 
             executeGraph();
         });
 
-        commandPanel.getDeleteEdgeButton().addActionListener(e -> {
-            mxCell edge = (mxCell) graph.getSelectionCell();
-            if (graph.getModel().isEdge(edge)) {
-                graph.removeCells();
-                executeGraph();
-            }
-        });
-
         commandPanel.getStartButton().addActionListener(e -> {
-            Algorithm algo = new Algorithm(createGraph());
-            Logs.writeToLog("SIze:" + algo.getCount(), Level.INFO);
+            graph.transpose();
         });
 
         add(graphComponent, BorderLayout.CENTER);
@@ -117,8 +101,6 @@ public class MainWindow extends JFrame {
 
             for (Object edge : graph.getOutgoingEdges(cell)) {
                 int target = (Integer) ((mxCell) edge).getTarget().getValue();
-                Logs.writeToLog("from: " + source + ". To: " + target, Level.INFO);
-
                 edgeList.add(new Edge(vertexMap.get(source), vertexMap.get(target)));
             }
         }
