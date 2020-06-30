@@ -41,7 +41,7 @@ public class Graph {
 
         for (Edge edge : this.edgeList) {
             transposedVertexList.get(transposedVertexList.indexOf(edge.getTargetVertex()))
-                    .addNeighbour(edge.getStartVertex());
+                    .addNeighbour(edge.getSourceVertex());
         }
 
         transposed.setVertexList(transposedVertexList);

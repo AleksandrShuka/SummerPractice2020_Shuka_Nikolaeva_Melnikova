@@ -1,6 +1,9 @@
 package graph;
 
+import logger.Logs;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.logging.Level;
 
 public class Algorithm {
     private final int[] id;

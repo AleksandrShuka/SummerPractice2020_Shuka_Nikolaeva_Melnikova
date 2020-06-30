@@ -2,20 +2,20 @@ package graph;
 
 
 public class Edge {
-    private Vertex startVertex;
+    private Vertex sourceVertex;
     private Vertex targetVertex;
 
     public Edge(Vertex startVertex, Vertex targetVertex) {
-        this.startVertex = startVertex;
+        this.sourceVertex = startVertex;
         this.targetVertex = targetVertex;
     }
 
-    public Vertex getStartVertex() {
-        return startVertex;
+    public Vertex getSourceVertex() {
+        return sourceVertex;
     }
 
-    public void setStartVertex(Vertex startVertex) {
-        this.startVertex = startVertex;
+    public void setSourceVertex(Vertex sourceVertex) {
+        this.sourceVertex = sourceVertex;
     }
 
     public Vertex getTargetVertex() {
@@ -24,5 +24,13 @@ public class Edge {
 
     public void setTargetVertex(Vertex targetVertex) {
         this.targetVertex = targetVertex;
+    }
+
+    @Override
+    public String toString() {
+        return "Edge{" +
+                "source=" + sourceVertex +
+                ", target=" + targetVertex +
+                '}';
     }
 }
