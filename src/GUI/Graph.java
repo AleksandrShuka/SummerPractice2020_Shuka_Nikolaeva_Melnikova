@@ -4,18 +4,17 @@ import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxICell;
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.view.mxGraph;
-import org.antlr.v4.runtime.misc.OrderedHashSet;
 
 import java.util.*;
 
 
 public class Graph extends mxGraph {
     Map<Integer, Object> cells;
-    OrderedHashSet<Integer> removedCells;
+    SortedSet<Integer> removedCells;
     int count;
 
     {
-        removedCells = new OrderedHashSet<>();
+        removedCells = new TreeSet<>();
         cells = new HashMap<>();
         count = 0;
 
@@ -35,14 +34,15 @@ public class Graph extends mxGraph {
         edgeStyle.put(mxConstants.STYLE_STROKECOLOR, "#000000");
     }
 
+
     public void insertVertex() {
         if (removedCells.isEmpty()) {
             cells.put(count, insertVertex(getDefaultParent(), null,
                     count, 0, 0, 40, 40));
             count++;
         } else {
-            int index = removedCells.get(0);
-            removedCells.remove(0);
+            int index = removedCells.first();
+            removedCells.remove(index);
 
             cells.put(index, insertVertex(getDefaultParent(), null,
                     index, 0, 0, 40, 40));
@@ -57,12 +57,6 @@ public class Graph extends mxGraph {
 
     public Object[] getAllVertex() {
         return cells.values().toArray();
-    }
-
-    public void paintVertex(Integer index) {
-        setCellStyles(mxConstants.STYLE_FILLCOLOR, "#00FF00", new Object[]{cells.get(index)});
-        refresh();
-        repaint();
     }
 
     public void transpose() {

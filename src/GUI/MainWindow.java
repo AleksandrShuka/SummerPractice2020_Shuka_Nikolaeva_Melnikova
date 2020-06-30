@@ -3,12 +3,15 @@ package GUI;
 import com.mxgraph.layout.mxCircleLayout;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.swing.mxGraphComponent;
-import graph.Algorithm;
+import com.mxgraph.swing.util.mxSwingConstants;
+import com.mxgraph.util.mxConstants;
+import com.mxgraph.util.mxEvent;
 import graph.Edge;
 import graph.Vertex;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -42,20 +45,36 @@ public class MainWindow extends JFrame {
         layout = new mxCircleLayout(graph);
 
         layout.setX0((double) dimension.width / 8);
+        layout.setY0(20.0);
         layout.setRadius((double) dimension.height / 5);
 
         graphComponent = new mxGraphComponent(graph);
-        graphComponent.setBorder(BorderFactory.createEmptyBorder(40, 10, 10, 10));
+        graphComponent.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
         graphComponent.setBackground(Color.LIGHT_GRAY);
+        graphComponent.setGridVisible(true);
+        graphComponent.setGridColor(Color.LIGHT_GRAY);
+        mxSwingConstants.VERTEX_SELECTION_COLOR = Color.LIGHT_GRAY;
+
+        graph.getSelectionModel().addListener(mxEvent.CHANGE, (o, mxEventObject) -> {
+            ArrayList<mxCell> list = (ArrayList<mxCell>) mxEventObject.getProperty("added");
+
+            if (list.size() == 0) {
+                list = (ArrayList<mxCell>) mxEventObject.getProperties().get("removed");
+                list.get(0).setStyle(mxConstants.STYLE_FILLCOLOR + "=" + "#00FF00");
+            } else {
+                list.get(0).setStyle(mxConstants.STYLE_FILLCOLOR + "=" + "#FFFFFF");
+            }
+
+            graph.refresh();
+            graph.repaint();
+        });
 
         commandPanel.getAddVertexButton().addActionListener(e -> {
             graph.insertVertex();
             executeGraph();
         });
 
-        commandPanel.getClearButton().addActionListener(e -> {
-            graph.clear();
-        });
+        commandPanel.getClearButton().addActionListener(e -> graph.clear());
 
         commandPanel.getDeleteButton().addActionListener(e -> {
             Object cell = graph.getSelectionCell();
@@ -69,9 +88,7 @@ public class MainWindow extends JFrame {
             executeGraph();
         });
 
-        commandPanel.getStartButton().addActionListener(e -> {
-            graph.transpose();
-        });
+        commandPanel.getStartButton().addActionListener(e -> graph.transpose());
 
         add(graphComponent, BorderLayout.CENTER);
         add(commandPanel, BorderLayout.EAST);
