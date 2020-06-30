@@ -1,8 +1,10 @@
 package graph;
 
+import logger.Logs;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Stack;
+import java.util.logging.Level;
 
 
 public class DepthFirstOrder {
@@ -12,7 +14,7 @@ public class DepthFirstOrder {
         stack = new Stack<>();
 
         for (Vertex vertex : graph.getVertexList()) {
-            if (vertex.isVisited()) {
+            if (!vertex.isVisited()) {
                 dfs(vertex);
             }
         }
@@ -22,7 +24,7 @@ public class DepthFirstOrder {
         vertex.setVisited(true);
 
         for (Vertex v : vertex.getAdjacencyList()) {
-            if (v.isVisited()) {
+            if (!v.isVisited()) {
                 dfs(v);
             }
         }
