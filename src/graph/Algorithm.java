@@ -1,9 +1,11 @@
 package graph;
 
+import logger.Logs;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.util.LinkedList;
+import java.util.logging.Level;
 
 
 public class Algorithm extends SwingWorker<Void, Void> {
@@ -13,13 +15,33 @@ public class Algorithm extends SwingWorker<Void, Void> {
     public static final String UNMARK_VERTEX = "unmarkVertex";
     public static final String TRANSPOSE_GRAPH = "transposeGraph";
 
+    private volatile boolean isRun;
+    private volatile int speed = 1000;
+
     private final Graph graph;
     private int count;
     private final LinkedList<Vertex> orderList;
 
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    public void stop() {
+        Thread.interrupted();
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
     public Algorithm(@NotNull Graph graph) {
+        isRun = true;
         this.graph = graph;
         orderList = new LinkedList<>();
+    }
+
+    public void setRun(boolean run) {
+        isRun = run;
     }
 
     @Override
@@ -31,9 +53,12 @@ public class Algorithm extends SwingWorker<Void, Void> {
             }
         }
 
-        Thread.sleep(1000);
-        graph.transpose();
-        firePropertyChange(TRANSPOSE_GRAPH, null, null);
+        for (int i = 0; i < 10000; ++i) {
+            sleepOrWait();
+            Logs.writeToLog(Integer.toString(i), Level.INFO);
+            graph.transpose();
+            firePropertyChange(TRANSPOSE_GRAPH, null, null);
+        }
 
         unVisit(graph);
         for (Vertex vertex : orderList) {
@@ -73,6 +98,20 @@ public class Algorithm extends SwingWorker<Void, Void> {
                 secondDFS(neighbour);
             }
         }
+    }
+
+    private synchronized void sleepOrWait() throws InterruptedException {
+        if (isRun) {
+            Thread.sleep(speed);
+        }
+        else {
+            wait();
+        }
+    }
+
+    public synchronized void unSleep() {
+        isRun = true;
+        notifyAll();
     }
 
     private void unVisit(@NotNull Graph graph) {
