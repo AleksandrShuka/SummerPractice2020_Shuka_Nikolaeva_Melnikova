@@ -28,6 +28,7 @@ public class MainWindow extends JFrame {
     private CommandPanel commandPanel;
     private ScrollTextPane scrollPane;
     private mxGraphComponent graphComponent;
+    private MenuBar menuBar;
     private mxCircleLayout layout;
     private Graph graph;
 
@@ -46,6 +47,7 @@ public class MainWindow extends JFrame {
         setResizable(false);
         setLayout(new BorderLayout());
 
+        menuBar = new MenuBar();
         commandPanel = new CommandPanel();
         scrollPane = new ScrollTextPane();
         graph = new Graph();
@@ -104,6 +106,7 @@ public class MainWindow extends JFrame {
             algo.execute();
         });
 
+        setJMenuBar(menuBar);
         add(graphComponent, BorderLayout.CENTER);
         add(commandPanel, BorderLayout.EAST);
         add(scrollPane, BorderLayout.SOUTH);
