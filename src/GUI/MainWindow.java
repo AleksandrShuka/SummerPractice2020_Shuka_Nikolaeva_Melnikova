@@ -6,15 +6,22 @@ import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.swing.util.mxSwingConstants;
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.util.mxEvent;
+import graph.Algorithm;
 import graph.Edge;
 import graph.Vertex;
+import logger.Logs;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.logging.Level;
 
 
 public class MainWindow extends JFrame {
@@ -49,11 +56,9 @@ public class MainWindow extends JFrame {
         layout.setRadius((double) dimension.height / 5);
 
         graphComponent = new mxGraphComponent(graph);
-        graphComponent.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
         graphComponent.setBackground(Color.LIGHT_GRAY);
-        graphComponent.setGridVisible(true);
-        graphComponent.setGridColor(Color.LIGHT_GRAY);
-        mxSwingConstants.VERTEX_SELECTION_COLOR = Color.LIGHT_GRAY;
+        graphComponent.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
+        mxSwingConstants.VERTEX_SELECTION_COLOR = new Color(0xEEEEEE);
 
         graph.getSelectionModel().addListener(mxEvent.CHANGE, (o, mxEventObject) -> {
             ArrayList<mxCell> list = (ArrayList<mxCell>) mxEventObject.getProperty("added");
@@ -88,7 +93,16 @@ public class MainWindow extends JFrame {
             executeGraph();
         });
 
-        commandPanel.getStartButton().addActionListener(e -> graph.transpose());
+        commandPanel.getStartButton().addActionListener(e -> {
+            Algorithm algo = new Algorithm(createGraph());
+            algo.addPropertyChangeListener(evt -> {
+                if (evt.getPropertyName().equals(Algorithm.TRANSPOSE_GRAPH)) {
+                    graph.transpose();
+                }
+            });
+
+            algo.execute();
+        });
 
         add(graphComponent, BorderLayout.CENTER);
         add(commandPanel, BorderLayout.EAST);
@@ -101,7 +115,8 @@ public class MainWindow extends JFrame {
         graph.setCellsMovable(false);
     }
 
-    private graph.Graph createGraph() {
+    @Contract(" -> new")
+    private graph.@NotNull Graph createGraph() {
         Map<Integer, Vertex> vertexMap = new HashMap<>();
         LinkedList<Vertex> vertexList = new LinkedList<>();
         LinkedList<Edge> edgeList = new LinkedList<>();

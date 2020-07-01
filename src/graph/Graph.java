@@ -1,5 +1,7 @@
 package graph;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,10 +14,14 @@ public class Graph {
         super();
     }
 
-    public Graph(List<Vertex> vertexList, List<Edge> edgeList) {
+    public Graph(List<Vertex> vertexList, @NotNull List<Edge> edgeList) {
         super();
         this.vertexList = vertexList;
         this.edgeList = edgeList;
+
+        for (Edge edge : edgeList) {
+            vertexList.get(vertexList.indexOf(edge.getSourceVertex())).addNeighbour(edge.getTargetVertex());
+        }
     }
 
     public List<Vertex> getVertexList() {

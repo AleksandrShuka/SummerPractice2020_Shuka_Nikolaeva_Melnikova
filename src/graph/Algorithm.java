@@ -2,10 +2,17 @@ package graph;
 
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.*;
 import java.util.LinkedList;
 
 
-public class Algorithm {
+public class Algorithm extends SwingWorker<Void, Void> {
+    public static final String MARK_EDGE = "markEdge";
+    public static final String UNMARK_EDGE = "unmarkEdge";
+    public static final String MARK_VERTEX = "markVertex";
+    public static final String UNMARK_VERTEX = "unmarkVertex";
+    public static final String TRANSPOSE_GRAPH = "transposeGraph";
+
     private final Graph graph;
     private int count;
     private final LinkedList<Vertex> orderList;
@@ -15,7 +22,8 @@ public class Algorithm {
         orderList = new LinkedList<>();
     }
 
-    public void run() {
+    @Override
+    protected Void doInBackground() throws Exception {
         unVisit(graph);
         for (Vertex vertex : graph.getVertexList()) {
             if (!vertex.isVisited()) {
@@ -23,7 +31,9 @@ public class Algorithm {
             }
         }
 
+        Thread.sleep(1000);
         graph.transpose();
+        firePropertyChange(TRANSPOSE_GRAPH, null, null);
 
         unVisit(graph);
         for (Vertex vertex : orderList) {
@@ -33,8 +43,13 @@ public class Algorithm {
             }
         }
 
+        Thread.sleep(1000);
+        firePropertyChange(TRANSPOSE_GRAPH, null, null);
         graph.transpose();
+
         unVisit(graph);
+
+        return null;
     }
 
     private void firstDFS(@NotNull Vertex vertex) {
@@ -46,7 +61,7 @@ public class Algorithm {
             }
         }
 
-        orderList.push(vertex);
+        orderList.addFirst(vertex);
     }
 
     private void secondDFS(@NotNull Vertex vertex) {
