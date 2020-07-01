@@ -49,7 +49,11 @@ public class Vertex {
 
     @Override
     public String toString() {
-        return "Vertex [id=" + id + "]";
+        return "Vertex{" +
+                "id=" + id +
+                ", adjacencyList=" + adjacencyList +
+                ", componentId=" + componentId +
+                '}';
     }
 
     public void addNeighbour(Vertex vertex) {
