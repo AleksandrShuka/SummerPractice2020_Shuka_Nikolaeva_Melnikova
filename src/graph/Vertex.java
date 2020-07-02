@@ -52,13 +52,15 @@ public class Vertex {
     /**
      * Возвращает {@code id} вершины.
      *
-     * @return {@code id}.
+     * @return номер вершины.
      */
     public int getId() {
         return id;
     }
 
     /**
+     * Устанавливает номер вершины {@code id}.
+     *
      * @param id номер вершины.
      */
     public void setId(int id) {
@@ -75,6 +77,8 @@ public class Vertex {
     }
 
     /**
+     * Устанавливает значение статуса посещенности вершины {@code isVisited}.
+     *
      * @param isVisited значение статуса посещенности вершины.
      */
     public void setVisited(boolean isVisited) {
@@ -84,13 +88,15 @@ public class Vertex {
     /**
      * Возвращает список смежных вершин {@code adjacencyList}.
      *
-     * @return {@code adjacencyList}.
+     * @return список смежных вершин.
      */
     public List<Vertex> getAdjacencyList() {
         return adjacencyList;
     }
 
     /**
+     * Устанавливает список смежных ребер {@code adjacencyList}.
+     *
      * @param adjacencyList список смежных вершин.
      */
     public void setAdjacencyList(List<Vertex> adjacencyList) {
@@ -100,14 +106,16 @@ public class Vertex {
     /**
      * Возвращает {@code componentId} вершины.
      *
-     * @return {@code componentId}.
+     * @return номер компоненты сильной связности, к которой принадлежит вершина.
      */
     public int getComponentId() {
         return componentId;
     }
 
     /**
-     * @param componentId номер компоненты сильной связности, к которой принадлежит вершина.
+     * Устанавливает номер компоненты сильной связности {@code componentId}.
+     *
+     * @param componentId номер компоненты сильной связности.
      */
     public void setComponentId(int componentId) {
         this.componentId = componentId;
@@ -123,10 +131,10 @@ public class Vertex {
     }
 
     /**
-     * Возвращает строковое представление вершины, которое содержит информацию о всех
+     * Возвращает строковое представление вершины {@code String}, которое содержит информацию о всех
      * ее полях.
      *
-     * @return {@code String}.
+     * @return строка, содержащая информацию о вершине.
      */
     @Override
     public String toString() {
