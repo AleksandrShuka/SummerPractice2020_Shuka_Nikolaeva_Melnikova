@@ -30,10 +30,6 @@ public class Algorithm extends SwingWorker<Void, Void> {
         this.orderList = new LinkedList<>();
     }
 
-    public void setRun(boolean run) {
-        isRun = run;
-    }
-
     @Override
     protected Void doInBackground() throws Exception {
         unVisit(graph);
@@ -86,6 +82,10 @@ public class Algorithm extends SwingWorker<Void, Void> {
         }
     }
 
+    public synchronized void setRun(boolean run) {
+        isRun = run;
+    }
+
     private synchronized void sleepOrWait() throws InterruptedException {
         if (isRun) {
             Thread.sleep(delay);
@@ -109,19 +109,15 @@ public class Algorithm extends SwingWorker<Void, Void> {
         return this.count;
     }
 
-    public synchronized int increaseDelay() {
+    public synchronized void increaseDelay() {
         if (delay < MAX_DELAY - DELTA_DELAY) {
             delay += DELTA_DELAY;
         }
-
-        return delay;
     }
 
-    public synchronized int decreaseDelay() {
+    public synchronized void decreaseDelay() {
         if (delay - DELTA_DELAY > MIN_DELAY) {
             delay -= DELTA_DELAY;
         }
-
-        return delay;
     }
 }

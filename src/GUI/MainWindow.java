@@ -9,6 +9,7 @@ import com.mxgraph.util.mxEvent;
 import graph.Algorithm;
 import graph.Edge;
 import graph.Vertex;
+import logger.Logs;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.logging.Level;
 
 
 public class MainWindow extends JFrame {
