@@ -1,11 +1,9 @@
 package graph;
 
-import logger.Logs;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.util.LinkedList;
-import java.util.logging.Level;
 
 
 public class Algorithm extends SwingWorker<Void, Void> {
@@ -45,12 +43,9 @@ public class Algorithm extends SwingWorker<Void, Void> {
             }
         }
 
-        for (int i = 0; i < 10000; ++i) {
-            sleepOrWait();
-            Logs.writeToLog(Integer.toString(i), Level.INFO);
-            graph.transpose();
-            firePropertyChange(TRANSPOSE_GRAPH, null, null);
-        }
+        sleepOrWait();
+        graph.transpose();
+        firePropertyChange(TRANSPOSE_GRAPH, null, null);
 
         unVisit(graph);
         for (Vertex vertex : orderList) {
@@ -94,8 +89,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
     private synchronized void sleepOrWait() throws InterruptedException {
         if (isRun) {
             Thread.sleep(delay);
-        }
-        else {
+        } else {
             wait();
         }
     }

@@ -9,7 +9,6 @@ import com.mxgraph.util.mxEvent;
 import graph.Algorithm;
 import graph.Edge;
 import graph.Vertex;
-import logger.Logs;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,18 +18,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.logging.Level;
 
 
 public class MainWindow extends JFrame {
     private boolean isPaused;
     private CommandPanel commandPanel;
-    private ScrollTextPane scrollPane;
+    private ScrollTextPane scrollTextPane;
     private mxGraphComponent graphComponent;
     private MenuBar menuBar;
-    private Algorithm algo;
+    private Algorithm algorithm;
     private mxCircleLayout layout;
     private Graph graph;
+    private int height;
+    private int width;
 
     public MainWindow() {
         init();
@@ -41,25 +41,38 @@ public class MainWindow extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        width = 2 * dimension.width / 3;
+        height = 2 * dimension.height / 3;
 
-        int width = 2 * dimension.width / 3;
-        int height = 2 * dimension.height / 3;
-
-        setBounds(dimension.width / 6, dimension.height / 6,
-                width, height);
+        setBounds(dimension.width / 6, dimension.height / 6, width, height);
         setResizable(false);
         setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
 
         menuBar = new MenuBar();
         commandPanel = new CommandPanel();
-        scrollPane = new ScrollTextPane();
+        scrollTextPane = new ScrollTextPane();
         graph = new Graph();
         layout = new mxCircleLayout(graph);
+        graphComponent = new mxGraphComponent(graph);
 
+        initGraph();
+        initCommandPanel();
+        initScrollTextPane();
+
+        setJMenuBar(menuBar);
+        add(scrollTextPane);
+        add(graphComponent);
+        add(commandPanel);
+    }
+
+    private void initScrollTextPane() {
+        scrollTextPane.getTextArea().setFocusable(false);
+        scrollTextPane.setMaximumSize(new Dimension((int) (0.3 * width), height));
+    }
+
+    private void initGraph() {
         layout.setX0(((double) width) / 20);
         layout.setY0(((double) height) / 30);
-
-        graphComponent = new mxGraphComponent(graph);
         graphComponent.setBackground(Color.LIGHT_GRAY);
         graphComponent.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         mxSwingConstants.VERTEX_SELECTION_COLOR = new Color(0xEEEEEE);
@@ -83,13 +96,17 @@ public class MainWindow extends JFrame {
             graph.repaint();
         });
 
-        commandPanel.getIncreaseSpeedButton().addActionListener(e -> algo.setSpeed(algo.getSpeed() - 50));
+        graphComponent.setMaximumSize(new Dimension((int) (0.55 * width), height));
+    }
 
-        commandPanel.getDecreaseSpeedButton().addActionListener(e -> algo.setSpeed(algo.getSpeed() + 50));
+    private void initCommandPanel() {
+        commandPanel.getIncreaseSpeedButton().addActionListener(e -> algorithm.decreaseDelay());
+
+        commandPanel.getDecreaseSpeedButton().addActionListener(e -> algorithm.increaseDelay());
 
         commandPanel.getStopButton().addActionListener(e -> {
-            algo.cancel(true);
-            algo = new Algorithm(createGraph());
+            algorithm.cancel(true);
+            algorithm = new Algorithm(createGraph());
         });
 
         commandPanel.getAddVertexButton().addActionListener(e -> {
@@ -100,7 +117,7 @@ public class MainWindow extends JFrame {
         commandPanel.getClearButton().addActionListener(e -> graph.clear());
 
         commandPanel.getPauseButton().addActionListener(e -> {
-            algo.setRun(false);
+            algorithm.setRun(false);
             isPaused = true;
         });
 
@@ -116,31 +133,22 @@ public class MainWindow extends JFrame {
             executeGraph();
         });
 
-
         commandPanel.getStartButton().addActionListener(e -> {
             if (isPaused) {
-                algo.unSleep();
+                algorithm.unSleep();
             } else {
-                algo = new Algorithm(createGraph());
-                algo.addPropertyChangeListener(evt -> {
+                algorithm = new Algorithm(createGraph());
+                algorithm.addPropertyChangeListener(evt -> {
                     if (evt.getPropertyName().equals(Algorithm.TRANSPOSE_GRAPH)) {
                         graph.transpose();
                     }
                 });
             }
 
-            algo.execute();
+            algorithm.execute();
         });
 
-        setJMenuBar(menuBar);
-
-        scrollPane.setMaximumSize(new Dimension(30 * width / 100, height));
-        graphComponent.setMaximumSize(new Dimension(55 * width / 100, height));
-        commandPanel.setMaximumSize(new Dimension(15 * width / 100, height));
-
-        add(scrollPane);
-        add(graphComponent);
-        add(commandPanel);
+        commandPanel.setMaximumSize(new Dimension((int) (0.15 * width), height));
     }
 
     private void executeGraph() {
