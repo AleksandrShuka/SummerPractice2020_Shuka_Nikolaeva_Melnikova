@@ -5,6 +5,7 @@
       <element id="module-output" name="Kosaraju's_algorithm_visualizer" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/jgraphx.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/annotations/19.0.0/annotations-19.0.0.jar" path-in-jar="/" />
+      <element id="artifact" artifact-name="resources" />
     </root>
   </artifact>
 </component>
