@@ -52,7 +52,7 @@ public class Vertex {
     /**
      * Возвращает {@code id} вершины.
      *
-     * @return {@code id}.
+     * @return номер вершины.
      */
     public int getId() {
         return id;
@@ -84,7 +84,7 @@ public class Vertex {
     /**
      * Возвращает список смежных вершин {@code adjacencyList}.
      *
-     * @return {@code adjacencyList}.
+     * @return список смежных вершин.
      */
     public List<Vertex> getAdjacencyList() {
         return adjacencyList;
@@ -100,7 +100,7 @@ public class Vertex {
     /**
      * Возвращает {@code componentId} вершины.
      *
-     * @return {@code componentId}.
+     * @return номер компоненты сильной связности, к которой принадлежит вершина.
      */
     public int getComponentId() {
         return componentId;
@@ -123,10 +123,10 @@ public class Vertex {
     }
 
     /**
-     * Возвращает строковое представление вершины, которое содержит информацию о всех
+     * Возвращает строковое представление вершины {@code String}, которое содержит информацию о всех
      * ее полях.
      *
-     * @return {@code String}.
+     * @return строка, содержащая информацию о вершине.
      */
     @Override
     public String toString() {
