@@ -14,30 +14,22 @@ public class Algorithm extends SwingWorker<Void, Void> {
     public static final String MARK_VERTEX = "markVertex";
     public static final String UNMARK_VERTEX = "unmarkVertex";
     public static final String TRANSPOSE_GRAPH = "transposeGraph";
+    public static final int MAX_DELAY = 5000;
+    public static final int MIN_DELAY = 50;
+    public static final int DELTA_DELAY = 50;
 
     private volatile boolean isRun;
-    private volatile int speed = 1000;
+    private volatile int delay;
 
     private final Graph graph;
     private int count;
     private final LinkedList<Vertex> orderList;
 
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
-    public void stop() {
-        Thread.interrupted();
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
     public Algorithm(@NotNull Graph graph) {
-        isRun = true;
+        this.isRun = true;
+        this.delay = MIN_DELAY;
         this.graph = graph;
-        orderList = new LinkedList<>();
+        this.orderList = new LinkedList<>();
     }
 
     public void setRun(boolean run) {
@@ -68,7 +60,6 @@ public class Algorithm extends SwingWorker<Void, Void> {
             }
         }
 
-        Thread.sleep(1000);
         firePropertyChange(TRANSPOSE_GRAPH, null, null);
         graph.transpose();
 
@@ -102,7 +93,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
 
     private synchronized void sleepOrWait() throws InterruptedException {
         if (isRun) {
-            Thread.sleep(speed);
+            Thread.sleep(delay);
         }
         else {
             wait();
@@ -122,5 +113,21 @@ public class Algorithm extends SwingWorker<Void, Void> {
 
     public int getCount() {
         return this.count;
+    }
+
+    public synchronized int increaseDelay() {
+        if (delay < MAX_DELAY - DELTA_DELAY) {
+            delay += DELTA_DELAY;
+        }
+
+        return delay;
+    }
+
+    public synchronized int decreaseDelay() {
+        if (delay - DELTA_DELAY > MIN_DELAY) {
+            delay -= DELTA_DELAY;
+        }
+
+        return delay;
     }
 }
