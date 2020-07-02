@@ -59,6 +59,8 @@ public class Vertex {
     }
 
     /**
+     * Устанавливает номер вершины {@code id}.
+     *
      * @param id номер вершины.
      */
     public void setId(int id) {
@@ -75,6 +77,8 @@ public class Vertex {
     }
 
     /**
+     * Устанавливает значение статуса посещенности вершины {@code isVisited}.
+     *
      * @param isVisited значение статуса посещенности вершины.
      */
     public void setVisited(boolean isVisited) {
@@ -91,6 +95,8 @@ public class Vertex {
     }
 
     /**
+     * Устанавливает список смежных ребер {@code adjacencyList}.
+     *
      * @param adjacencyList список смежных вершин.
      */
     public void setAdjacencyList(List<Vertex> adjacencyList) {
@@ -107,7 +113,9 @@ public class Vertex {
     }
 
     /**
-     * @param componentId номер компоненты сильной связности, к которой принадлежит вершина.
+     * Устанавливает номер компоненты сильной связности {@code componentId}.
+     *
+     * @param componentId номер компоненты сильной связности.
      */
     public void setComponentId(int componentId) {
         this.componentId = componentId;

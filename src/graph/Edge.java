@@ -34,16 +34,16 @@ public class Edge {
     }
 
     /**
-     * Возвращает начальную вершину {@code sourceVertex} .
+     * Возвращает начальную вершину {@code sourceVertex}.
      *
-     * @return начальная вершина.
+     * @return начальная вершина ребра.
      */
     public Vertex getSourceVertex() {
         return sourceVertex;
     }
 
     /**
-     * Устанавливает начальную вершину.
+     * Устанавливает начальную вершину {@code sourceVertex}.
      *
      * @param sourceVertex начальная вершина.
      */
@@ -54,14 +54,14 @@ public class Edge {
     /**
      * Возвращает конечную вершину {@code targetVertex} .
      *
-     * @return конечная вершина.
+     * @return конечная вершина ребра.
      */
     public Vertex getTargetVertex() {
         return targetVertex;
     }
 
     /**
-     * Устанавливает конечную вершину.
+     * Устанавливает конечную вершину {@code targetVertex}.
      *
      * @param targetVertex конечная вершина.
      */
