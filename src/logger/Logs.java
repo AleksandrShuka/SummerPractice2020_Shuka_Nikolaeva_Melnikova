@@ -43,7 +43,7 @@ public class Logs {
         return logger.getLevel();
     }
 
-    public static void setHandlerLevel(Level level) {
+    public static void setLogLevelForOutput(Level level) {
         handler.setLevel(level);
     }
 
