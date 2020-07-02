@@ -38,12 +38,12 @@ public class CommandPanel extends JPanel {
             e.printStackTrace();
         }
 
-        startButton = new JButton("start");
-        pauseButton = new JButton("pause");
-        stopButton = new JButton("stop");
-        addVertexButton = new JButton("add vertex");
-        deleteButton = new JButton("delete");
-        clearButton = new JButton("clear");
+        startButton = new JButton("Start");
+        pauseButton = new JButton("Pause");
+        stopButton = new JButton("Stop");
+        addVertexButton = new JButton("Add vertex");
+        deleteButton = new JButton("Delete");
+        clearButton = new JButton("Clear");
         JLabel speedLabel = new JLabel("Speed:");
         increaseSpeedButton = new JButton(iconPlus);
         decreaseSpeedButton = new JButton(iconMinus);

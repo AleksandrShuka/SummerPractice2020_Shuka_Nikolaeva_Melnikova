@@ -3,6 +3,7 @@ package GUI;
 import javax.swing.*;
 import java.awt.*;
 
+
 public class ScrollTextPane extends JScrollPane {
     private final JTextArea textArea;
 
@@ -17,7 +18,7 @@ public class ScrollTextPane extends JScrollPane {
         setViewportView(textArea);
     }
 
-    public void updateText(String text) {
+    public void setText(String text) {
         textArea.setText(text);
     }
 
