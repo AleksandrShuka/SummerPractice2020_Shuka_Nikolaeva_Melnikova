@@ -43,11 +43,11 @@ public class MainWindow extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        width = 2 * dimension.width / 3;
-        height = 2 * dimension.height / 3;
+        width = dimension.width;
+        height = dimension.height;
 
-        setBounds(dimension.width / 6, dimension.height / 6, width, height);
-        setResizable(false);
+        setBounds(width / 6, height / 6, 2 * width / 3, 2 * height / 3);
+        setMinimumSize(new Dimension(2 * width / 3, height / 2));
         setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
 
         menuBar = new MenuBar();
@@ -69,7 +69,7 @@ public class MainWindow extends JFrame {
 
     private void initScrollTextPane() {
         scrollTextPane.getTextArea().setFocusable(false);
-        scrollTextPane.setMaximumSize(new Dimension((int) (0.3 * width), height));
+        scrollTextPane.setMaximumSize(new Dimension(width / 5, height));
     }
 
     private void initGraph() {
@@ -98,7 +98,7 @@ public class MainWindow extends JFrame {
             graph.repaint();
         });
 
-        graphComponent.setMaximumSize(new Dimension((int) (0.55 * width), height));
+        graphComponent.setMaximumSize(new Dimension(width, height));
     }
 
     private void initCommandPanel() {
@@ -150,7 +150,7 @@ public class MainWindow extends JFrame {
             algorithm.execute();
         });
 
-        commandPanel.setMaximumSize(new Dimension((int) (0.15 * width), height));
+        commandPanel.setMaximumSize(new Dimension(width / 7, height));
     }
 
     private void executeGraph() {

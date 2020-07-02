@@ -1,5 +1,8 @@
 package GUI;
 
+import com.sun.tools.javac.Main;
+import logger.Logs;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -25,8 +28,8 @@ public class CommandPanel extends JPanel {
         ImageIcon iconPlus = null;
         ImageIcon iconMinus = null;
         try {
-            Image imagePlus = ImageIO.read(new File("resources\\images\\plus.png"));
-            Image imageMinus = ImageIO.read(new File("resources\\images\\minus.png"));
+            Image imagePlus = ImageIO.read(getClass().getResourceAsStream("/images/plus.png"));
+            Image imageMinus = ImageIO.read(getClass().getResourceAsStream("/images/minus.png"));
 
             iconPlus = new ImageIcon(imagePlus.getScaledInstance(25,
                     25, java.awt.Image.SCALE_SMOOTH));
@@ -35,7 +38,7 @@ public class CommandPanel extends JPanel {
                     25, java.awt.Image.SCALE_SMOOTH));
 
         } catch (IOException e) {
-            e.printStackTrace();
+           e.printStackTrace();
         }
 
         startButton = new JButton("Start");
