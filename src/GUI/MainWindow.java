@@ -65,7 +65,6 @@ public class MainWindow extends JFrame {
         mxSwingConstants.VERTEX_SELECTION_COLOR = new Color(0xEEEEEE);
 
         graph.getSelectionModel().addListener(mxEvent.CHANGE, (o, mxEventObject) -> {
-            Logs.writeToLog(mxEventObject.getProperties().toString(), Level.INFO);
             ArrayList<mxCell> list = (ArrayList<mxCell>) mxEventObject.getProperty("added");
             if (list != null) {
                 for (mxCell elem : list) {
