@@ -14,6 +14,8 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -57,12 +59,22 @@ public class MainWindow extends JFrame {
 
         initGraph();
         initCommandPanel();
+        initMenuBar();
         initScrollTextPane();
 
         setJMenuBar(menuBar);
         add(scrollTextPane);
         add(graphComponent);
         add(commandPanel);
+    }
+
+    private void initMenuBar() {
+        menuBar.getOpen().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //ДОБАВИТЬ ВВОД ИЗ ФАЙЛА
+            }
+        });
     }
 
     private void initScrollTextPane() {
