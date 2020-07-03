@@ -109,6 +109,16 @@ public class MainWindow extends JFrame {
         commandPanel.getStopButton().addActionListener(e -> {
             algorithm.cancel(true);
             algorithm = new Algorithm(createGraph());
+
+            commandPanel.getIncreaseSpeedButton() .setEnabled(false);
+            commandPanel.getDecreaseSpeedButton().setEnabled(false);
+            commandPanel.getStopButton().setEnabled(false);
+            commandPanel.getPauseButton().setEnabled(false);
+
+            commandPanel.getAddVertexButton().setEnabled(true);
+            commandPanel.getClearButton().setEnabled(true);
+            commandPanel.getDeleteButton().setEnabled(true);
+            commandPanel.getStartButton().setEnabled(true);
         });
 
         commandPanel.getAddVertexButton().addActionListener(e -> {
@@ -121,6 +131,11 @@ public class MainWindow extends JFrame {
         commandPanel.getPauseButton().addActionListener(e -> {
             algorithm.setRun(false);
             isPaused = true;
+
+            commandPanel.getDecreaseSpeedButton().setEnabled(false);
+            commandPanel.getIncreaseSpeedButton().setEnabled(false);
+            commandPanel.getPauseButton().setEnabled(false);
+            commandPanel.getStartButton().setEnabled(true);
         });
 
         commandPanel.getDeleteButton().addActionListener(e -> {
@@ -138,6 +153,7 @@ public class MainWindow extends JFrame {
         commandPanel.getStartButton().addActionListener(e -> {
             if (isPaused) {
                 algorithm.unSleep();
+                isPaused = false;
             } else {
                 algorithm = new Algorithm(createGraph());
                 algorithm.addPropertyChangeListener(evt -> {
@@ -146,6 +162,16 @@ public class MainWindow extends JFrame {
                     }
                 });
             }
+
+            commandPanel.getDecreaseSpeedButton().setEnabled(true);
+            commandPanel.getIncreaseSpeedButton().setEnabled(true);
+            commandPanel.getPauseButton().setEnabled(true);
+            commandPanel.getStopButton().setEnabled(true);
+
+            commandPanel.getAddVertexButton().setEnabled(false);
+            commandPanel.getClearButton().setEnabled(false);
+            commandPanel.getDeleteButton().setEnabled(false);
+            commandPanel.getStartButton().setEnabled(false);
 
             algorithm.execute();
         });
