@@ -54,6 +54,11 @@ public class CommandPanel extends JPanel {
         deleteButton.setAlignmentX(CENTER_ALIGNMENT);
         clearButton.setAlignmentX(CENTER_ALIGNMENT);
 
+        increaseSpeedButton.setEnabled(false);
+        decreaseSpeedButton.setEnabled(false);
+        stopButton.setEnabled(false);
+        pauseButton.setEnabled(false);
+
         startButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 0));
         stopButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 0));
         pauseButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 0));

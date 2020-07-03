@@ -1,5 +1,6 @@
 package graph;
 
+import logger.Logs;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -12,12 +13,12 @@ public class Algorithm extends SwingWorker<Void, Void> {
     public static final String MARK_VERTEX = "markVertex";
     public static final String UNMARK_VERTEX = "unmarkVertex";
     public static final String TRANSPOSE_GRAPH = "transposeGraph";
-    public static final int MAX_DELAY = 5000;
+    public static final int MAX_DELAY = 3000;
     public static final int MIN_DELAY = 50;
     public static final int DELTA_DELAY = 50;
 
-    private volatile boolean isRun;
-    private volatile int delay;
+    private volatile Boolean isRun;
+    private volatile Integer delay;
 
     private final Graph graph;
     private int count;
@@ -25,7 +26,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
 
     public Algorithm(@NotNull Graph graph) {
         this.isRun = true;
-        this.delay = MIN_DELAY;
+        this.delay = (MAX_DELAY + MIN_DELAY) / 2;
         this.graph = graph;
         this.orderList = new LinkedList<>();
     }
@@ -39,7 +40,13 @@ public class Algorithm extends SwingWorker<Void, Void> {
             }
         }
 
-        sleepOrWait();
+        for (int i = 0; i < 1000; ++i) {
+            Logs.writeToLog(Integer.toString(i));
+            sleepOrWait();
+            //      graph.transpose();
+            //     firePropertyChange(TRANSPOSE_GRAPH, null, null);
+        }
+
         graph.transpose();
         firePropertyChange(TRANSPOSE_GRAPH, null, null);
 
@@ -96,6 +103,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
 
     public synchronized void unSleep() {
         isRun = true;
+        Logs.writeToLog("notify");
         notifyAll();
     }
 
