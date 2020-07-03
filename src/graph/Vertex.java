@@ -1,7 +1,10 @@
 package graph;
 
+import logger.Logs;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * Класс, представляющий собой вершину графа.
