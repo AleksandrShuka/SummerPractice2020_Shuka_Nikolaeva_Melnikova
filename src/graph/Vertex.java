@@ -110,8 +110,8 @@ public class Vertex {
      * @param adjacencyList список смежных вершин.
      */
     public void setAdjacencyList(List<Vertex> adjacencyList) {
-        Logs.writeToLog("Vertex number " + this.id + " added adjacent vertices" +
-                adjacencyList.toString());
+        Logs.writeToLog("Vertex number " + this.id + " added adjacent vertices " + adjacencyList.toString());
+
         this.adjacencyList = adjacencyList;
     }
 
@@ -130,6 +130,8 @@ public class Vertex {
      * @param componentId номер компоненты сильной связности.
      */
     public void setComponentId(int componentId) {
+        Logs.writeToLog("Set component id " + componentId + " to vertex number " + this.id);
+
         this.componentId = componentId;
     }
 
@@ -139,6 +141,7 @@ public class Vertex {
      * @param vertex смежная вершина.
      */
     public void addNeighbour(Vertex vertex) {
+        Logs.writeToLog("Vertex number " + this.id + " added neighbour vertex " + vertex.id);
         this.adjacencyList.add(vertex);
     }
 
