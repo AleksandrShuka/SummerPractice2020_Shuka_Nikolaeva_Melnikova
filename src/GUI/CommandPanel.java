@@ -7,8 +7,9 @@ import java.io.IOException;
 
 /**
  * Класс, представляющий собой коммандную панель.
- *
+ * <p>
  * Содержит в себе экземпляры класса {@code JButton}:
+ *
  * @value startButton - кнопка для запуска работы алгоритма
  * @value increaseSpeedButton - кнопка для увеличения скорости визуализаии
  * @value decreaseSpeedButton - кнопка для уменьшения скорости визуализации
@@ -31,7 +32,7 @@ public class CommandPanel extends JPanel {
 
     CommandPanel() {
         double height = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-        setBackground(new Color(0xC0C0C0));
+        setBackground(new Color(0xB0B0BB));
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -73,28 +74,28 @@ public class CommandPanel extends JPanel {
         stopButton.setEnabled(false);
         pauseButton.setEnabled(false);
 
-        startButton.setMinimumSize(new Dimension(0, (int) height / 8));
-        stopButton.setMinimumSize(new Dimension(0, (int) height / 8));
-        pauseButton.setMinimumSize(new Dimension(0, (int) height / 8));
-        addVertexButton.setMinimumSize(new Dimension(0, (int) height / 8));
-        deleteButton.setMinimumSize(new Dimension(0, (int) height / 8));
-        clearButton.setMinimumSize(new Dimension(0, (int) height / 8));
+        startButton.setPreferredSize(new Dimension(0, (int) height / 20));
+        stopButton.setPreferredSize(new Dimension(0, (int) height / 20));
+        pauseButton.setPreferredSize(new Dimension(0, (int) height / 20));
+        addVertexButton.setPreferredSize(new Dimension(0, (int) height / 20));
+        deleteButton.setPreferredSize(new Dimension(0, (int) height / 20));
+        clearButton.setPreferredSize(new Dimension(0, (int) height / 20));
 
-        startButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 0));
-        stopButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 0));
-        pauseButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 0));
-        addVertexButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 0));
-        deleteButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 0));
-        clearButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 0));
+        startButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) height / 15));
+        stopButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) height / 15));
+        pauseButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) height / 15));
+        addVertexButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) height / 15));
+        deleteButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) height / 15));
+        clearButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) height / 15));
 
-        stopButton.setBackground(new Color(0XF5F5F5));
-        startButton.setBackground(new Color(0XF5F5F5));
-        increaseSpeedButton.setBackground(new Color(0XF5F5F5));
-        decreaseSpeedButton.setBackground(new Color(0XF5F5F5));
-        deleteButton.setBackground(new Color(0XF5F5F5));
-        addVertexButton.setBackground(new Color(0XF5F5F5));
-        clearButton.setBackground(new Color(0XF5F5F5));
-        pauseButton.setBackground(new Color(0XF5F5F5));
+        stopButton.setBackground(new Color(0xE6E6FA));
+        startButton.setBackground(new Color(0xE6E6FA));
+        increaseSpeedButton.setBackground(new Color(0xE6E6FA));
+        decreaseSpeedButton.setBackground(new Color(0xE6E6FA));
+        deleteButton.setBackground(new Color(0xE6E6FA));
+        addVertexButton.setBackground(new Color(0xE6E6FA));
+        clearButton.setBackground(new Color(0xE6E6FA));
+        pauseButton.setBackground(new Color(0xE6E6FA));
 
         JPanel speedPanel = new JPanel();
         speedPanel.setLayout(new BoxLayout(speedPanel, BoxLayout.LINE_AXIS));
@@ -102,8 +103,8 @@ public class CommandPanel extends JPanel {
         increaseSpeedButton.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
         decreaseSpeedButton.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
-        speedLabel.setBackground(Color.LIGHT_GRAY);
-        speedPanel.setBackground(Color.LIGHT_GRAY);
+        speedLabel.setBackground(new Color(0xB0B0BB));
+        speedPanel.setBackground(new Color(0xB0B0BB));
 
         speedPanel.add(speedLabel);
         speedPanel.add(Box.createHorizontalGlue());

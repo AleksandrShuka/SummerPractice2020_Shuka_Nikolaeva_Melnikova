@@ -9,7 +9,6 @@ import com.mxgraph.util.mxEvent;
 import graph.Algorithm;
 import graph.Edge;
 import graph.Vertex;
-import logger.Logs;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,7 +20,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.logging.Level;
 
 
 public class MainWindow extends JFrame {
@@ -82,6 +80,8 @@ public class MainWindow extends JFrame {
     private void initScrollTextPane() {
         scrollTextPane.getTextArea().setFocusable(false);
         scrollTextPane.setMaximumSize(new Dimension(width / 5, height));
+        scrollTextPane.setMinimumSize(new Dimension(width / 5, height));
+        scrollTextPane.setPreferredSize(new Dimension(width / 5, height));
     }
 
     private void initGraph() {
@@ -89,8 +89,8 @@ public class MainWindow extends JFrame {
         layout.setX0(((double) width) / 20);
         layout.setY0(((double) height) / 30);
 
-        graphComponent.getViewport().setBackground(new Color(0xC0C0C0));
-        graphComponent.setBackground(new Color(0xC0C0C0));
+        graphComponent.getViewport().setBackground(new Color(0xB0B0BB));
+        graphComponent.setBackground(new Color(0xB0B0BB));
         graphComponent.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         mxSwingConstants.VERTEX_SELECTION_COLOR = new Color(0xC0C0C0);
 
@@ -175,7 +175,6 @@ public class MainWindow extends JFrame {
         commandPanel.setMaximumSize(new Dimension(width / 7, height));
     }
 
-    //FIX
     private void initAlgorithm() {
         algorithm.addPropertyChangeListener(evt -> {
             if (evt.getPropertyName().equals(Algorithm.TRANSPOSE_GRAPH)) {
@@ -194,7 +193,7 @@ public class MainWindow extends JFrame {
             }
         });
 
-       algorithm.addPropertyChangeListener(evt -> {
+        algorithm.addPropertyChangeListener(evt -> {
             if (evt.getPropertyName().equals(Algorithm.ADD_TEXT)) {
                 scrollTextPane.addText(scrollTextPane.getTextArea().getText() + evt.getNewValue().toString());
             }

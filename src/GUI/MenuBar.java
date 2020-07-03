@@ -14,7 +14,7 @@ public class MenuBar extends JMenuBar {
     private final JMenuItem about;
 
     public MenuBar() {
-        setBackground(new Color(0XF5F5F5));
+        setBackground(new Color(0XE6E6FA));
         open = new JMenuItem("Open");
         exit = new JMenuItem(new ExitAction());
         help = new JMenuItem("Help");
