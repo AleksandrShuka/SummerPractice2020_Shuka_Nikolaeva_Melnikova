@@ -1,14 +1,14 @@
 package GUI;
 
-import java.awt.*;
-
 public class Colors {
     private static final String[] colorArray = {
-            "#000000", "#FFC0CB", "#808080", "#C0C0C0",
+            "#FFC0CB", "#808080", "#C0C0C0", "#FF8C00",
             "#FF00FF", "#800080", "#FF0000", "#800000",
             "#FFFF00", "#808000", "#00FF00", "#008000",
             "#00FFFF", "#008080", "#0000FF", "#000080",
-            "#8B4513", "#FF8C00", "#FFFFFF"
+            "#8B4513", "#F08080", "#00FF7F", "#D2691E",
+            "#DAA520", "#87CEEB", "#FFA07A", "#BDB76B",
+            "#8A2BE2", "#1E90FF", "#FAEBD7", "#778899"
     };
 
     public static String get(int index) {

@@ -11,7 +11,7 @@ public class ScrollTextPane extends JScrollPane {
         textArea = new JTextArea();
         textArea.setLineWrap(true);
 
-        setBackground(Color.LIGHT_GRAY);
+        setBackground(new Color(0xC0C0C0));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         textArea.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 

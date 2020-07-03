@@ -89,9 +89,10 @@ public class MainWindow extends JFrame {
         layout.setX0(((double) width) / 20);
         layout.setY0(((double) height) / 30);
 
-        graphComponent.setBackground(Color.LIGHT_GRAY);
+        graphComponent.getViewport().setBackground(new Color(0xC0C0C0));
+        graphComponent.setBackground(new Color(0xC0C0C0));
         graphComponent.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
-        mxSwingConstants.VERTEX_SELECTION_COLOR = new Color(0xEEEEEE);
+        mxSwingConstants.VERTEX_SELECTION_COLOR = new Color(0xC0C0C0);
 
         graph.getSelectionModel().addListener(mxEvent.CHANGE, (o, mxEventObject) -> {
             ArrayList<mxCell> list = (ArrayList<mxCell>) mxEventObject.getProperty("added");

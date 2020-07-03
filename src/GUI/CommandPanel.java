@@ -30,7 +30,8 @@ public class CommandPanel extends JPanel {
     private final JButton pauseButton;
 
     CommandPanel() {
-        setBackground(Color.LIGHT_GRAY);
+        double height = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+        setBackground(new Color(0xC0C0C0));
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -40,11 +41,11 @@ public class CommandPanel extends JPanel {
             Image imagePlus = ImageIO.read(getClass().getResourceAsStream("/images/plus.png"));
             Image imageMinus = ImageIO.read(getClass().getResourceAsStream("/images/minus.png"));
 
-            iconPlus = new ImageIcon(imagePlus.getScaledInstance(25,
-                    25, java.awt.Image.SCALE_SMOOTH));
+            iconPlus = new ImageIcon(imagePlus.getScaledInstance(20,
+                    20, java.awt.Image.SCALE_SMOOTH));
 
-            iconMinus = new ImageIcon(imageMinus.getScaledInstance(25,
-                    25, java.awt.Image.SCALE_SMOOTH));
+            iconMinus = new ImageIcon(imageMinus.getScaledInstance(20,
+                    20, java.awt.Image.SCALE_SMOOTH));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -72,12 +73,28 @@ public class CommandPanel extends JPanel {
         stopButton.setEnabled(false);
         pauseButton.setEnabled(false);
 
+        startButton.setMinimumSize(new Dimension(0, (int) height / 8));
+        stopButton.setMinimumSize(new Dimension(0, (int) height / 8));
+        pauseButton.setMinimumSize(new Dimension(0, (int) height / 8));
+        addVertexButton.setMinimumSize(new Dimension(0, (int) height / 8));
+        deleteButton.setMinimumSize(new Dimension(0, (int) height / 8));
+        clearButton.setMinimumSize(new Dimension(0, (int) height / 8));
+
         startButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 0));
         stopButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 0));
         pauseButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 0));
         addVertexButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 0));
         deleteButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 0));
         clearButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 0));
+
+        stopButton.setBackground(new Color(0XF5F5F5));
+        startButton.setBackground(new Color(0XF5F5F5));
+        increaseSpeedButton.setBackground(new Color(0XF5F5F5));
+        decreaseSpeedButton.setBackground(new Color(0XF5F5F5));
+        deleteButton.setBackground(new Color(0XF5F5F5));
+        addVertexButton.setBackground(new Color(0XF5F5F5));
+        clearButton.setBackground(new Color(0XF5F5F5));
+        pauseButton.setBackground(new Color(0XF5F5F5));
 
         JPanel speedPanel = new JPanel();
         speedPanel.setLayout(new BoxLayout(speedPanel, BoxLayout.LINE_AXIS));
