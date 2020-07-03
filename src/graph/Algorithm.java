@@ -50,21 +50,29 @@ public class Algorithm extends SwingWorker<Void, Void> {
             }
         }
 
+        firePropertyChange(ADD_TEXT, null, System.lineSeparator() +
+                "GRAPH TRANSPOSE STARTED" + System.lineSeparator() +
+                "All edges of the graph were oriented in the opposite direction." + System.lineSeparator() +
+                "GRAPH TRANSPOSED" + System.lineSeparator());
         graph = graph.getTransposedGraph();
-        sleepOrWait();
 
-        firePropertyChange(ADD_TEXT, null, System.lineSeparator() + "SECOND DFS STARTED:" +
-                System.lineSeparator());
+        firePropertyChange(ADD_TEXT, null, System.lineSeparator() +
+                "All vertexes are marked as not visited." + System.lineSeparator() +
+                System.lineSeparator() + "SECOND DFS STARTED:" + System.lineSeparator());
         unVisit(graph);
         for (Vertex vertex : orderList) {
             if (!vertex.isVisited()) {
                 firePropertyChange(ADD_TEXT, null, " Start from " + vertex.getId() +
-                        System.lineSeparator());
+                        " (" + (count + 1) + " component)" + System.lineSeparator());
 
                 secondDFS(vertex);
                 ++count;
             }
         }
+
+        firePropertyChange(ADD_TEXT, null, System.lineSeparator() + count +
+                " strongly connected components found " +
+                System.lineSeparator());
 
         graph = graph.getTransposedGraph();
         unVisit(graph);
@@ -81,7 +89,8 @@ public class Algorithm extends SwingWorker<Void, Void> {
 
     private void firstDFS(@NotNull Vertex vertex) {
         vertex.setVisited(true);
-        firePropertyChange(ADD_TEXT, null, "    " + vertex.getId() + " is visited" + System.lineSeparator());
+        firePropertyChange(ADD_TEXT, null, "    " + vertex.getId() + " is visited" +
+                System.lineSeparator());
 
         for (Vertex neighbour : vertex.getAdjacencyList()) {
             if (!neighbour.isVisited()) {
@@ -97,7 +106,8 @@ public class Algorithm extends SwingWorker<Void, Void> {
     private void secondDFS(@NotNull Vertex vertex) {
         vertex.setVisited(true);
         vertex.setComponentId(count);
-        firePropertyChange(ADD_TEXT, null, vertex.getId() + " is visited " + System.lineSeparator());
+        firePropertyChange(ADD_TEXT, null, "    " + vertex.getId() + " is visited " +
+                System.lineSeparator());
 
         for (Vertex neighbour : vertex.getAdjacencyList()) {
             if (!neighbour.isVisited()) {
