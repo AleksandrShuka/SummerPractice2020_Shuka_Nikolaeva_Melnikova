@@ -1,5 +1,7 @@
 package graph;
 
+import logger.Logs;
+
 /**
  * Класс, представляющий собой ориентированное ребро графа.
  * Содержит в себе информацию о начальной {@code sourceVertex} и конечной вершине {@code targetVertex}.
@@ -29,6 +31,9 @@ public class Edge {
      * @param (startVertex,targetVertex) начальная и конечная вершина.
      */
     public Edge(Vertex startVertex, Vertex targetVertex) {
+        Logs.writeToLog("Created edge from vertex " + startVertex.getId() + " to vertex " +
+                        targetVertex.getId());
+
         this.sourceVertex = startVertex;
         this.targetVertex = targetVertex;
     }
@@ -48,6 +53,8 @@ public class Edge {
      * @param sourceVertex начальная вершина.
      */
     public void setSourceVertex(Vertex sourceVertex) {
+        Logs.writeToLog("Source vertex of " + this.toString() + " changed to " + sourceVertex);
+
         this.sourceVertex = sourceVertex;
     }
 
@@ -66,6 +73,8 @@ public class Edge {
      * @param targetVertex конечная вершина.
      */
     public void setTargetVertex(Vertex targetVertex) {
+        Logs.writeToLog("Target vertex of " + this.toString() + " changed to " + targetVertex);
+
         this.targetVertex = targetVertex;
     }
 
