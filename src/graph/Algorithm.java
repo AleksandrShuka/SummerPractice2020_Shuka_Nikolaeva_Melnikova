@@ -15,6 +15,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
     public static final String MARK_VERTEX = "markVertex";
     public static final String UNMARK_VERTEX = "unmarkVertex";
     public static final String TRANSPOSE_GRAPH = "transposeGraph";
+    public static final String ALGORITHM_ENDED = "algorithmEnded";
     public static final int MAX_DELAY = 3000;
     public static final int MIN_DELAY = 50;
     public static final int DELTA_DELAY = 50;
@@ -42,15 +43,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
             }
         }
 
-        for (int i = 0; i < 1000; ++i) {
-            Logs.writeToLog(Integer.toString(i));
-            sleepOrWait();
-            graph = graph.getTransposedGraph();
-            firePropertyChange(TRANSPOSE_GRAPH, null, null);
-        }
-
         graph = graph.getTransposedGraph();
-        firePropertyChange(TRANSPOSE_GRAPH, null, null);
 
         unVisit(graph);
         for (Vertex vertex : orderList) {
@@ -60,12 +53,15 @@ public class Algorithm extends SwingWorker<Void, Void> {
             }
         }
 
-        firePropertyChange(TRANSPOSE_GRAPH, null, null);
         graph = graph.getTransposedGraph();
-
         unVisit(graph);
 
         return null;
+    }
+
+    @Override
+    protected void done() {
+        firePropertyChange(ALGORITHM_ENDED, null, null);
     }
 
     private void firstDFS(@NotNull Vertex vertex) {
@@ -111,6 +107,10 @@ public class Algorithm extends SwingWorker<Void, Void> {
                 Thread.currentThread().interrupt();
             }
         }
+    }
+
+    public Graph getGraph() {
+        return graph;
     }
 
     public synchronized void unSleep() {
