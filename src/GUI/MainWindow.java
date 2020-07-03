@@ -193,11 +193,11 @@ public class MainWindow extends JFrame {
             }
         });
 
-//        algorithm.addPropertyChangeListener(evt -> {
-//            if (evt.getPropertyName().equals(Algorithm...)) {
-//                scrollTextPane.addText(evt.getNewValue().toString());
-//            }
-//        });
+       algorithm.addPropertyChangeListener(evt -> {
+            if (evt.getPropertyName().equals(Algorithm.ADD_TEXT)) {
+                scrollTextPane.addText(scrollTextPane.getTextArea().getText() + evt.getNewValue().toString());
+            }
+        });
     }
 
     private void setButtonsStateWhenStop(boolean isStop) {
