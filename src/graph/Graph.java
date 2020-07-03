@@ -1,5 +1,6 @@
 package graph;
 
+import logger.Logs;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import java.util.List;
  * Класс предоставляет методы для установки значений полей класса:
  * {@code setVertexList}, {@code setEdgeList}.
  * <p>
- * Класс предоставляет метод для транспонирования графа {@code transpose}.
+ * Класс предоставляет метод для получения транспонированного графа {@code getTransposedGraph}.
  */
 
 public class Graph {
@@ -45,6 +46,9 @@ public class Graph {
      */
     public Graph(List<Vertex> vertexList, @NotNull List<Edge> edgeList) {
         super();
+        Logs.writeToLog("Created graph with vertexes: " + vertexList.toString() +
+                System.lineSeparator() + "edges:" + edgeList.toString());
+
         this.vertexList = vertexList;
         this.edgeList = edgeList;
 
@@ -68,6 +72,8 @@ public class Graph {
      * @param vertexList список вершин.
      */
     public void setVertexList(List<Vertex> vertexList) {
+        Logs.writeToLog("Added list of vertexes to graph: " + vertexList.toString());
+
         this.vertexList = vertexList;
     }
 
@@ -86,13 +92,21 @@ public class Graph {
      * @param edgeList список ребер
      */
     public void setEdgeList(List<Edge> edgeList) {
+        Logs.writeToLog("Added list of edges to graph: " + edgeList.toString());
+
         this.edgeList = edgeList;
     }
 
     /**
-     * Транспонирует граф: ребра исходного графа ориентируются в противоположном направлении.
+     * Создает транспонированный граф (с тем же набором вершин и с теми же ребрами, что и у исходного,
+     * но ориентация ребер этого графа противоположна ориентации ребер исходного графа)
+     *
+     * @return - транспонированный граф.
      */
     public Graph getTransposedGraph() {
+        Logs.writeToLog("Created transposed graph with vertexes: " + vertexList.toString() +
+                System.lineSeparator() + "edges:" + edgeList.toString());
+
         List<Vertex> newVertexList = new ArrayList<>(this.vertexList);
         List<Edge> newEdgeList = new ArrayList<>(this.edgeList);
 
