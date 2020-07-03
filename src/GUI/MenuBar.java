@@ -1,25 +1,57 @@
 package GUI;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+
 
 public class MenuBar extends JMenuBar {
-    {
-        JMenuItem item1 = new JMenuItem("Open...");
-        JMenuItem item4 = new JMenuItem("Exit");
+    private final JMenuItem open;
+    private final JMenuItem exit;
+    private final JMenuItem help;
+    private final JMenuItem about;
 
-        JMenuItem item2 = new JMenuItem("Help");
-        JMenuItem item3 = new JMenuItem("About");
+    public MenuBar() {
+        open = new JMenuItem("Open");
+        exit = new JMenuItem(new ExitAction());
+        help = new JMenuItem("Help");
+        about = new JMenuItem("About");
 
-        JMenu menu1 = new JMenu("Help");
-        JMenu menu2 = new JMenu("File");
+        add(createFileMenu());
+        add(createHelpMenu());
+    }
 
-        menu2.add(item1);
-        menu2.add(item4);
+    private @NotNull JMenu createFileMenu() {
+        JMenu file = new JMenu("File");
 
-        menu1.add(item2);
-        menu1.add(item3);
+        file.add(open);
+        file.addSeparator();
+        file.add(exit);
 
-        add(menu2);
-        add(menu1);
+        return file;
+    }
+
+    private @NotNull JMenu createHelpMenu() {
+        JMenu help = new JMenu("Help");
+
+        help.add(this.help);
+        help.add(about);
+
+        return help;
+    }
+
+    public JMenuItem getOpen() {
+        return open;
+    }
+
+    private static class ExitAction extends AbstractAction {
+        ExitAction() {
+            putValue(NAME, "Exit");
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            System.exit(0);
+        }
     }
 }

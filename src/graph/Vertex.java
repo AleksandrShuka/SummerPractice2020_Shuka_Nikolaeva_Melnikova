@@ -152,10 +152,21 @@ public class Vertex {
      */
     @Override
     public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("[");
+        for (int i = 0; i < adjacencyList.size(); ++i) {
+            stringBuilder.append(adjacencyList.get(i).getId());
+
+            if (i != adjacencyList.size() - 1) {
+                stringBuilder.append(", ");
+            }
+        }
+        stringBuilder.append("]");
+
         return "Vertex{" +
                 "id=" + id +
                 ", isVisited=" + isVisited +
-                ", adjacencyList=" + adjacencyList +
+                ", adjacencyList=" + stringBuilder +
                 ", componentId=" + componentId +
                 '}';
     }
