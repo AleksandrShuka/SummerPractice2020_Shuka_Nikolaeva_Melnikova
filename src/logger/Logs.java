@@ -2,17 +2,18 @@ package logger;
 
 import com.sun.tools.javac.Main;
 
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.sql.Time;
+import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.*;
 
 /**
  * Класс, реализующий логирование.
  * Содержит в себе:
- *
  * @value logger - экземпляр класса Logger.
  * @value handler - экзэмпляр класса Handler, экспортирующий сообщения логера на консоль.
+ * Класс, реализующий форматирвоание собщений {@code Forms}.
  * <p>
  * Класс предоставляет методы для получения значения уровня логирования, хранящегося в поле класса {@code logger}:
  * {@code getLevel} и для установки уровня {@code setLevel}.
@@ -38,6 +39,7 @@ public class Logs {
         logger.setLevel(Level.ALL);
         logger.setUseParentHandlers(false);
 
+        handler.setFormatter(new Forms());
         handler.setLevel(Level.ALL);
         logger.addHandler(handler);
 
@@ -90,7 +92,26 @@ public class Logs {
      */
     public static void writeToLog(String message, Level level) {
         logger.log(level, Thread.currentThread().getStackTrace()[2].getClassName() + "::" +
-                Thread.currentThread().getStackTrace()[2].getMethodName() + "  \"" +
+                Thread.currentThread().getStackTrace()[2].getMethodName() + " \"" +
                 message + "\"\n");
     }
+
+    /**
+     * Класс, реализующий форматирование сообщений в логе.
+     *
+     * Содержит в себе метод для форматирования {@code format}.
+     */
+    static class Forms extends Formatter {
+        /**
+         * Метод для форматирования сообщений.
+         *
+         * @return строка-сообщение в нужном формате.
+         */
+        @Override
+        public String format(LogRecord record){
+            record.setResourceBundleName("");
+            return  Time.from(record.getInstant()).toLocaleString() + "\n" + record.getLevel() + ": " + record.getMessage();
+        }
+    }
+
 }
