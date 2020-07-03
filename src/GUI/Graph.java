@@ -5,24 +5,21 @@ import com.mxgraph.model.mxICell;
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.view.mxGraph;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 
 public class Graph extends mxGraph {
+    private final Map<Integer, String> savedCellStyles;
+    private final List<Object> savedEdges;
     private final Map<Integer, Object> cells;
     private final SortedSet<Integer> removedCells;
     private int count;
 
     public Graph() {
+        savedCellStyles = new HashMap<>();
         removedCells = new TreeSet<>();
+        savedEdges = new ArrayList<>();
         cells = new HashMap<>();
-        init();
-    }
-
-    private void init() {
         count = 0;
 
         setAllowDanglingEdges(false);
@@ -45,11 +42,10 @@ public class Graph extends mxGraph {
         if (removedCells.isEmpty()) {
             cells.put(count, insertVertex(getDefaultParent(), null,
                     count, 0, 0, 40, 40));
-            count++;
+            ++count;
         } else {
             int index = removedCells.first();
             removedCells.remove(index);
-
             cells.put(index, insertVertex(getDefaultParent(), null,
                     index, 0, 0, 40, 40));
         }
@@ -75,24 +71,37 @@ public class Graph extends mxGraph {
                 mxEdge.setSource(target);
             }
         }
-
-        refresh();
-        repaint();
     }
 
     public void paintVertex(int id, String color) {
         ((mxCell) cells.get(id)).setStyle("fillColor=" + color);
-
-        refresh();
-        repaint();
     }
 
     public void clear() {
         removeCells(getAllVertex());
-
         count = 0;
-
         removedCells.clear();
         cells.clear();
     }
+
+    public void save() {
+        savedEdges.clear();
+        for (Object cell : cells.values()) {
+            savedEdges.addAll(Arrays.asList(getOutgoingEdges(cell)));
+            savedCellStyles.put((Integer) ((mxCell) cell).getValue(), ((mxCell) cell).getStyle());
+        }
+    }
+
+    public void load() {
+        for (Object cell : cells.values()) {
+            removeCells(getOutgoingEdges(cell));
+        }
+
+        for (int key : savedCellStyles.keySet()) {
+            ((mxCell) cells.get(key)).setStyle(savedCellStyles.get(key));
+        }
+
+        addCells(savedEdges.toArray());
+    }
+
 }

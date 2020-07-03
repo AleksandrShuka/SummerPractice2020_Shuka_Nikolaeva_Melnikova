@@ -38,6 +38,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
 
     @Override
     protected Void doInBackground() {
+
         unVisit(graph);
         firePropertyChange(ADD_TEXT, null, "FIRST DFS STARTED:" + System.lineSeparator());
 
@@ -50,6 +51,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
         }
 
         graph = graph.getTransposedGraph();
+        sleepOrWait();
 
         firePropertyChange(ADD_TEXT, null, System.lineSeparator() + "SECOND DFS STARTED:" +
                 System.lineSeparator());
@@ -72,7 +74,9 @@ public class Algorithm extends SwingWorker<Void, Void> {
 
     @Override
     protected void done() {
-        firePropertyChange(ALGORITHM_ENDED, null, null);
+        if (!isCancelled()) {
+            firePropertyChange(ALGORITHM_ENDED, null, null);
+        }
     }
 
     private void firstDFS(@NotNull Vertex vertex) {
