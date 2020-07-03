@@ -48,6 +48,8 @@ public class Vertex {
      * @param id номер вершины.
      */
     public Vertex(int id) {
+        Logs.writeToLog("Created vertex number " + id);
+
         this.id = id;
         this.adjacencyList = new ArrayList<>();
     }
@@ -67,6 +69,8 @@ public class Vertex {
      * @param id номер вершины.
      */
     public void setId(int id) {
+        Logs.writeToLog("Vertex number changed from " + this.id + " to " + id);
+
         this.id = id;
     }
 
@@ -85,6 +89,9 @@ public class Vertex {
      * @param isVisited значение статуса посещенности вершины.
      */
     public void setVisited(boolean isVisited) {
+        Logs.writeToLog("Vertex " + this.id + " is visited. Status changes from " + this.isVisited +
+                " to " + isVisited);
+
         this.isVisited = isVisited;
     }
 
@@ -103,6 +110,8 @@ public class Vertex {
      * @param adjacencyList список смежных вершин.
      */
     public void setAdjacencyList(List<Vertex> adjacencyList) {
+        Logs.writeToLog("Vertex number " + this.id + " added adjacent vertices" +
+                adjacencyList.toString());
         this.adjacencyList = adjacencyList;
     }
 
