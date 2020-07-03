@@ -80,6 +80,13 @@ public class Graph extends mxGraph {
         repaint();
     }
 
+    public void paintVertex(int id, String color) {
+        ((mxCell) cells.get(id)).setStyle("fillColor=" + color);
+
+        refresh();
+        repaint();
+    }
+
     public void clear() {
         removeCells(getAllVertex());
 

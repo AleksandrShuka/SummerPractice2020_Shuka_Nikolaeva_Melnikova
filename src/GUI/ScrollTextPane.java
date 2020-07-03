@@ -18,7 +18,7 @@ public class ScrollTextPane extends JScrollPane {
         setViewportView(textArea);
     }
 
-    public void setText(String text) {
+    public void addText(String text) {
         textArea.setText(text);
     }
 

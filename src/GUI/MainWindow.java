@@ -9,7 +9,6 @@ import com.mxgraph.util.mxEvent;
 import graph.Algorithm;
 import graph.Edge;
 import graph.Vertex;
-import logger.Logs;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,7 +18,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.logging.Level;
 
 
 public class MainWindow extends JFrame {
@@ -110,15 +108,7 @@ public class MainWindow extends JFrame {
             algorithm.cancel(true);
             algorithm = new Algorithm(createGraph());
 
-            commandPanel.getIncreaseSpeedButton() .setEnabled(false);
-            commandPanel.getDecreaseSpeedButton().setEnabled(false);
-            commandPanel.getStopButton().setEnabled(false);
-            commandPanel.getPauseButton().setEnabled(false);
-
-            commandPanel.getAddVertexButton().setEnabled(true);
-            commandPanel.getClearButton().setEnabled(true);
-            commandPanel.getDeleteButton().setEnabled(true);
-            commandPanel.getStartButton().setEnabled(true);
+            setButtonsStateWhenStop();
         });
 
         commandPanel.getAddVertexButton().addActionListener(e -> {
@@ -156,11 +146,7 @@ public class MainWindow extends JFrame {
                 isPaused = false;
             } else {
                 algorithm = new Algorithm(createGraph());
-                algorithm.addPropertyChangeListener(evt -> {
-                    if (evt.getPropertyName().equals(Algorithm.TRANSPOSE_GRAPH)) {
-                        graph.transpose();
-                    }
-                });
+                initAlgorithm();
             }
 
             commandPanel.getDecreaseSpeedButton().setEnabled(true);
@@ -177,6 +163,43 @@ public class MainWindow extends JFrame {
         });
 
         commandPanel.setMaximumSize(new Dimension(width / 7, height));
+    }
+
+    private void initAlgorithm() {
+        algorithm.addPropertyChangeListener(evt -> {
+            if (evt.getPropertyName().equals(Algorithm.TRANSPOSE_GRAPH)) {
+                graph.transpose();
+            }
+        });
+
+        algorithm.addPropertyChangeListener(evt -> {
+            if (evt.getPropertyName().equals(Algorithm.ALGORITHM_ENDED)) {
+                for (Vertex vertex : algorithm.getGraph().getVertexList()) {
+                    graph.paintVertex(vertex.getId(), Colors.get(vertex.getComponentId()));
+                }
+
+                setButtonsStateWhenStop();
+            }
+        });
+
+//        algorithm.addPropertyChangeListener(evt -> {
+//            if (evt.getPropertyName().equals(Algorithm...)) {
+//                scrollTextPane.addText(evt.getNewValue().toString());
+//            }
+//        });
+
+    }
+
+    private void setButtonsStateWhenStop() {
+        commandPanel.getIncreaseSpeedButton().setEnabled(false);
+        commandPanel.getDecreaseSpeedButton().setEnabled(false);
+        commandPanel.getStopButton().setEnabled(false);
+        commandPanel.getPauseButton().setEnabled(false);
+
+        commandPanel.getAddVertexButton().setEnabled(true);
+        commandPanel.getClearButton().setEnabled(true);
+        commandPanel.getDeleteButton().setEnabled(true);
+        commandPanel.getStartButton().setEnabled(true);
     }
 
     private void executeGraph() {
