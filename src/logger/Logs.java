@@ -15,8 +15,8 @@ import java.util.logging.*;
  * @value handler - экзэмпляр класса Handler, экспортирующий сообщения логера на консоль.
  * Класс, реализующий форматирвоание собщений {@code Forms}.
  * <p>
- * Класс предоставляет методы для получения значения уровня логирования, хранящегося в поле класса {@code logger}:
- * {@code getLevel} и для установки уровня {@code setLevel}.
+ * Класс предоставляет метод для получения значения уровня логирования, хранящегося в поле класса {@code logger}:
+ * {@code getLevel}.
  * <p>
  * Класс предоставляет метод для установки уровня логирования, ниже которого сообщения
  * не будут выводиться в консоль {@code setLevelOfOutput}, {@code setEdgeList}.
@@ -55,15 +55,6 @@ public class Logs {
     }
 
     /**
-     * Метод для задания установки уровня в логере {@code loggger}.
-     *
-     * @param level уровень.
-     */
-    public static void setLevel(Level level) {
-        logger.setLevel(level);
-    }
-
-    /**
      * Устанавливает уровень логирования, вниже которого логи не будут выводиться в консоль.
      *
      * @param level уровень.
@@ -73,7 +64,7 @@ public class Logs {
     }
 
     /**
-     * Метод для записи сообщения в лог. Принимающий строку-сообщение {@code message}
+     * Метод для записи сообщения в лог. Принимающий строку-сообщение {@code message}.
      *
      * @param message сообщение.
      */
@@ -93,7 +84,7 @@ public class Logs {
     public static void writeToLog(String message, Level level) {
         logger.log(level, Thread.currentThread().getStackTrace()[2].getClassName() + "::" +
                 Thread.currentThread().getStackTrace()[2].getMethodName() + " \"" +
-                message + "\"\n");
+                message + "\"" + System.lineSeparator());
     }
 
     /**
@@ -109,8 +100,8 @@ public class Logs {
          */
         @Override
         public String format(LogRecord record){
-            record.setResourceBundleName("");
-            return  Time.from(record.getInstant()).toLocaleString() + "\n" + record.getLevel() + ": " + record.getMessage();
+            return  Time.from(record.getInstant()).toString() + System.lineSeparator() + record.getLevel() + ": "
+                    + record.getMessage() + System.lineSeparator();
         }
     }
 
