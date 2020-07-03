@@ -71,7 +71,7 @@ public class Logs {
     public static void writeToLog(String message) {
         logger.log(logger.getLevel(), Thread.currentThread().getStackTrace()[2].getClassName() + "::" +
                 Thread.currentThread().getStackTrace()[2].getMethodName() + "  \"" +
-                message + "\"\n");
+                message + "\"" + System.lineSeparator());
     }
 
     /**
