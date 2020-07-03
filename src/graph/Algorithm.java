@@ -5,6 +5,8 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.util.LinkedList;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class Algorithm extends SwingWorker<Void, Void> {
@@ -17,16 +19,16 @@ public class Algorithm extends SwingWorker<Void, Void> {
     public static final int MIN_DELAY = 50;
     public static final int DELTA_DELAY = 50;
 
-    private volatile Boolean isRun;
-    private volatile Integer delay;
+    private final AtomicBoolean isRun;
+    private final AtomicInteger delay;
 
     private final Graph graph;
     private int count;
     private final LinkedList<Vertex> orderList;
 
     public Algorithm(@NotNull Graph graph) {
-        this.isRun = true;
-        this.delay = (MAX_DELAY + MIN_DELAY) / 2;
+        this.isRun = new AtomicBoolean(true);
+        this.delay = new AtomicInteger((MAX_DELAY + MIN_DELAY) / 2);
         this.graph = graph;
         this.orderList = new LinkedList<>();
     }
@@ -43,8 +45,8 @@ public class Algorithm extends SwingWorker<Void, Void> {
         for (int i = 0; i < 1000; ++i) {
             Logs.writeToLog(Integer.toString(i));
             sleepOrWait();
-            //      graph.transpose();
-            //     firePropertyChange(TRANSPOSE_GRAPH, null, null);
+            graph.transpose();
+            firePropertyChange(TRANSPOSE_GRAPH, null, null);
         }
 
         graph.transpose();
@@ -89,21 +91,22 @@ public class Algorithm extends SwingWorker<Void, Void> {
         }
     }
 
-    public synchronized void setRun(boolean run) {
-        isRun = run;
+    public void setRun(boolean run) {
+        isRun.set(run);
     }
 
     private synchronized void sleepOrWait() throws InterruptedException {
-        if (isRun) {
-            Thread.sleep(delay);
-        } else {
+        while (!isRun.get()) {
             wait();
+        }
+
+        if (isRun.get()) {
+            Thread.sleep(delay.get());
         }
     }
 
     public synchronized void unSleep() {
-        isRun = true;
-        Logs.writeToLog("notify");
+        isRun.set(true);
         notifyAll();
     }
 
@@ -117,15 +120,19 @@ public class Algorithm extends SwingWorker<Void, Void> {
         return this.count;
     }
 
-    public synchronized void increaseDelay() {
-        if (delay < MAX_DELAY - DELTA_DELAY) {
-            delay += DELTA_DELAY;
+    public void increaseDelay() {
+        synchronized (this.delay) {
+            if (delay.get() < MAX_DELAY - DELTA_DELAY) {
+                delay.addAndGet(DELTA_DELAY);
+            }
         }
     }
 
-    public synchronized void decreaseDelay() {
-        if (delay - DELTA_DELAY > MIN_DELAY) {
-            delay -= DELTA_DELAY;
+    public void decreaseDelay() {
+        synchronized (this.delay) {
+            if (delay.get() - DELTA_DELAY > MIN_DELAY) {
+                delay.addAndGet(-DELTA_DELAY);
+            }
         }
     }
 }
