@@ -41,7 +41,7 @@ public class Graph {
      * список ребер {@code edgeList}.
      *
      * @param vertexList список вершин.
-     * @param edgeList список ребер.
+     * @param edgeList   список ребер.
      */
     public Graph(List<Vertex> vertexList, @NotNull List<Edge> edgeList) {
         super();

@@ -5,17 +5,24 @@ import com.mxgraph.model.mxICell;
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.view.mxGraph;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 
 public class Graph extends mxGraph {
-    Map<Integer, Object> cells;
-    SortedSet<Integer> removedCells;
-    int count;
+    private final Map<Integer, Object> cells;
+    private final SortedSet<Integer> removedCells;
+    private int count;
 
-    {
+    public Graph() {
         removedCells = new TreeSet<>();
         cells = new HashMap<>();
+        init();
+    }
+
+    private void init() {
         count = 0;
 
         setAllowDanglingEdges(false);
@@ -34,7 +41,6 @@ public class Graph extends mxGraph {
         edgeStyle.put(mxConstants.STYLE_STROKECOLOR, "#000000");
     }
 
-
     public void insertVertex() {
         if (removedCells.isEmpty()) {
             cells.put(count, insertVertex(getDefaultParent(), null,
@@ -50,7 +56,7 @@ public class Graph extends mxGraph {
     }
 
     public void deleteVertex(int index) {
-        removeCells(new Object[]{ cells.get(index) });
+        removeCells(new Object[]{cells.get(index)});
         cells.remove(index);
         removedCells.add(index);
     }

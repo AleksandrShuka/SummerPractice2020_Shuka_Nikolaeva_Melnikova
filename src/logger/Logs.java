@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 /**
  * Класс, реализующий логирование.
  * Содержит в себе:
+ *
  * @value logger - экземпляр класса Logger.
  * @value handler - экзэмпляр класса Handler, экспортирующий сообщения логера на консоль.
  * <p>
@@ -23,16 +24,11 @@ import java.util.logging.Logger;
  */
 
 public class Logs {
-    /**
-     * Логгер.
-     */
     private final static Logger logger = Logger.getLogger(Main.class.getName());
-    /**
-     * Хэндлер.
-     */
     private final static Handler handler = new ConsoleHandler();
 
-    /** Приватный конструктор, для исключения возможности создания
+    /**
+     * Приватный конструктор, для исключения возможности создания
      * объекта класса.
      */
     private Logs() {
@@ -80,9 +76,9 @@ public class Logs {
      * @param message сообщение.
      */
     public static void writeToLog(String message) {
-        logger.log(logger.getLevel(), Thread.currentThread().getStackTrace()[2].getClassName() + "::"+
+        logger.log(logger.getLevel(), Thread.currentThread().getStackTrace()[2].getClassName() + "::" +
                 Thread.currentThread().getStackTrace()[2].getMethodName() + "  \"" +
-                message + "\"\n" ) ;
+                message + "\"\n");
     }
 
     /**
@@ -90,11 +86,11 @@ public class Logs {
      * уровень лога {@code level}.
      *
      * @param message сообщение.
-     * @param level уровень.
+     * @param level   уровень.
      */
     public static void writeToLog(String message, Level level) {
-        logger.log(level,Thread.currentThread().getStackTrace()[2].getClassName() + "::"+
-                         Thread.currentThread().getStackTrace()[2].getMethodName() + "  \"" +
-                        message + "\"\n" );
+        logger.log(level, Thread.currentThread().getStackTrace()[2].getClassName() + "::" +
+                Thread.currentThread().getStackTrace()[2].getMethodName() + "  \"" +
+                message + "\"\n");
     }
 }

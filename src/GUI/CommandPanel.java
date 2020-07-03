@@ -1,12 +1,8 @@
 package GUI;
 
-import com.sun.tools.javac.Main;
-import logger.Logs;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 
 
@@ -38,7 +34,7 @@ public class CommandPanel extends JPanel {
                     25, java.awt.Image.SCALE_SMOOTH));
 
         } catch (IOException e) {
-           e.printStackTrace();
+            e.printStackTrace();
         }
 
         startButton = new JButton("Start");
