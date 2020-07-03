@@ -5,6 +5,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
+/**
+ * Класс, представляющий собой коммандную панель.
+ *
+ * Содержит в себе экземпляры класса {@code JButton}:
+ * @value startButton - кнопка для запуска работы алгоритма
+ * @value increaseSpeedButton - кнопка для увеличения скорости визуализаии
+ * @value decreaseSpeedButton - кнопка для уменьшения скорости визуализации
+ * @value addVertexButton - кнопка для добавления вершин
+ * @value deleteButton - кнопка для удаления выбранной вершины/ребра
+ * @value clearButton - кнопка для очищения окна
+ * @value stopButton - кнопка для остановки работы алгоритма
+ * @value pauseButton - кнопка, с помощью которой визуализацию можно поставить на паузу
+ */
 
 public class CommandPanel extends JPanel {
     private final JButton startButton;
