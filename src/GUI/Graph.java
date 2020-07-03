@@ -32,10 +32,14 @@ public class Graph extends mxGraph {
         Map<String, Object> edgeStyle = getStylesheet().getDefaultEdgeStyle();
 
         vertexStyle.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
+        vertexStyle.put(mxConstants.STYLE_FONTSIZE, 16);
+        vertexStyle.put(mxConstants.STYLE_FONTCOLOR, "#000000");
         vertexStyle.put(mxConstants.STYLE_STROKECOLOR, "#000000");
         vertexStyle.put(mxConstants.STYLE_FILLCOLOR, "#FFFFFF");
 
+        mxConstants.DEFAULT_MARKERSIZE = 15;
         edgeStyle.put(mxConstants.STYLE_STROKECOLOR, "#000000");
+        edgeStyle.put(mxConstants.STYLE_ENDARROW, mxConstants.ARROW_OPEN);
     }
 
     public void insertVertex() {
