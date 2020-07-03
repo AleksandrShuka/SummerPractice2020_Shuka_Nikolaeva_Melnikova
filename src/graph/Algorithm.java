@@ -34,7 +34,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
     }
 
     @Override
-    protected Void doInBackground() throws Exception {
+    protected Void doInBackground() {
         unVisit(graph);
         for (Vertex vertex : graph.getVertexList()) {
             if (!vertex.isVisited()) {
@@ -95,13 +95,21 @@ public class Algorithm extends SwingWorker<Void, Void> {
         isRun.set(run);
     }
 
-    private synchronized void sleepOrWait() throws InterruptedException {
+    private synchronized void sleepOrWait() {
         while (!isRun.get()) {
-            wait();
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
 
         if (isRun.get()) {
-            Thread.sleep(delay.get());
+            try {
+                Thread.sleep(delay.get());
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
     }
 
