@@ -9,6 +9,7 @@ import com.mxgraph.util.mxEvent;
 import graph.Algorithm;
 import graph.Edge;
 import graph.Vertex;
+import logger.Logs;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,19 +21,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.logging.Level;
 
 
 public class MainWindow extends JFrame {
-    private boolean isPaused;
-    private CommandPanel commandPanel;
-    private ScrollTextPane scrollTextPane;
-    private mxGraphComponent graphComponent;
-    private MenuBar menuBar;
     private Algorithm algorithm;
-    private mxCircleLayout layout;
+    private CommandPanel commandPanel;
     private Graph graph;
+    private MenuBar menuBar;
+    private ScrollTextPane scrollTextPane;
+    private boolean isPaused;
     private int height;
     private int width;
+    private mxCircleLayout layout;
+    private mxGraphComponent graphComponent;
 
     public MainWindow() {
         init();
@@ -54,7 +56,6 @@ public class MainWindow extends JFrame {
         commandPanel = new CommandPanel();
         scrollTextPane = new ScrollTextPane();
         graph = new Graph();
-        layout = new mxCircleLayout(graph);
         graphComponent = new mxGraphComponent(graph);
 
         initGraph();
@@ -68,6 +69,7 @@ public class MainWindow extends JFrame {
         add(commandPanel);
     }
 
+    //FIX
     private void initMenuBar() {
         menuBar.getOpen().addActionListener(new ActionListener() {
             @Override
@@ -83,8 +85,10 @@ public class MainWindow extends JFrame {
     }
 
     private void initGraph() {
+        layout = new mxCircleLayout(graph);
         layout.setX0(((double) width) / 20);
         layout.setY0(((double) height) / 30);
+
         graphComponent.setBackground(Color.LIGHT_GRAY);
         graphComponent.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         mxSwingConstants.VERTEX_SELECTION_COLOR = new Color(0xEEEEEE);
@@ -117,10 +121,11 @@ public class MainWindow extends JFrame {
         commandPanel.getDecreaseSpeedButton().addActionListener(e -> algorithm.increaseDelay());
 
         commandPanel.getStopButton().addActionListener(e -> {
+            isPaused = false;
+            graph.load();
             algorithm.cancel(true);
-            algorithm = new Algorithm(createGraph());
-
-            setButtonsStateWhenStop();
+            setButtonsStateWhenStop(true);
+            executeGraph();
         });
 
         commandPanel.getAddVertexButton().addActionListener(e -> {
@@ -128,7 +133,10 @@ public class MainWindow extends JFrame {
             executeGraph();
         });
 
-        commandPanel.getClearButton().addActionListener(e -> graph.clear());
+        commandPanel.getClearButton().addActionListener(e -> {
+            graph.clear();
+            executeGraph();
+        });
 
         commandPanel.getPauseButton().addActionListener(e -> {
             algorithm.setRun(false);
@@ -142,13 +150,11 @@ public class MainWindow extends JFrame {
 
         commandPanel.getDeleteButton().addActionListener(e -> {
             Object cell = graph.getSelectionCell();
-
             if (graph.getModel().isVertex(cell)) {
                 graph.deleteVertex((Integer) graph.getModel().getValue(cell));
             } else if (graph.getModel().isEdge(cell)) {
                 graph.removeCells();
             }
-
             executeGraph();
         });
 
@@ -159,28 +165,21 @@ public class MainWindow extends JFrame {
             } else {
                 algorithm = new Algorithm(createGraph());
                 initAlgorithm();
+                graph.save();
             }
-
-            commandPanel.getDecreaseSpeedButton().setEnabled(true);
-            commandPanel.getIncreaseSpeedButton().setEnabled(true);
-            commandPanel.getPauseButton().setEnabled(true);
-            commandPanel.getStopButton().setEnabled(true);
-
-            commandPanel.getAddVertexButton().setEnabled(false);
-            commandPanel.getClearButton().setEnabled(false);
-            commandPanel.getDeleteButton().setEnabled(false);
-            commandPanel.getStartButton().setEnabled(false);
-
+            setButtonsStateWhenStop(false);
             algorithm.execute();
         });
 
         commandPanel.setMaximumSize(new Dimension(width / 7, height));
     }
 
+    //FIX
     private void initAlgorithm() {
         algorithm.addPropertyChangeListener(evt -> {
             if (evt.getPropertyName().equals(Algorithm.TRANSPOSE_GRAPH)) {
                 graph.transpose();
+                executeGraph();
             }
         });
 
@@ -189,8 +188,8 @@ public class MainWindow extends JFrame {
                 for (Vertex vertex : algorithm.getGraph().getVertexList()) {
                     graph.paintVertex(vertex.getId(), Colors.get(vertex.getComponentId()));
                 }
-
-                setButtonsStateWhenStop();
+                setButtonsStateWhenStop(true);
+                executeGraph();
             }
         });
 
@@ -199,23 +198,24 @@ public class MainWindow extends JFrame {
 //                scrollTextPane.addText(evt.getNewValue().toString());
 //            }
 //        });
-
     }
 
-    private void setButtonsStateWhenStop() {
-        commandPanel.getIncreaseSpeedButton().setEnabled(false);
-        commandPanel.getDecreaseSpeedButton().setEnabled(false);
-        commandPanel.getStopButton().setEnabled(false);
-        commandPanel.getPauseButton().setEnabled(false);
+    private void setButtonsStateWhenStop(boolean isStop) {
+        commandPanel.getIncreaseSpeedButton().setEnabled(!isStop);
+        commandPanel.getDecreaseSpeedButton().setEnabled(!isStop);
+        commandPanel.getStopButton().setEnabled(!isStop);
+        commandPanel.getPauseButton().setEnabled(!isStop);
 
-        commandPanel.getAddVertexButton().setEnabled(true);
-        commandPanel.getClearButton().setEnabled(true);
-        commandPanel.getDeleteButton().setEnabled(true);
-        commandPanel.getStartButton().setEnabled(true);
+        commandPanel.getAddVertexButton().setEnabled(isStop);
+        commandPanel.getClearButton().setEnabled(isStop);
+        commandPanel.getDeleteButton().setEnabled(isStop);
+        commandPanel.getStartButton().setEnabled(isStop);
     }
 
     private void executeGraph() {
         graph.setCellsMovable(true);
+        graph.refresh();
+        graph.repaint();
         layout.execute(graph.getDefaultParent());
         graph.setCellsMovable(false);
     }

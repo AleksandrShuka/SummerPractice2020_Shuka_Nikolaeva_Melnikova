@@ -36,6 +36,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
 
     @Override
     protected Void doInBackground() {
+
         unVisit(graph);
         for (Vertex vertex : graph.getVertexList()) {
             if (!vertex.isVisited()) {
@@ -44,6 +45,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
         }
 
         graph = graph.getTransposedGraph();
+        sleepOrWait();
 
         unVisit(graph);
         for (Vertex vertex : orderList) {
@@ -61,7 +63,9 @@ public class Algorithm extends SwingWorker<Void, Void> {
 
     @Override
     protected void done() {
-        firePropertyChange(ALGORITHM_ENDED, null, null);
+        if (!isCancelled()) {
+            firePropertyChange(ALGORITHM_ENDED, null, null);
+        }
     }
 
     private void firstDFS(@NotNull Vertex vertex) {
