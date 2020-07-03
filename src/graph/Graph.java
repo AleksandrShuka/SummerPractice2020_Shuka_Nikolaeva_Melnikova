@@ -92,22 +92,22 @@ public class Graph {
     /**
      * Транспонирует граф: ребра исходного графа ориентируются в противоположном направлении.
      */
-    public void transpose() {
-        List<Vertex> transposedVertexList = new ArrayList<>(this.vertexList);
+    public Graph getTransposedGraph() {
+        List<Vertex> newVertexList = new ArrayList<>(this.vertexList);
+        List<Edge> newEdgeList = new ArrayList<>(this.edgeList);
 
-        for (Vertex vertex : transposedVertexList) {
+        for (Vertex vertex : newVertexList) {
             vertex.getAdjacencyList().clear();
         }
 
-        for (Edge edge : this.edgeList) {
-            transposedVertexList.get(transposedVertexList.indexOf(edge.getTargetVertex()))
-                    .addNeighbour(edge.getSourceVertex());
+        for (Edge edge : newEdgeList) {
+            newVertexList.get(newVertexList.indexOf(edge.getTargetVertex())).addNeighbour(edge.getSourceVertex());
 
             Vertex tmpSourceVertex = edge.getSourceVertex();
             edge.setSourceVertex(edge.getTargetVertex());
             edge.setTargetVertex(tmpSourceVertex);
         }
 
-        setVertexList(transposedVertexList);
+        return new Graph(newVertexList, newEdgeList);
     }
 }

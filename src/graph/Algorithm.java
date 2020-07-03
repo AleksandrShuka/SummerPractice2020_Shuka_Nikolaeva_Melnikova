@@ -22,7 +22,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
     private final AtomicBoolean isRun;
     private final AtomicInteger delay;
 
-    private final Graph graph;
+    private Graph graph;
     private int count;
     private final LinkedList<Vertex> orderList;
 
@@ -45,11 +45,11 @@ public class Algorithm extends SwingWorker<Void, Void> {
         for (int i = 0; i < 1000; ++i) {
             Logs.writeToLog(Integer.toString(i));
             sleepOrWait();
-            graph.transpose();
+            graph = graph.getTransposedGraph();
             firePropertyChange(TRANSPOSE_GRAPH, null, null);
         }
 
-        graph.transpose();
+        graph = graph.getTransposedGraph();
         firePropertyChange(TRANSPOSE_GRAPH, null, null);
 
         unVisit(graph);
@@ -61,7 +61,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
         }
 
         firePropertyChange(TRANSPOSE_GRAPH, null, null);
-        graph.transpose();
+        graph = graph.getTransposedGraph();
 
         unVisit(graph);
 
