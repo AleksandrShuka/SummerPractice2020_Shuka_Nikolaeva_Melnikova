@@ -87,26 +87,36 @@ public class Algorithm extends SwingWorker<Void, Void> {
 
         }
 
-        firePropertyChange(ADD_TEXT, null, System.lineSeparator() +
-                "All vertexes are marked as not visited." + System.lineSeparator() +
-                System.lineSeparator() + "SECOND DFS STARTED:" + System.lineSeparator());
-        unVisit(graph);
-        sleepOrWait();
-
-
         StringBuilder string = new StringBuilder();
         for (Vertex t : orderList) {
             string.append(t.getId() + " ");
         }
+<<<<<<< HEAD
         firePropertyChange(ADD_TEXT, null, System.lineSeparator() + string +
                 System.lineSeparator() + System.lineSeparator() + "GRAPH TRANSPOSE STARTED" + System.lineSeparator() +
                 "All edges of the graph were oriented in the opposite direction." + System.lineSeparator() +
                 "GRAPH TRANSPOSED" + System.lineSeparator());
+=======
+        firePropertyChange(ADD_TEXT, null, System.lineSeparator() + string);
+
+        unVisit(graph);
+        firePropertyChange(ADD_TEXT, null, System.lineSeparator() +
+                "All vertexes are marked as not visited.");
+        sleepOrWait();
+
+        firePropertyChange(ADD_TEXT, null, System.lineSeparator() + System.lineSeparator() +
+                "GRAPH TRANSPOSE STARTED" + System.lineSeparator());
+>>>>>>> 34cce82aa3e67f10a30b8d21237b935dc52e6440
 
         graph = graph.getTransposedGraph();
         firePropertyChange(TRANSPOSE_GRAPH, null, null);
+        firePropertyChange(ADD_TEXT, null,
+                "All edges of the graph were oriented in the opposite direction." + System.lineSeparator() +
+                "GRAPH TRANSPOSED" + System.lineSeparator());
         sleepOrWait();
 
+        firePropertyChange(ADD_TEXT, null, System.lineSeparator() + "SECOND DFS STARTED:" +
+                System.lineSeparator());
         for (Vertex vertex : orderList) {
             if (!vertex.isVisited()) {
                 firePropertyChange(ADD_TEXT, null, " Start from " + vertex.getId() +
