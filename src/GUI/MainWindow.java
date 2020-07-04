@@ -9,17 +9,22 @@ import com.mxgraph.util.mxEvent;
 import graph.Algorithm;
 import graph.Edge;
 import graph.Vertex;
+import logger.Logs;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.logging.Level;
 
 
 public class MainWindow extends JFrame {
@@ -88,7 +93,6 @@ public class MainWindow extends JFrame {
         layout = new mxCircleLayout(graph);
         layout.setX0(((double) width) / 20);
         layout.setY0(((double) height) / 30);
-
         graphComponent.getViewport().setBackground(Colors.getSecondBackgroundColor());
         graphComponent.setBackground(Colors.getSecondBackgroundColor());
         graphComponent.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
@@ -105,7 +109,7 @@ public class MainWindow extends JFrame {
             list = (ArrayList<mxCell>) mxEventObject.getProperties().get("removed");
             if (list != null) {
                 for (mxCell elem : list) {
-                    elem.setStyle(mxConstants.STYLE_FILLCOLOR + "=#00FF00");
+                    elem.setStyle(mxConstants.STYLE_FILLCOLOR + "=#DAA520");
                 }
             }
 
@@ -200,8 +204,15 @@ public class MainWindow extends JFrame {
         });
 
         algorithm.addPropertyChangeListener(evt -> {
-            if (evt.getPropertyName().equals(Algorithm.MARK_VERTEX)) {
-                graph.paintVertex(((Vertex) evt.getNewValue()).getId(), "#00FF00");
+            if (evt.getPropertyName().equals(Algorithm.MARK_VISITED_VERTEX)) {
+                graph.paintVertex(((Vertex) evt.getNewValue()).getId(), "#DAA520");
+            }
+            executeGraph();
+        });
+
+        algorithm.addPropertyChangeListener(evt -> {
+            if (evt.getPropertyName().equals(Algorithm.MARK_FINISHED_VERTEX)) {
+                graph.paintVertex(((Vertex) evt.getNewValue()).getId(), "#B8860B");
             }
             executeGraph();
         });
@@ -216,7 +227,7 @@ public class MainWindow extends JFrame {
         algorithm.addPropertyChangeListener(evt -> {
             if (evt.getPropertyName().equals(Algorithm.MARK_EDGE)) {
                 graph.paintEdge(((Vertex) evt.getOldValue()).getId(),
-                        ((Vertex) evt.getNewValue()).getId(), "#FF0000");
+                        ((Vertex) evt.getNewValue()).getId(), "#B8860B");
             }
             executeGraph();
         });

@@ -13,7 +13,8 @@ import java.util.logging.Level;
 public class Algorithm extends SwingWorker<Void, Void> {
     public static final String MARK_EDGE = "markEdge";
     public static final String UNMARK_EDGE = "unmarkEdge";
-    public static final String MARK_VERTEX = "markVertex";
+    public static final String MARK_VISITED_VERTEX = "markVisitedVertex";
+    public static final String MARK_FINISHED_VERTEX = "markFinishedVertex";
     public static final String UNMARK_VERTEX = "unmarkVertex";
     public static final String TRANSPOSE_GRAPH = "transposeGraph";
     public static final String ALGORITHM_ENDED = "algorithmEnded";
@@ -94,7 +95,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
 
     private void firstDFS(@NotNull Vertex vertex) {
         vertex.setVisited(true);
-        firePropertyChange(MARK_VERTEX, null, vertex);
+        firePropertyChange(MARK_VISITED_VERTEX, null, vertex);
         firePropertyChange(ADD_TEXT, null, "    " + vertex.getId() + " is visited" +
                 System.lineSeparator());
         sleepOrWait();
@@ -106,12 +107,11 @@ public class Algorithm extends SwingWorker<Void, Void> {
                 firePropertyChange(MARK_EDGE, vertex, neighbour);
                 sleepOrWait();
                 firstDFS(neighbour);
-                firePropertyChange(UNMARK_EDGE, vertex, neighbour);
             }
         }
 
+        firePropertyChange(MARK_FINISHED_VERTEX, null, vertex);
         sleepOrWait();
-        firePropertyChange(UNMARK_VERTEX, null, vertex);
         orderList.addFirst(vertex);
     }
 
