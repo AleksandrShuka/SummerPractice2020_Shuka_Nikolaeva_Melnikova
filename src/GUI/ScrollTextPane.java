@@ -35,7 +35,7 @@ public class ScrollTextPane extends JScrollPane {
     }
 
     /**
-     * Возвращает {@code textArea}.
+     * Возвращает значение {@code textArea}.
      *
      * @return текстовая панель.
      */
