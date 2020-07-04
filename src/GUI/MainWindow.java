@@ -199,7 +199,7 @@ public class MainWindow extends JFrame {
 
         algorithm.addPropertyChangeListener(evt -> {
             if (evt.getPropertyName().equals(Algorithm.ADD_TEXT)) {
-                scrollTextPane.addText(scrollTextPane.getTextArea().getText() + evt.getNewValue().toString());
+                scrollTextPane.getTextArea().append(evt.getNewValue().toString());
             }
         });
 
@@ -238,6 +238,12 @@ public class MainWindow extends JFrame {
                         ((Vertex) evt.getNewValue()).getId(), "#000000");
             }
             executeGraph();
+        });
+
+        algorithm.addPropertyChangeListener(evt -> {
+            if (evt.getPropertyName().equals(Algorithm.CLEAR_TEXT_PANE)) {
+                scrollTextPane.getTextArea().setText("");
+            }
         });
     }
 

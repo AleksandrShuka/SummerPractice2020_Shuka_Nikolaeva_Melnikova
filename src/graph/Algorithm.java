@@ -19,6 +19,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
     public static final String TRANSPOSE_GRAPH = "transposeGraph";
     public static final String ALGORITHM_ENDED = "algorithmEnded";
     public static final String ADD_TEXT = "addText";
+    public static final String CLEAR_TEXT_PANE = "clearTextPane";
     public static final int MAX_DELAY = 3000;
     public static final int MIN_DELAY = 50;
     public static final int DELTA_DELAY = 50;
@@ -39,6 +40,8 @@ public class Algorithm extends SwingWorker<Void, Void> {
 
     @Override
     protected Void doInBackground() {
+        firePropertyChange(CLEAR_TEXT_PANE, null, null);
+
         unVisit(graph);
         firePropertyChange(ADD_TEXT, null, "FIRST DFS STARTED:" + System.lineSeparator());
         sleepOrWait();
@@ -51,24 +54,26 @@ public class Algorithm extends SwingWorker<Void, Void> {
 
                 firePropertyChange(ADD_TEXT, null, " The vertex "  + vertex.getId() +
                         " is worked out " + System.lineSeparator());
+                sleepOrWait();
             }
-
         }
 
-        StringBuilder string = new StringBuilder();
+        StringBuilder string = new StringBuilder("[");
         for (Vertex t:orderList){
-            string.append(t.getId() + " ");
+            string.append(t.getId() + ", ");
         }
-        firePropertyChange(ADD_TEXT, null, System.lineSeparator() + string);
+        string.delete(string.length()-2, string.length());
+        firePropertyChange(ADD_TEXT, null, System.lineSeparator() +
+                "List of vertexes in order of decreasing exit time: " + System.lineSeparator() + string + "]" +
+                System.lineSeparator());
 
         unVisit(graph);
         firePropertyChange(ADD_TEXT, null, System.lineSeparator() +
-                "All vertexes are marked as not visited.");
+                "All vertexes are marked as not visited." + System.lineSeparator());
         sleepOrWait();
 
-        firePropertyChange(ADD_TEXT, null, System.lineSeparator() + System.lineSeparator() +
+        firePropertyChange(ADD_TEXT, null, System.lineSeparator() +
                 "GRAPH TRANSPOSE STARTED" + System.lineSeparator());
-
         graph = graph.getTransposedGraph();
         firePropertyChange(TRANSPOSE_GRAPH, null, null);
         firePropertyChange(ADD_TEXT, null,
@@ -82,14 +87,17 @@ public class Algorithm extends SwingWorker<Void, Void> {
             if (!vertex.isVisited()) {
                 firePropertyChange(ADD_TEXT, null, " Start from " + vertex.getId() +
                         " (" + (count + 1) + " component)" + System.lineSeparator());
-
                 secondDFS(vertex);
+
+                firePropertyChange(ADD_TEXT, null, " The vertex "  + vertex.getId() +
+                        " is worked out " + System.lineSeparator());
+                sleepOrWait();
                 ++count;
             }
         }
 
         firePropertyChange(ADD_TEXT, null, System.lineSeparator() + count +
-                " strongly connected components found " +
+                " STRONGLY CONNECTED COMPONENTS FOUND " +
                 System.lineSeparator());
 
         graph = graph.getTransposedGraph();
