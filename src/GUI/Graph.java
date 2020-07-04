@@ -99,6 +99,8 @@ public class Graph extends mxGraph {
 
     public void save() {
         savedEdges.clear();
+        savedCellStyles.clear();
+
         for (Object cell : cells.values()) {
             savedEdges.addAll(Arrays.asList(getOutgoingEdges(cell)));
             savedCellStyles.put((Integer) ((mxCell) cell).getValue(), ((mxCell) cell).getStyle());
@@ -116,5 +118,4 @@ public class Graph extends mxGraph {
 
         addCells(savedEdges.toArray());
     }
-
 }
