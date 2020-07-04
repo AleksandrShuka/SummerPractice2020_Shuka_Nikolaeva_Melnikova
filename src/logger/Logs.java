@@ -1,6 +1,7 @@
 package logger;
 
 import com.sun.tools.javac.Main;
+import org.jetbrains.annotations.NotNull;
 
 import java.sql.Time;
 import java.util.logging.*;
@@ -40,7 +41,6 @@ public class Logs {
         handler.setFormatter(new Forms());
         handler.setLevel(Level.ALL);
         logger.addHandler(handler);
-
     }
 
     /**
@@ -97,10 +97,9 @@ public class Logs {
          * @return строка-сообщение в нужном формате.
          */
         @Override
-        public String format(LogRecord record) {
+        public String format(@NotNull LogRecord record) {
             return Time.from(record.getInstant()).toString() + System.lineSeparator() + record.getLevel() + ": "
                     + record.getMessage() + System.lineSeparator();
         }
     }
-
 }
