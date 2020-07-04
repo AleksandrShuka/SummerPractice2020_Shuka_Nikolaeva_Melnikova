@@ -164,11 +164,11 @@ public class MainWindow extends JFrame {
                 algorithm.unSleep();
                 isPaused = false;
             } else {
+                graph.save();
                 graphComponent.setEnabled(false);
                 graph.setSelectionCells(new Object[]{});
                 algorithm = new Algorithm(createGraph());
                 initAlgorithm();
-                graph.save();
                 algorithm.execute();
             }
             setButtonsStateWhenStop(false);
