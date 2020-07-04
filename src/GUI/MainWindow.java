@@ -9,22 +9,17 @@ import com.mxgraph.util.mxEvent;
 import graph.Algorithm;
 import graph.Edge;
 import graph.Vertex;
-import logger.Logs;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.logging.Level;
 
 
 public class MainWindow extends JFrame {
@@ -126,9 +121,10 @@ public class MainWindow extends JFrame {
         commandPanel.getDecreaseSpeedButton().addActionListener(e -> algorithm.increaseDelay());
 
         commandPanel.getStopButton().addActionListener(e -> {
+            algorithm.cancel(true);
+            graphComponent.setEnabled(true);
             isPaused = false;
             graph.load();
-            algorithm.cancel(true);
             setButtonsStateWhenStop(true);
             executeGraph();
         });
@@ -168,7 +164,8 @@ public class MainWindow extends JFrame {
                 algorithm.unSleep();
                 isPaused = false;
             } else {
-                graph.setSelectionCells(new Object[] {});
+                graphComponent.setEnabled(false);
+                graph.setSelectionCells(new Object[]{});
                 algorithm = new Algorithm(createGraph());
                 initAlgorithm();
                 graph.save();
@@ -194,6 +191,7 @@ public class MainWindow extends JFrame {
                     graph.paintVertex(vertex.getId(), Colors.get(vertex.getComponentId()));
                 }
                 setButtonsStateWhenStop(true);
+                graphComponent.setEnabled(true);
                 executeGraph();
             }
         });
