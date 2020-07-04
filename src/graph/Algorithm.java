@@ -45,11 +45,12 @@ public class Algorithm extends SwingWorker<Void, Void> {
     public static final String CLEAR_TEXT_PANE = "clearTextPane";
     public static final int MAX_DELAY = 3000;
     public static final int MIN_DELAY = 50;
-    public static final int DELTA_DELAY = 50;
+    public static final int DELTA_DELAY = 100;
 
     private final AtomicBoolean isRun;
     private final AtomicInteger delay;
 
+    private StringBuilder componentsString = new StringBuilder("");
     /**
      * Граф, на котором будет реализован алгоритм.
      */
@@ -122,7 +123,10 @@ public class Algorithm extends SwingWorker<Void, Void> {
                     sleepOrWait();
                     firePropertyChange(ADD_TEXT, null, " Start from " + vertex.getId() +
                             " (" + (count + 1) + " component)" + System.lineSeparator());
+
+                    componentsString.append(count + 1).append(" component includes vertexes ");
                     secondDFS(vertex);
+                    componentsString.append(System.lineSeparator());
                     ++count;
                 }
             }
@@ -172,6 +176,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
             firePropertyChange(ADD_TEXT, null, System.lineSeparator() + count +
                     " STRONGLY CONNECTED COMPONENTS FOUND " +
                     System.lineSeparator());
+            firePropertyChange(ADD_TEXT, null, componentsString);
             firePropertyChange(ALGORITHM_ENDED, null, null);
         } catch (Exception e) {
             firePropertyChange(CLEAR_TEXT_PANE, null, null);
@@ -203,7 +208,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
         }
 
         sleepOrWait();
-        firePropertyChange(ADD_TEXT, null, " The vertex " + vertex.getId() +
+        firePropertyChange(ADD_TEXT, null, "    The vertex " + vertex.getId() +
                 " is worked out " + System.lineSeparator());
         firePropertyChange(MARK_FINISHED_VERTEX, null, vertex);
         orderList.addFirst(vertex);
@@ -221,16 +226,19 @@ public class Algorithm extends SwingWorker<Void, Void> {
         vertex.setComponentId(count);
         firePropertyChange(ADD_TEXT, null, "    " + vertex.getId() + " is visited " +
                 System.lineSeparator());
+        componentsString.append(vertex.getId());
 
         for (Vertex neighbour : vertex.getAdjacencyList()) {
             if (!neighbour.isVisited()) {
                 firePropertyChange(ADD_TEXT, null,
                         "      go to " + neighbour.getId() + System.lineSeparator());
+
+                componentsString.append(", ");
                 secondDFS(neighbour);
             }
         }
 
-        firePropertyChange(ADD_TEXT, null, " The vertex " + vertex.getId() +
+        firePropertyChange(ADD_TEXT, null, "    The vertex " + vertex.getId() +
                 " is worked out " + System.lineSeparator());
     }
 
