@@ -8,10 +8,6 @@ import java.io.IOException;
 /**
  * Класс, представляющий собой коммандную панель.
  * Наследуется от класса {@code JPanel}
- * @see JPanel
- * <p>
- * Содержит в себе экземпляры класса {@code JButton}:
- * @see JButton
  *
  * @value startButton - кнопка для запуска работы алгоритма
  * @value increaseSpeedButton - кнопка для увеличения скорости визуализаии
@@ -21,6 +17,10 @@ import java.io.IOException;
  * @value clearButton - кнопка для очищения окна
  * @value stopButton - кнопка для остановки работы алгоритма
  * @value pauseButton - кнопка, с помощью которой визуализацию можно поставить на паузу
+ * @see JPanel
+ * <p>
+ * Содержит в себе экземпляры класса {@code JButton}:
+ * @see JButton
  */
 
 public class CommandPanel extends JPanel {
