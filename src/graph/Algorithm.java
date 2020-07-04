@@ -13,7 +13,8 @@ import java.util.logging.Level;
 public class Algorithm extends SwingWorker<Void, Void> {
     public static final String MARK_EDGE = "markEdge";
     public static final String UNMARK_EDGE = "unmarkEdge";
-    public static final String MARK_VERTEX = "markVertex";
+    public static final String MARK_VISITED_VERTEX = "markVisitedVertex";
+    public static final String MARK_FINISHED_VERTEX = "markFinishedVertex";
     public static final String UNMARK_VERTEX = "unmarkVertex";
     public static final String TRANSPOSE_GRAPH = "transposeGraph";
     public static final String ALGORITHM_ENDED = "algorithmEnded";
@@ -38,7 +39,6 @@ public class Algorithm extends SwingWorker<Void, Void> {
 
     @Override
     protected Void doInBackground() {
-
         unVisit(graph);
         firePropertyChange(ADD_TEXT, null, "FIRST DFS STARTED:" + System.lineSeparator());
         sleepOrWait();
@@ -55,6 +55,13 @@ public class Algorithm extends SwingWorker<Void, Void> {
 
         }
 
+        firePropertyChange(ADD_TEXT, null, System.lineSeparator() +
+                "All vertexes are marked as not visited." + System.lineSeparator() +
+                System.lineSeparator() + "SECOND DFS STARTED:" + System.lineSeparator());
+        unVisit(graph);
+        sleepOrWait();
+
+
         StringBuilder string = new StringBuilder();
         for (Vertex t:orderList){
             string.append(t.getId() + " ");
@@ -63,14 +70,11 @@ public class Algorithm extends SwingWorker<Void, Void> {
                 System.lineSeparator() + System.lineSeparator() + "GRAPH TRANSPOSE STARTED" + System.lineSeparator() +
                 "All edges of the graph were oriented in the opposite direction." + System.lineSeparator() +
                 "GRAPH TRANSPOSED" + System.lineSeparator());
+                           
         graph = graph.getTransposedGraph();
         firePropertyChange(TRANSPOSE_GRAPH, null, null);
         sleepOrWait();
 
-        firePropertyChange(ADD_TEXT, null, System.lineSeparator() +
-                "All vertexes are marked as not visited." + System.lineSeparator() +
-                System.lineSeparator() + "SECOND DFS STARTED:" +   System.lineSeparator());
-        unVisit(graph);
         for (Vertex vertex : orderList) {
             if (!vertex.isVisited()) {
                 firePropertyChange(ADD_TEXT, null, " Start from " + vertex.getId() +
@@ -102,7 +106,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
 
     private void firstDFS(@NotNull Vertex vertex) {
         vertex.setVisited(true);
-        firePropertyChange(MARK_VERTEX, null, vertex);
+        firePropertyChange(MARK_VISITED_VERTEX, null, vertex);
         firePropertyChange(ADD_TEXT, null, "    " + vertex.getId() + " is visited" +
                 System.lineSeparator());
         sleepOrWait();
@@ -114,12 +118,11 @@ public class Algorithm extends SwingWorker<Void, Void> {
                 firePropertyChange(MARK_EDGE, vertex, neighbour);
                 sleepOrWait();
                 firstDFS(neighbour);
-                firePropertyChange(UNMARK_EDGE, vertex, neighbour);
             }
         }
 
+        firePropertyChange(MARK_FINISHED_VERTEX, null, vertex);
         sleepOrWait();
-        firePropertyChange(UNMARK_VERTEX, null, vertex);
         orderList.addFirst(vertex);
     }
 
@@ -171,7 +174,12 @@ public class Algorithm extends SwingWorker<Void, Void> {
 
     private void unVisit(@NotNull Graph graph) {
         for (Vertex vertex : graph.getVertexList()) {
+            firePropertyChange(UNMARK_VERTEX, null, vertex);
             vertex.setVisited(false);
+
+            for (Vertex neighbour : vertex.getAdjacencyList()) {
+                firePropertyChange(UNMARK_EDGE, vertex, neighbour);
+            }
         }
     }
 
