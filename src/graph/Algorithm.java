@@ -39,7 +39,6 @@ public class Algorithm extends SwingWorker<Void, Void> {
 
     @Override
     protected Void doInBackground() {
-
         unVisit(graph);
         firePropertyChange(ADD_TEXT, null, "FIRST DFS STARTED:" + System.lineSeparator());
         sleepOrWait();
@@ -53,6 +52,12 @@ public class Algorithm extends SwingWorker<Void, Void> {
         }
 
         firePropertyChange(ADD_TEXT, null, System.lineSeparator() +
+                "All vertexes are marked as not visited." + System.lineSeparator() +
+                System.lineSeparator() + "SECOND DFS STARTED:" + System.lineSeparator());
+        unVisit(graph);
+        sleepOrWait();
+
+        firePropertyChange(ADD_TEXT, null, System.lineSeparator() +
                 "GRAPH TRANSPOSE STARTED" + System.lineSeparator() +
                 "All edges of the graph were oriented in the opposite direction." + System.lineSeparator() +
                 "GRAPH TRANSPOSED" + System.lineSeparator());
@@ -60,10 +65,6 @@ public class Algorithm extends SwingWorker<Void, Void> {
         firePropertyChange(TRANSPOSE_GRAPH, null, null);
         sleepOrWait();
 
-        firePropertyChange(ADD_TEXT, null, System.lineSeparator() +
-                "All vertexes are marked as not visited." + System.lineSeparator() +
-                System.lineSeparator() + "SECOND DFS STARTED:" + System.lineSeparator());
-        unVisit(graph);
         for (Vertex vertex : orderList) {
             if (!vertex.isVisited()) {
                 firePropertyChange(ADD_TEXT, null, " Start from " + vertex.getId() +
@@ -163,7 +164,12 @@ public class Algorithm extends SwingWorker<Void, Void> {
 
     private void unVisit(@NotNull Graph graph) {
         for (Vertex vertex : graph.getVertexList()) {
+            firePropertyChange(UNMARK_VERTEX, null, vertex);
             vertex.setVisited(false);
+
+            for (Vertex neighbour : vertex.getAdjacencyList()) {
+                firePropertyChange(UNMARK_EDGE, vertex, neighbour);
+            }
         }
     }
 
