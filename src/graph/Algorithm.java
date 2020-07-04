@@ -12,8 +12,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  * сильной связности.
  * <p>
  * Наследуется от класса {@code SwingWorker}.
- *
+ * <p>
  * Содержит в себе:
+ *
  * @value MARK_EDGE - ребро помечено
  * @value UNMARK_EDGE - ребро не помечено
  * @value MARK_VISITED_VERTEX - вершина посещена
@@ -26,11 +27,11 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @value MIN_DELAY - минимальная задержка анимации алгоритма
  * @value DELTA_DELAY - шаг изменения задержки анимации алгоритма
  * @see SwingWorker
- *
+ * <p>
  * Поле для хранения графа {@code graph}, количество компонент сильной связности в графе {@code count} и
  * список вершин, расположенных в порядке убывания времени выхода при первом обходе графа {@code orderList}.
- *
- *Содержит методы для реализации алгоритма поиска компонент сильной связности Косарайю.
+ * <p>
+ * Содержит методы для реализации алгоритма поиска компонент сильной связности Косарайю.
  */
 
 public class Algorithm extends SwingWorker<Void, Void> {
@@ -78,6 +79,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
 
     /**
      * Перегруженный метод родительского класса
+     *
      * @see SwingWorker#doInBackground()
      * Метод выполняет алгоритм в новом потоке.
      * <p>
@@ -132,17 +134,17 @@ public class Algorithm extends SwingWorker<Void, Void> {
             return null;
         } catch (Exception ignored) {
 
-        } finally {
-            return null;
         }
+
+        return null;
     }
 
     /**
      * Вызывает метод транспонирования графа
+     *
+     * @throws InterruptedException если поток был прерван.
      * @see Graph#getTransposedGraph()
      * и посылает сигнал родительскому потоку об изменении состояния графа.
-     *
-     * @throws InterruptedException
      */
     private void transposeGraph() throws InterruptedException {
         sleepOrWait();
@@ -181,9 +183,9 @@ public class Algorithm extends SwingWorker<Void, Void> {
     /**
      * Метод, реализующий обход графа в глубину, с сохранением порядка вершин по убыванию времени выхода в
      * {@code orderList}, для последующего использования в алгоритме.
-     * @see Algorithm#doInBackground()
      *
      * @param vertex - вершина, к которой применяем обход в глубину.
+     * @see Algorithm#doInBackground()
      */
     private void firstDFS(@NotNull Vertex vertex) throws InterruptedException {
         sleepOrWait();
@@ -249,6 +251,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
      * Приостанавливает поток выполнения на {@code delay} мс, если {@code isRun == true}.
      * <p>
      * Если {@code isRun == false}, то поток переходит в режим ожидания сигнала
+     *
      * @see Object#wait()
      * @see Algorithm#unSleep()
      */
@@ -272,6 +275,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
     /**
      * Устанавливает флаг статуса выполнения алгоритма {@code isRun = true}.
      * Вызывает метод {@code notifyAll()} для продолжения выполнения алгоритма.
+     *
      * @see Object#notifyAll()
      */
     public synchronized void unSleep() {
@@ -283,8 +287,8 @@ public class Algorithm extends SwingWorker<Void, Void> {
      * Метод, изменяющий статус посещенности вершин графа на "не посещённые".
      * Отправляет сигнал об изменении состояния графа.
      *
-     * @param graph
-     * @throws InterruptedException
+     * @param graph граф, в котором меняется статус посещенности
+     * @throws InterruptedException если поток был прерван
      */
     private void unVisit(@NotNull Graph graph) throws InterruptedException {
         sleepOrWait();
@@ -313,10 +317,6 @@ public class Algorithm extends SwingWorker<Void, Void> {
         string.append("]");
 
         return string.toString();
-    }
-
-    public int getCount() {
-        return this.count;
     }
 
     /**

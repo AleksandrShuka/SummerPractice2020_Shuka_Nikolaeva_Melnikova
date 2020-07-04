@@ -3,14 +3,12 @@ package logger;
 import com.sun.tools.javac.Main;
 
 import java.sql.Time;
-import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.logging.*;
 
 /**
  * Класс, реализующий логирование.
  * Содержит в себе:
+ *
  * @value logger - экземпляр класса Logger.
  * @value handler - экзэмпляр класса Handler, экспортирующий сообщения логера на консоль.
  * Класс, реализующий форматирвоание собщений {@code Forms}.
@@ -89,7 +87,7 @@ public class Logs {
 
     /**
      * Класс, реализующий форматирование сообщений в логе.
-     *
+     * <p>
      * Содержит в себе метод для форматирования {@code format}.
      */
     static class Forms extends Formatter {
@@ -99,8 +97,8 @@ public class Logs {
          * @return строка-сообщение в нужном формате.
          */
         @Override
-        public String format(LogRecord record){
-            return  Time.from(record.getInstant()).toString() + System.lineSeparator() + record.getLevel() + ": "
+        public String format(LogRecord record) {
+            return Time.from(record.getInstant()).toString() + System.lineSeparator() + record.getLevel() + ": "
                     + record.getMessage() + System.lineSeparator();
         }
     }
