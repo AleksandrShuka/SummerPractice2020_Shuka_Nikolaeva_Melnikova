@@ -5,15 +5,17 @@ import java.awt.*;
 /**
  * Класс, используемый для удобного задания значений цветов в окне приложения, а также
  * для задания цвета вершинам.
- *
+ * <p>
  * Солержит в себе:
+ *
  * @value firstBackgroundColor - первый фоновый цвет
  * @value secondBackgroundColor - второй фоновый цвет
  * @value colorArray - массив различных цветов для окрашивания вершин
- *
+ * <p>
  * Имеет методы {@code getFirstBackgroundColor}, {@code getSecondBackgroundColor} для получения первого фонового
  * цвета и второго фонового цвета, а также метод {@code get} для получения цвета из массива цветов
  */
+
 public class Colors {
     private static final Color firstBackgroundColor = new Color(0XE6E6FA);
     private static final Color secondBackgroundColor = new Color(0xB0B0BB);
