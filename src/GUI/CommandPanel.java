@@ -30,6 +30,10 @@ public class CommandPanel extends JPanel {
     private final JButton stopButton;
     private final JButton pauseButton;
 
+    /**
+     * Конструктор панели, который инициализирует переменные,
+     * устанавливает свойства и размещает компоненты на панели.
+     */
     CommandPanel() {
         double height = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
         setBackground(Colors.getSecondBackgroundColor());
@@ -130,34 +134,74 @@ public class CommandPanel extends JPanel {
         add(clearButton);
     }
 
+    /**
+     * Возвращает {@code addVertexButton}.
+     *
+     * @return кнопка для добавления вершин.
+     */
     public JButton getAddVertexButton() {
         return addVertexButton;
     }
 
+    /**
+     * Возвращает {@code stopButton}.
+     *
+     * @return кнопка для остановки работы алгоритма.
+     */
     public JButton getStopButton() {
         return stopButton;
     }
 
+    /**
+     * Возвращает {@code deleteButton}.
+     *
+     * @return кнопка для удаления выбранной вершины/ребра.
+     */
     public JButton getDeleteButton() {
         return deleteButton;
     }
 
+    /**
+     * Возвращает {@code clearButton}.
+     *
+     * @return кнопка для очищения окна.
+     */
     public JButton getClearButton() {
         return clearButton;
     }
 
+    /**
+     * Возвращает {@code startButton}.
+     *
+     * @return кнопка для запуска работы алгоритма.
+     */
     public JButton getStartButton() {
         return startButton;
     }
 
+    /**
+     * Возвращает {@code pauseButton}.
+     *
+     * @return кнопка, с помощью которой визуализацию можно поставить на паузу.
+     */
     public JButton getPauseButton() {
         return pauseButton;
     }
 
+    /**
+     * Возвращает {@code decreaseSpeedButton}.
+     *
+     * @return кнопка для уменьшения скорости визуализации.
+     */
     public JButton getDecreaseSpeedButton() {
         return decreaseSpeedButton;
     }
 
+    /**
+     * Возвращает {@code increaseSpeedButton}.
+     *
+     * @return кнопка для увеличения скорости визуализаии.
+     */
     public JButton getIncreaseSpeedButton() {
         return increaseSpeedButton;
     }
