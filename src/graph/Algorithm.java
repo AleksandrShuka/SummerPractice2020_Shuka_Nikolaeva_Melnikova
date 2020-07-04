@@ -44,9 +44,9 @@ public class Algorithm extends SwingWorker<Void, Void> {
     public static final String ALGORITHM_ENDED = "algorithmEnded";
     public static final String ADD_TEXT = "addText";
     public static final String CLEAR_TEXT_PANE = "clearTextPane";
-    public static final int MAX_DELAY = 3000;
-    public static final int MIN_DELAY = 50;
-    public static final int DELTA_DELAY = 50;
+    public static final int MAX_DELAY = 2000;
+    public static final int MIN_DELAY = 100;
+    public static final int DELTA_DELAY = 100;
 
     private final AtomicBoolean isRun;
     private final AtomicInteger delay;

@@ -136,6 +136,8 @@ public class MainWindow extends JFrame {
 
         commandPanel.getClearButton().addActionListener(e -> {
             graph.clear();
+            commandPanel.getStartButton().setEnabled(true);
+            scrollTextPane.getTextArea().setText("");
             executeGraph();
         });
 
@@ -164,6 +166,7 @@ public class MainWindow extends JFrame {
                 algorithm.unSleep();
                 isPaused = false;
             } else {
+                graph.paintDefault();
                 graph.save();
                 graphComponent.setEnabled(false);
                 graph.setSelectionCells(new Object[]{});

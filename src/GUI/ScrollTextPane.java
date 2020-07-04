@@ -19,10 +19,6 @@ public class ScrollTextPane extends JScrollPane {
         textArea.setBackground(Colors.getFirstBackgroundColor());
     }
 
-    public void addText(String text) {
-        textArea.setText(text);
-    }
-
     public JTextArea getTextArea() {
         return textArea;
     }
