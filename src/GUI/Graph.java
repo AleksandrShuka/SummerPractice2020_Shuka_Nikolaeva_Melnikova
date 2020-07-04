@@ -4,8 +4,10 @@ import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxICell;
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.view.mxGraph;
+import logger.Logs;
 
 import java.util.*;
+import java.util.logging.Level;
 
 
 public class Graph extends mxGraph {
@@ -78,7 +80,14 @@ public class Graph extends mxGraph {
     }
 
     public void paintVertex(int id, String color) {
-        ((mxCell) cells.get(id)).setStyle("fillColor=" + color);
+        ((mxCell) cells.get(id)).setStyle(mxConstants.STYLE_FILLCOLOR + "=" + color);
+    }
+
+    public void paintEdge(int idSource, int idTarget, String color) {
+        Object[] edges = getEdgesBetween(cells.get(idSource), cells.get(idTarget), true);
+        for (Object edge : edges) {
+            ((mxCell) edge).setStyle(mxConstants.STYLE_STROKECOLOR + "=" + color);
+        }
     }
 
     public void clear() {

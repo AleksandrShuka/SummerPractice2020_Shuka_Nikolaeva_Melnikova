@@ -3,7 +3,6 @@ package GUI;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 
 
@@ -14,7 +13,8 @@ public class MenuBar extends JMenuBar {
     private final JMenuItem about;
 
     public MenuBar() {
-        setBackground(new Color(0XE6E6FA));
+        setBackground(Colors.getFirstBackgroundColor());
+
         open = new JMenuItem("Open");
         exit = new JMenuItem(new ExitAction());
         help = new JMenuItem("Help");

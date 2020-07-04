@@ -32,7 +32,7 @@ public class CommandPanel extends JPanel {
 
     CommandPanel() {
         double height = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-        setBackground(new Color(0xB0B0BB));
+        setBackground(Colors.getSecondBackgroundColor());
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -88,14 +88,14 @@ public class CommandPanel extends JPanel {
         deleteButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) height / 15));
         clearButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) height / 15));
 
-        stopButton.setBackground(new Color(0xE6E6FA));
-        startButton.setBackground(new Color(0xE6E6FA));
-        increaseSpeedButton.setBackground(new Color(0xE6E6FA));
-        decreaseSpeedButton.setBackground(new Color(0xE6E6FA));
-        deleteButton.setBackground(new Color(0xE6E6FA));
-        addVertexButton.setBackground(new Color(0xE6E6FA));
-        clearButton.setBackground(new Color(0xE6E6FA));
-        pauseButton.setBackground(new Color(0xE6E6FA));
+        stopButton.setBackground(Colors.getFirstBackgroundColor());
+        startButton.setBackground(Colors.getFirstBackgroundColor());
+        increaseSpeedButton.setBackground(Colors.getFirstBackgroundColor());
+        decreaseSpeedButton.setBackground(Colors.getFirstBackgroundColor());
+        deleteButton.setBackground(Colors.getFirstBackgroundColor());
+        addVertexButton.setBackground(Colors.getFirstBackgroundColor());
+        clearButton.setBackground(Colors.getFirstBackgroundColor());
+        pauseButton.setBackground(Colors.getFirstBackgroundColor());
 
         JPanel speedPanel = new JPanel();
         speedPanel.setLayout(new BoxLayout(speedPanel, BoxLayout.LINE_AXIS));
@@ -103,8 +103,8 @@ public class CommandPanel extends JPanel {
         increaseSpeedButton.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
         decreaseSpeedButton.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
-        speedLabel.setBackground(new Color(0xB0B0BB));
-        speedPanel.setBackground(new Color(0xB0B0BB));
+        speedLabel.setBackground(Colors.getSecondBackgroundColor());
+        speedPanel.setBackground(Colors.getSecondBackgroundColor());
 
         speedPanel.add(speedLabel);
         speedPanel.add(Box.createHorizontalGlue());
