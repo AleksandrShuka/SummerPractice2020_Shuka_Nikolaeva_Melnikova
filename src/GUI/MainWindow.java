@@ -168,6 +168,7 @@ public class MainWindow extends JFrame {
                 algorithm.unSleep();
                 isPaused = false;
             } else {
+                graph.setSelectionCells(new Object[] {});
                 algorithm = new Algorithm(createGraph());
                 initAlgorithm();
                 graph.save();
