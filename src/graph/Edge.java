@@ -32,7 +32,7 @@ public class Edge {
      */
     public Edge(Vertex startVertex, Vertex targetVertex) {
         Logs.writeToLog("Created edge from vertex " + startVertex.getId() + " to vertex " +
-                        targetVertex.getId());
+                targetVertex.getId());
 
         this.sourceVertex = startVertex;
         this.targetVertex = targetVertex;

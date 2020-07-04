@@ -4,15 +4,16 @@ import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxICell;
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.view.mxGraph;
-import logger.Logs;
 
-import java.util.*;
-import java.util.logging.Level;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 
 public class Graph extends mxGraph {
     private final Map<Integer, String> savedCellStyles;
-    private final List<Object> savedEdges;
+    private final Map<Object, Object> savedEdges;
     private final Map<Integer, Object> cells;
     private final SortedSet<Integer> removedCells;
     private int count;
@@ -20,7 +21,7 @@ public class Graph extends mxGraph {
     public Graph() {
         savedCellStyles = new HashMap<>();
         removedCells = new TreeSet<>();
-        savedEdges = new ArrayList<>();
+        savedEdges = new HashMap<>();
         cells = new HashMap<>();
         count = 0;
 
@@ -102,7 +103,9 @@ public class Graph extends mxGraph {
         savedCellStyles.clear();
 
         for (Object cell : cells.values()) {
-            savedEdges.addAll(Arrays.asList(getOutgoingEdges(cell)));
+            for (Object edge : getOutgoingEdges(cell)) {
+                savedEdges.put(cell, ((mxCell) edge).getTarget());
+            }
             savedCellStyles.put((Integer) ((mxCell) cell).getValue(), ((mxCell) cell).getStyle());
         }
     }
@@ -116,6 +119,9 @@ public class Graph extends mxGraph {
             ((mxCell) cells.get(key)).setStyle(savedCellStyles.get(key));
         }
 
-        addCells(savedEdges.toArray());
+        for (Object key : savedEdges.keySet()) {
+            insertEdge(getDefaultParent(), null, null, key,
+                    savedEdges.get(key));
+        }
     }
 }
