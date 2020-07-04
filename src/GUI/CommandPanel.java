@@ -7,8 +7,11 @@ import java.io.IOException;
 
 /**
  * Класс, представляющий собой коммандную панель.
+ * Наследуется от класса {@code JPanel}
+ * @see JPanel
  * <p>
  * Содержит в себе экземпляры класса {@code JButton}:
+ * @see JButton
  *
  * @value startButton - кнопка для запуска работы алгоритма
  * @value increaseSpeedButton - кнопка для увеличения скорости визуализаии
