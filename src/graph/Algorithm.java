@@ -258,7 +258,8 @@ public class Algorithm extends SwingWorker<Void, Void> {
     private synchronized void sleepOrWait() throws InterruptedException {
         if (isRun.get()) {
             Thread.sleep(delay.get());
-        } else {
+        }
+        while (!isRun.get()) {
             wait();
         }
     }

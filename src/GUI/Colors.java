@@ -2,6 +2,7 @@ package GUI;
 
 import java.awt.*;
 
+
 public class Colors {
     private static final Color firstBackgroundColor = new Color(0XE6E6FA);
     private static final Color secondBackgroundColor = new Color(0xB0B0BB);

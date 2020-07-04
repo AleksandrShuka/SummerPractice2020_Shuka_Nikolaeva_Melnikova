@@ -169,9 +169,9 @@ public class MainWindow extends JFrame {
                 algorithm = new Algorithm(createGraph());
                 initAlgorithm();
                 graph.save();
+                algorithm.execute();
             }
             setButtonsStateWhenStop(false);
-            algorithm.execute();
         });
 
         commandPanel.setMaximumSize(new Dimension(width / 7, height));
