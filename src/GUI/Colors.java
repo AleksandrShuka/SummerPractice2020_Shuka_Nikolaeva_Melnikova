@@ -1,6 +1,11 @@
 package GUI;
 
+import java.awt.*;
+
 public class Colors {
+    private static final Color firstBackgroundColor = new Color(0XE6E6FA);
+    private static final Color secondBackgroundColor = new Color(0xB0B0BB);
+
     private static final String[] colorArray = {
             "#FFC0CB", "#808080", "#FFFFF1", "#FF8C00",
             "#FF00FF", "#800080", "#FF0000", "#800000",
@@ -13,6 +18,14 @@ public class Colors {
 
     public static String get(int index) {
         return colorArray[index];
+    }
+
+    public static Color getFirstBackgroundColor() {
+        return firstBackgroundColor;
+    }
+
+    public static Color getSecondBackgroundColor() {
+        return secondBackgroundColor;
     }
 
     public static int size() {

@@ -89,10 +89,10 @@ public class MainWindow extends JFrame {
         layout.setX0(((double) width) / 20);
         layout.setY0(((double) height) / 30);
 
-        graphComponent.getViewport().setBackground(new Color(0xB0B0BB));
-        graphComponent.setBackground(new Color(0xB0B0BB));
+        graphComponent.getViewport().setBackground(Colors.getSecondBackgroundColor());
+        graphComponent.setBackground(Colors.getSecondBackgroundColor());
         graphComponent.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
-        mxSwingConstants.VERTEX_SELECTION_COLOR = new Color(0xC0C0C0);
+        mxSwingConstants.VERTEX_SELECTION_COLOR = Colors.getSecondBackgroundColor();
 
         graph.getSelectionModel().addListener(mxEvent.CHANGE, (o, mxEventObject) -> {
             ArrayList<mxCell> list = (ArrayList<mxCell>) mxEventObject.getProperty("added");
@@ -197,6 +197,36 @@ public class MainWindow extends JFrame {
             if (evt.getPropertyName().equals(Algorithm.ADD_TEXT)) {
                 scrollTextPane.addText(scrollTextPane.getTextArea().getText() + evt.getNewValue().toString());
             }
+        });
+
+        algorithm.addPropertyChangeListener(evt -> {
+            if (evt.getPropertyName().equals(Algorithm.MARK_VERTEX)) {
+                graph.paintVertex(((Vertex) evt.getNewValue()).getId(), "#00FF00");
+            }
+            executeGraph();
+        });
+
+        algorithm.addPropertyChangeListener(evt -> {
+            if (evt.getPropertyName().equals(Algorithm.UNMARK_VERTEX)) {
+                graph.paintVertex(((Vertex) evt.getNewValue()).getId(), "#FFFFFF");
+            }
+            executeGraph();
+        });
+
+        algorithm.addPropertyChangeListener(evt -> {
+            if (evt.getPropertyName().equals(Algorithm.MARK_EDGE)) {
+                graph.paintEdge(((Vertex) evt.getOldValue()).getId(),
+                        ((Vertex) evt.getNewValue()).getId(), "#FF0000");
+            }
+            executeGraph();
+        });
+
+        algorithm.addPropertyChangeListener(evt -> {
+            if (evt.getPropertyName().equals(Algorithm.UNMARK_EDGE)) {
+                graph.paintEdge(((Vertex) evt.getOldValue()).getId(),
+                        ((Vertex) evt.getNewValue()).getId(), "#000000");
+            }
+            executeGraph();
         });
     }
 

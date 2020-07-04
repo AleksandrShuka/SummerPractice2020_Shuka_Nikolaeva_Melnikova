@@ -41,6 +41,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
 
         unVisit(graph);
         firePropertyChange(ADD_TEXT, null, "FIRST DFS STARTED:" + System.lineSeparator());
+        sleepOrWait();
 
         for (Vertex vertex : graph.getVertexList()) {
             if (!vertex.isVisited()) {
@@ -55,6 +56,8 @@ public class Algorithm extends SwingWorker<Void, Void> {
                 "All edges of the graph were oriented in the opposite direction." + System.lineSeparator() +
                 "GRAPH TRANSPOSED" + System.lineSeparator());
         graph = graph.getTransposedGraph();
+        firePropertyChange(TRANSPOSE_GRAPH, null, null);
+        sleepOrWait();
 
         firePropertyChange(ADD_TEXT, null, System.lineSeparator() +
                 "All vertexes are marked as not visited." + System.lineSeparator() +
@@ -75,6 +78,8 @@ public class Algorithm extends SwingWorker<Void, Void> {
                 System.lineSeparator());
 
         graph = graph.getTransposedGraph();
+        firePropertyChange(TRANSPOSE_GRAPH, null, null);
+        sleepOrWait();
         unVisit(graph);
 
         return null;
@@ -89,17 +94,24 @@ public class Algorithm extends SwingWorker<Void, Void> {
 
     private void firstDFS(@NotNull Vertex vertex) {
         vertex.setVisited(true);
+        firePropertyChange(MARK_VERTEX, null, vertex);
         firePropertyChange(ADD_TEXT, null, "    " + vertex.getId() + " is visited" +
                 System.lineSeparator());
+        sleepOrWait();
 
         for (Vertex neighbour : vertex.getAdjacencyList()) {
             if (!neighbour.isVisited()) {
                 firePropertyChange(ADD_TEXT, null,
                         "      go to " + neighbour.getId() + System.lineSeparator());
+                firePropertyChange(MARK_EDGE, vertex, neighbour);
+                sleepOrWait();
                 firstDFS(neighbour);
+                firePropertyChange(UNMARK_EDGE, vertex, neighbour);
             }
         }
 
+        sleepOrWait();
+        firePropertyChange(UNMARK_VERTEX, null, vertex);
         orderList.addFirst(vertex);
     }
 

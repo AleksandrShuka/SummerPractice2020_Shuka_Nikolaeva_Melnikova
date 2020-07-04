@@ -1,7 +1,6 @@
 package GUI;
 
 import javax.swing.*;
-import java.awt.*;
 
 
 public class ScrollTextPane extends JScrollPane {
@@ -12,12 +11,12 @@ public class ScrollTextPane extends JScrollPane {
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
 
-        setBackground(new Color(0xB0B0BB));
+        setBackground(Colors.getSecondBackgroundColor());
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         textArea.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         setViewportView(textArea);
-        textArea.setBackground(new Color(0xE6E6FA));
+        textArea.setBackground(Colors.getFirstBackgroundColor());
     }
 
     public void addText(String text) {
