@@ -91,6 +91,14 @@ public class Graph extends mxGraph {
         }
     }
 
+    public void paintDefault() {
+        for (Object cell : cells.values()) {
+            for (Map.Entry<String, Object> entry : getStylesheet().getDefaultVertexStyle().entrySet()) {
+                ((mxCell) cell).setStyle(entry.getKey() + "=" + entry.getValue());
+            }
+        }
+    }
+
     public void clear() {
         removeCells(getAllVertex());
         count = 0;
