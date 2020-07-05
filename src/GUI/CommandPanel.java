@@ -17,6 +17,7 @@ import java.io.IOException;
  * @value clearButton - кнопка для очищения окна
  * @value stopButton - кнопка для остановки работы алгоритма
  * @value pauseButton - кнопка, с помощью которой визуализацию можно поставить на паузу
+ * @value progressBar - прогресс-бар, которой показывает текущий уровень скорости алгоритма
  * @see JPanel
  * <p>
  * Содержит в себе экземпляры класса {@code JButton}:
@@ -32,6 +33,7 @@ public class CommandPanel extends JPanel {
     private final JButton clearButton;
     private final JButton stopButton;
     private final JButton pauseButton;
+    private JProgressBar progressBar;
 
     /**
      * Конструктор панели, который инициализирует переменные,
@@ -68,6 +70,7 @@ public class CommandPanel extends JPanel {
         JLabel speedLabel = new JLabel("Speed:");
         increaseSpeedButton = new JButton(iconPlus);
         decreaseSpeedButton = new JButton(iconMinus);
+        progressBar = new JProgressBar();
 
         startButton.setAlignmentX(CENTER_ALIGNMENT);
         pauseButton.setAlignmentX(CENTER_ALIGNMENT);
@@ -110,6 +113,8 @@ public class CommandPanel extends JPanel {
         increaseSpeedButton.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
         decreaseSpeedButton.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
+        progressBar.setStringPainted(true);
+
         speedLabel.setBackground(Colors.getSecondBackgroundColor());
         speedPanel.setBackground(Colors.getSecondBackgroundColor());
 
@@ -127,6 +132,8 @@ public class CommandPanel extends JPanel {
         add(stopButton);
         add(Box.createVerticalGlue());
         add(speedPanel);
+        add(Box.createVerticalStrut(5));
+        add(progressBar);
         add(Box.createVerticalGlue());
         add(Box.createVerticalGlue());
         add(Box.createVerticalGlue());
@@ -207,5 +214,14 @@ public class CommandPanel extends JPanel {
      */
     public JButton getIncreaseSpeedButton() {
         return increaseSpeedButton;
+    }
+
+    /**
+     * Возвращает {@code progressBar}.
+     *
+     * @return прогресс-бар, которой показывает текущий уровень скорости алгоритма.
+     */
+    public JProgressBar getProgressBar() {
+        return progressBar;
     }
 }

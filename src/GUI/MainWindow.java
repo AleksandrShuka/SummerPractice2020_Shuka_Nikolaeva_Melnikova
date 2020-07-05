@@ -141,9 +141,21 @@ public class MainWindow extends JFrame {
     }
 
     private void initCommandPanel() {
-        commandPanel.getIncreaseSpeedButton().addActionListener(e -> algorithm.decreaseDelay());
+        commandPanel.getProgressBar().setMinimum(0);
+        commandPanel.getProgressBar().setMaximum(Algorithm.MAX_DELAY - Algorithm.MIN_DELAY);
+        commandPanel.getProgressBar().setValue((Algorithm.MAX_DELAY - Algorithm.MIN_DELAY) / 2);
 
-        commandPanel.getDecreaseSpeedButton().addActionListener(e -> algorithm.increaseDelay());
+        commandPanel.getIncreaseSpeedButton().addActionListener(e -> {
+            algorithm.decreaseDelay();
+            int value = commandPanel.getProgressBar().getValue();
+            commandPanel.getProgressBar().setValue(value + Algorithm.DELTA_DELAY);
+        });
+
+        commandPanel.getDecreaseSpeedButton().addActionListener(e -> {
+            algorithm.increaseDelay();
+            int value = commandPanel.getProgressBar().getValue();
+            commandPanel.getProgressBar().setValue(value - Algorithm.DELTA_DELAY);
+        });
 
         commandPanel.getStopButton().addActionListener(e -> {
             algorithm.cancel(true);
