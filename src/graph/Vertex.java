@@ -1,6 +1,7 @@
 package graph;
 
 import logger.Logs;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,7 +109,7 @@ public class Vertex {
      *
      * @param adjacencyList список смежных вершин.
      */
-    public void setAdjacencyList(List<Vertex> adjacencyList) {
+    public void setAdjacencyList(@NotNull List<Vertex> adjacencyList) {
         Logs.writeToLog("Vertex number " + this.id + " added adjacent vertices " + adjacencyList.toString());
 
         this.adjacencyList = adjacencyList;
@@ -139,7 +140,7 @@ public class Vertex {
      *
      * @param vertex смежная вершина.
      */
-    public void addNeighbour(Vertex vertex) {
+    public void addNeighbour(@NotNull Vertex vertex) {
         Logs.writeToLog("Vertex number " + this.id + " added neighbour vertex " + vertex.id);
         this.adjacencyList.add(vertex);
     }

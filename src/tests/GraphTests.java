@@ -35,47 +35,48 @@ public class GraphTests {
         graph = new Graph(vertexList, edgeList);
     }
 
-
     @Test
-    public void testGraph() throws Exception{
+    public void testGraph() {
         Assertions.assertEquals(vertexList, graph.getVertexList());
         Assertions.assertEquals(edgeList, graph.getEdgeList());
     }
 
     @BeforeEach
-    public void BTestSetGetVertexList(){
+    public void BTestSetGetVertexList() {
         Vertex vertex4 = new Vertex(4);
         vertexList.add(vertex4);
         graph.setVertexList(vertexList);
     }
 
     @Test
-    public void testSetGetVertexList() throws Exception{
+    public void testSetGetVertexList() {
         Assertions.assertEquals(vertexList, graph.getVertexList());
     }
 
     @BeforeEach
-    public void BTestSetGetEdgeList(){
+    public void BTestSetGetEdgeList() {
         edgeList.add(new Edge(vertex1, vertex3));
         graph.setEdgeList(edgeList);
     }
 
     @Test
-    public void testSetGetEdgeList() throws Exception{
+    public void testSetGetEdgeList() {
         Assertions.assertEquals(edgeList, graph.getEdgeList());
     }
 
     @BeforeEach
-    public void BTestGetTransposedGraph(){
+    public void BTestGetTransposedGraph() {
         graph1 = graph.getTransposedGraph();
     }
+
     @Test
-    public void testGetTransposedGraph() throws Exception{
-        Assertions.assertEquals(true, graph1.getEdgeList().get(0).getTargetVertex()==graph.getEdgeList().get(0).getSourceVertex());
+    public void testGetTransposedGraph() throws Exception {
+        Assertions.assertSame(graph1.getEdgeList().get(0).getTargetVertex(),
+                graph.getEdgeList().get(0).getSourceVertex());
     }
 
     @AfterAll
-    public void ATest(){
+    public void ATest() {
 
     }
 }
