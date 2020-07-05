@@ -47,6 +47,14 @@ public class MenuBar extends JMenuBar {
         return open;
     }
 
+    public JMenuItem getHelp() {
+        return help;
+    }
+
+    public JMenuItem getAbout() {
+        return about;
+    }
+
     private static class ExitAction extends AbstractAction {
         ExitAction() {
             putValue(NAME, "Exit");
