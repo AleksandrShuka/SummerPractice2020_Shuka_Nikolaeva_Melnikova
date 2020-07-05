@@ -20,23 +20,67 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-
+/**
+ * Класс основного окна. Наследуется от JFrame
+ * @see JFrame
+ *
+ * Содержит в себе: алгоритм {@code algorithm}, коммандную панель {@code commandPanel}, граф {@code graph},
+ * меню {@code menuBar}, текстовое поле {@code scrollTextPane}, {@code layout},
+ * {@code graphComponent}, длину {@code height} и ширину {@code width}.
+ *
+ * Имеет метод инициализации {@code init}, а также методы инициализации меню {@code initMenuBar}, текстового
+ * поля {@code initScrollTextPane}, графа {@code initGraph}, коммандной панели {@code initCommandPanel} и
+ * алгоритма {@code initAlgorithm}.
+ * Содержит метод для установки состояния кнопкам при остановке {@code setButtonsStateWhenStop}
+ */
 public class MainWindow extends JFrame {
+    /**
+     * Алгоритм.
+     */
     private Algorithm algorithm;
+    /**
+     * Коммандная панель.
+     */
     private CommandPanel commandPanel;
+    /**
+     * Граф.
+     */
     private Graph graph;
+    /**
+     * Меню.
+     */
     private MenuBar menuBar;
+    /**
+     * Прокручивающееся текстовое поле.
+     */
     private ScrollTextPane scrollTextPane;
+    /**
+     * Поле, значением которого будет true в случае, когда выполнение поставлено на паузу.
+     */
     private boolean isPaused;
+    /**
+     * Высота окна.
+     */
     private int height;
+    /**
+     * Ширина окна.
+     */
     private int width;
     private mxCircleLayout layout;
     private mxGraphComponent graphComponent;
 
+    /**
+     * Конструктор. Вызывает метод инициализации {@code init}.
+     */
     public MainWindow() {
         init();
     }
 
+    /**
+     * Метод инициализации. Инициализирует поля класса, устанавливает минимальный размер окна.
+     * Вызывает методы инициализации графа, коммандной панели, меню и текстового поля.
+     * Устанавливает меню, добавляет текстовое поле, команндную панель.
+     */
     private void init() {
         setTitle("Kosaraju's algorithm visualizer");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -66,6 +110,9 @@ public class MainWindow extends JFrame {
         add(commandPanel);
     }
 
+    /**
+     * Метод инициализации меню. Добавляет слушателей для кнопок Open, About, Help.
+     */
     private void initMenuBar() {
         menuBar.getOpen().addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
@@ -134,6 +181,9 @@ public class MainWindow extends JFrame {
         });
     }
 
+    /**
+     * Метод инициализации текстового поля. Задает свойства поля.
+     */
     private void initScrollTextPane() {
         scrollTextPane.getTextArea().setFocusable(false);
         scrollTextPane.setMaximumSize(new Dimension(width / 5, height));
@@ -141,6 +191,9 @@ public class MainWindow extends JFrame {
         scrollTextPane.setPreferredSize(new Dimension(width / 5, height));
     }
 
+    /**
+     * Метод инициализации графа. Добавляет слушателей. Задает свойства graphComponent (цвет, размер, границы).
+     */
     private void initGraph() {
         layout = new mxCircleLayout(graph);
 
@@ -182,6 +235,10 @@ public class MainWindow extends JFrame {
         graphComponent.setMaximumSize(new Dimension(width, height));
     }
 
+    /**
+     * Метод, инициализирующий коммандную панель. Задает свойства коммандной панели. Добавляет слушателей для
+     * кнопки увеличения/уменьшения скорости, остановки, добавления вершины, отчистки графа, паузы, удаления, старта.
+     */
     private void initCommandPanel() {
         commandPanel.getProgressBar().setMinimum(0);
         commandPanel.getProgressBar().setMaximum(Algorithm.MAX_DELAY + Algorithm.DELTA_DELAY);
@@ -268,6 +325,11 @@ public class MainWindow extends JFrame {
         commandPanel.setMaximumSize(new Dimension(width / 7, height));
     }
 
+    /**
+     * Метод, инициализирующий алгоритм. Добавляет слушателей для следующих событий:
+     * транспонирвоание графа, окончание работы алгоритма, добавление текста, помечания отработанной вершины, ребра,
+     * отчистки текстового поля.
+     */
     private void initAlgorithm() {
         algorithm.addPropertyChangeListener(evt -> {
             if (evt.getPropertyName().equals(Algorithm.TRANSPOSE_GRAPH)) {
@@ -343,6 +405,11 @@ public class MainWindow extends JFrame {
         });
     }
 
+    /**
+     * Метод, устанавливающий статус кнопкам во время остановки.
+     *
+     * @param isStop {@code true}, если работа алгоритма остановлена.
+     */
     private void setButtonsStateWhenStop(boolean isStop) {
         commandPanel.getIncreaseSpeedButton().setEnabled(!isStop);
         commandPanel.getDecreaseSpeedButton().setEnabled(!isStop);
@@ -355,6 +422,9 @@ public class MainWindow extends JFrame {
         commandPanel.getStartButton().setEnabled(isStop);
     }
 
+    /**
+     * Метод, перерисовывающий граф.
+     */
     private void executeGraph() {
         graph.setCellsMovable(true);
         graph.refresh();
@@ -363,6 +433,11 @@ public class MainWindow extends JFrame {
         graph.setCellsMovable(false);
     }
 
+    /**
+     * Метод создания алгоритмического графа на основе визуализированного.
+     *
+     * @return алгоритмический граф.
+     */
     @Contract(" -> new")
     private graph.@NotNull Graph createGraph() {
         Map<Integer, Vertex> vertexMap = new HashMap<>();
