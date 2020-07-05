@@ -13,15 +13,9 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.EditorKit;
-import javax.swing.text.html.HTML;
-import javax.swing.text.html.HTMLDocument;
-import javax.swing.text.html.HTMLEditorKit;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
@@ -111,23 +105,16 @@ public class MainWindow extends JFrame {
         });
 
         menuBar.getAbout().addActionListener(e -> {
-                Scanner scanner = new Scanner(getClass().getResourceAsStream("/HTML/about.html"));
-                StringBuilder sb = new StringBuilder();
-                while (scanner.hasNextLine()) {
-                    sb.append(scanner.nextLine());
-                }
-                JOptionPane.showMessageDialog(this,
-                        sb.toString(), "About", JOptionPane.PLAIN_MESSAGE);
+            Scanner scanner = new Scanner(getClass().getResourceAsStream("/HTML/about.html"));
+            StringBuilder sb = new StringBuilder();
+            while (scanner.hasNextLine()) {
+                sb.append(scanner.nextLine());
+            }
+            JOptionPane.showMessageDialog(this,
+                    sb.toString(), "About", JOptionPane.PLAIN_MESSAGE);
         });
 
         menuBar.getHelp().addActionListener(e -> {
-         //   Scanner scanner = new Scanner(getClass().getResource("/HTML/help.html"));
-       //     StringBuilder sb = new StringBuilder();
-
-          //  while (scanner.hasNextLine()) {
-        //        sb.append(scanner.nextLine());
-        //    }
-
             JEditorPane editorPane = null;
             try {
                 editorPane = new JEditorPane(getClass().getResource("/HTML/help.html"));
@@ -140,7 +127,7 @@ public class MainWindow extends JFrame {
             editorPane.setMaximumSize(new Dimension(width / 2, height / 2));
 
             JScrollPane scrollPane = new JScrollPane(editorPane);
-            scrollPane.setPreferredSize(new Dimension(width / 2, 2 * height  / 3));
+            scrollPane.setPreferredSize(new Dimension(width / 2, 2 * height / 3));
             editorPane.setBackground(new Color(0xEEEEEE));
             JOptionPane.showMessageDialog(this,
                     scrollPane, "Help", JOptionPane.PLAIN_MESSAGE);
