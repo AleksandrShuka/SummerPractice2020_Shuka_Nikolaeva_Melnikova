@@ -1,5 +1,6 @@
 package graph;
 
+import logger.Logs;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -78,6 +79,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
      */
     public Algorithm(@NotNull Graph graph) {
         this.componentsString = new StringBuilder();
+        Logs.writeToLog("Called Algorithm constructor");
         this.isRun = new AtomicBoolean(true);
         this.delay = new AtomicInteger((MAX_DELAY + MIN_DELAY) / 2);
         this.graph = graph;
@@ -99,17 +101,21 @@ public class Algorithm extends SwingWorker<Void, Void> {
     protected Void doInBackground() {
         try {
             firePropertyChange(CLEAR_TEXT_PANE, null, null);
+            Logs.writeToLog("Start working");
             firePropertyChange(ADD_TEXT, null, "START ALGORITHM" + System.lineSeparator());
 
             if (graph.getVertexList().size() == 0) {
+                Logs.writeToLog("Error: graph is empty!");
                 firePropertyChange(ADD_TEXT, null, "Error: graph is empty!" + System.lineSeparator());
                 return null;
             }
 
+            Logs.writeToLog("FIRST DFS STARTED");
             firePropertyChange(ADD_TEXT, null, "FIRST DFS STARTED" + System.lineSeparator());
             for (Vertex vertex : graph.getVertexList()) {
                 if (!vertex.isVisited()) {
                     sleepOrWait();
+                    Logs.writeToLog(" Start from " + vertex.getId());
                     firePropertyChange(ADD_TEXT, null, " Start from " + vertex.getId() +
                             System.lineSeparator());
                     firstDFS(vertex);
@@ -117,6 +123,8 @@ public class Algorithm extends SwingWorker<Void, Void> {
             }
 
             sleepOrWait();
+            Logs.writeToLog( "List of vertexes in order of decreasing exit time: " + System.lineSeparator() +
+                    orderListToString());
             firePropertyChange(ADD_TEXT, null, System.lineSeparator() +
                     "List of vertexes in order of decreasing exit time: " + System.lineSeparator() +
                     orderListToString() + System.lineSeparator());
@@ -124,11 +132,13 @@ public class Algorithm extends SwingWorker<Void, Void> {
             unVisit(graph);
             transposeGraph();
 
+            Logs.writeToLog("SECOND DFS STARTED");
             firePropertyChange(ADD_TEXT, null, System.lineSeparator() + "SECOND DFS STARTED" +
                     System.lineSeparator());
             for (Vertex vertex : orderList) {
                 if (!vertex.isVisited()) {
                     sleepOrWait();
+                    Logs.writeToLog(" Start from " + vertex.getId() + " (" + (count + 1) + " component)");
                     firePropertyChange(ADD_TEXT, null, " Start from " + vertex.getId() +
                             " (" + (count + 1) + " component)" + System.lineSeparator());
 
@@ -158,12 +168,15 @@ public class Algorithm extends SwingWorker<Void, Void> {
      */
     private void transposeGraph() throws InterruptedException {
         sleepOrWait();
+        Logs.writeToLog("GRAPH TRANSPOSE STARTED");
         firePropertyChange(ADD_TEXT, null, System.lineSeparator() +
                 "GRAPH TRANSPOSE STARTED" + System.lineSeparator());
 
         sleepOrWait();
         graph = graph.getTransposedGraph();
         firePropertyChange(TRANSPOSE_GRAPH, null, null);
+        Logs.writeToLog("All edges of the graph were oriented in the opposite direction." + System.lineSeparator() +
+                "GRAPH TRANSPOSED");
         firePropertyChange(ADD_TEXT, null,
                 "All edges of the graph were oriented in the opposite direction." + System.lineSeparator() +
                         "GRAPH TRANSPOSED" + System.lineSeparator());
@@ -181,9 +194,11 @@ public class Algorithm extends SwingWorker<Void, Void> {
     protected void done() {
         try {
             get();
+            Logs.writeToLog( count + " STRONGLY CONNECTED COMPONENTS FOUND ");
             firePropertyChange(ADD_TEXT, null, System.lineSeparator() + count +
                     " STRONGLY CONNECTED COMPONENTS FOUND " +
                     System.lineSeparator());
+            Logs.writeToLog(componentsString.toString());
             firePropertyChange(ADD_TEXT, null, componentsString);
             firePropertyChange(ALGORITHM_ENDED, null, null);
         } catch (Exception e) {
@@ -202,12 +217,14 @@ public class Algorithm extends SwingWorker<Void, Void> {
         sleepOrWait();
         vertex.setVisited(true);
         firePropertyChange(MARK_VISITED_VERTEX, null, vertex);
+        Logs.writeToLog(vertex.getId() + " is visited");
         firePropertyChange(ADD_TEXT, null, "    " + vertex.getId() + " is visited" +
                 System.lineSeparator());
 
         for (Vertex neighbour : vertex.getAdjacencyList()) {
             if (!neighbour.isVisited()) {
                 sleepOrWait();
+                Logs.writeToLog("go to " + neighbour.getId());
                 firePropertyChange(ADD_TEXT, null,
                         "      go to " + neighbour.getId() + System.lineSeparator());
                 firePropertyChange(MARK_EDGE, vertex, neighbour);
@@ -216,6 +233,8 @@ public class Algorithm extends SwingWorker<Void, Void> {
         }
 
         sleepOrWait();
+        Logs.writeToLog("The vertex " + vertex.getId() +
+                " is worked out ");
         firePropertyChange(ADD_TEXT, null, "    The vertex " + vertex.getId() +
                 " is worked out " + System.lineSeparator());
         firePropertyChange(MARK_FINISHED_VERTEX, null, vertex);
@@ -234,6 +253,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
         sleepOrWait();
         vertex.setVisited(true);
         vertex.setComponentId(count);
+        Logs.writeToLog(vertex.getId() + " is visited ");
         firePropertyChange(ADD_TEXT, null, "    " + vertex.getId() + " is visited " +
                 System.lineSeparator());
         firePropertyChange(MARK_VISITED_VERTEX, count, vertex);
@@ -243,6 +263,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
             sleepOrWait();
             if (!neighbour.isVisited()) {
                 firePropertyChange(MARK_EDGE, vertex, neighbour);
+                Logs.writeToLog("go to " + neighbour.getId());
                 firePropertyChange(ADD_TEXT, null,
                         "      go to " + neighbour.getId() + System.lineSeparator());
 
@@ -251,6 +272,8 @@ public class Algorithm extends SwingWorker<Void, Void> {
             }
         }
 
+        Logs.writeToLog("The vertex " + vertex.getId() +
+                " is worked out ");
         firePropertyChange(ADD_TEXT, null, "    The vertex " + vertex.getId() +
                 " is worked out " + System.lineSeparator());
     }
@@ -263,6 +286,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
      * @see Algorithm#sleepOrWait()
      */
     public void setRun(boolean run) {
+        Logs.writeToLog("isRun changed from " + this.isRun + " to " + run);
         isRun.set(run);
     }
 
@@ -276,9 +300,11 @@ public class Algorithm extends SwingWorker<Void, Void> {
      */
     private synchronized void sleepOrWait() throws InterruptedException {
         if (isRun.get()) {
+            Logs.writeToLog("isRun - true");
             Thread.sleep(delay.get());
         }
         while (!isRun.get()) {
+            Logs.writeToLog("isRun - false. Wait");
             wait();
         }
     }
@@ -299,6 +325,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
      * @see Object#notifyAll()
      */
     public synchronized void unSleep() {
+        Logs.writeToLog("isRun is set to true");
         isRun.set(true);
         notifyAll();
     }
@@ -312,6 +339,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
      */
     private void unVisit(@NotNull Graph graph) throws InterruptedException {
         sleepOrWait();
+        Logs.writeToLog("All vertexes are marked as not visited.");
         firePropertyChange(ADD_TEXT, null, System.lineSeparator() +
                 "All vertexes are marked as not visited." + System.lineSeparator());
 
@@ -336,6 +364,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
         }
         string.append("]");
 
+        Logs.writeToLog("orderList created and returned");
         return string.toString();
     }
 
@@ -345,6 +374,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
     public void increaseDelay() {
         synchronized (this.delay) {
             if (delay.get() < MAX_DELAY - DELTA_DELAY) {
+                Logs.writeToLog("Delay increased");
                 delay.addAndGet(DELTA_DELAY);
             }
         }
@@ -356,6 +386,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
     public void decreaseDelay() {
         synchronized (this.delay) {
             if (delay.get() - DELTA_DELAY > MIN_DELAY) {
+                Logs.writeToLog("Delay decreased");
                 delay.addAndGet(-DELTA_DELAY);
             }
         }
