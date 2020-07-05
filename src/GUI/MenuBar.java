@@ -16,6 +16,8 @@ import java.awt.event.ActionEvent;
  * @value about - кнопка для вызова информации о программе.
  *
  * Содержит методы для создания меню File {@code createFileMenu} и меню Help {@code createHelpMenu}.
+ * А также методы, возвращающие значение полей:
+ * {@code getHelp}, {@code getAbout}, (@code getOpen}
  */
 public class MenuBar extends JMenuBar {
     private final JMenuItem open;
@@ -40,6 +42,12 @@ public class MenuBar extends JMenuBar {
     }
 
 
+    /**
+     * Метод, создающий {@code file} экземпляр класса JMenu. Добавляет в него {@code open}, {@code exit}.
+     * @see JMenu
+     *
+     * @return меню File
+     */
     private @NotNull JMenu createFileMenu() {
         JMenu file = new JMenu("File");
 
@@ -50,6 +58,12 @@ public class MenuBar extends JMenuBar {
         return file;
     }
 
+    /**
+     * Метод, создающий {@code help} экземпляр класса JMenu. Добавляет в него {@code help}, {@code about}.
+     * @see JMenu
+     *
+     * @return меню Help.
+     */
     private @NotNull JMenu createHelpMenu() {
         JMenu help = new JMenu("Help");
 
@@ -59,18 +73,37 @@ public class MenuBar extends JMenuBar {
         return help;
     }
 
+    /**
+     * Метод, возвращающий значение поля {@code open}.
+     *
+     * @return кнопка open.
+     */
     public JMenuItem getOpen() {
         return open;
     }
 
+    /**
+     * Метод, возвращающий значение поля {@code help}.
+     *
+     * @return кнопка kelp.
+     */
     public JMenuItem getHelp() {
         return help;
     }
 
+    /**
+     * Метод, возвращающий значение поля {@code about}.
+     *
+     * @return кнопка about.
+     */
     public JMenuItem getAbout() {
         return about;
     }
 
+    /**
+     * Класс-наследник AbstractAction, используется при инициализации кнопки {@code exit}.
+     * @see AbstractAction
+     */
     private static class ExitAction extends AbstractAction {
         ExitAction() {
             putValue(NAME, "Exit");
