@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 public class GraphTests {
     @BeforeAll
-    public void test(){
+    public void test() {
 
     }
 
