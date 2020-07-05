@@ -21,21 +21,21 @@ public class VertexTest {
     @Test
     public void testVertex() throws Exception{
         Vertex vertex = new Vertex(5);
-        Assertions.assertEquals(true,vertex.getId()==5);
+        Assertions.assertEquals(5, vertex.getId());
     }
 
     @Test
     public void testSetGetId() throws Exception{
         Vertex vertex = new Vertex(5);
         vertex.setId(1);
-        Assertions.assertEquals(1,vertex.getId());
+        Assertions.assertEquals(1, vertex.getId());
     }
 
     @Test
     public void testSetAndIsVisited() throws Exception{
         Vertex vertex = new Vertex(5);
         vertex.setVisited(true);
-        Assertions.assertEquals(true, vertex.isVisited());
+        Assertions.assertTrue(vertex.isVisited());
     }
 
     @BeforeEach
@@ -65,7 +65,7 @@ public class VertexTest {
     public void testAddNeighbour() throws Exception{
         Vertex v = new Vertex(1);
         v.addNeighbour(v);
-        Assertions.assertEquals( v, v.getAdjacencyList().get(v.getAdjacencyList().size()));
+        Assertions.assertEquals(v, v.getAdjacencyList().get(v.getAdjacencyList().size()));
     }
 
     @Test
@@ -73,6 +73,7 @@ public class VertexTest {
         Vertex v = new Vertex(1);
         v.setVisited(true);
         v.setComponentId(5);
-        Assertions.assertEquals("Vertex{id=1, isVisited=true, adjacencyList=[], componentId=5}", v.toString());
+        Assertions.assertEquals("Vertex{id=1, isVisited=true," +
+                " adjacencyList=[], componentId=5}", v.toString());
     }
 }

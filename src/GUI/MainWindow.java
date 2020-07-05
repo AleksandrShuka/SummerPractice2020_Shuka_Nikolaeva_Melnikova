@@ -14,12 +14,8 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.io.FileReader;
+import java.util.*;
 
 
 public class MainWindow extends JFrame {
@@ -67,12 +63,41 @@ public class MainWindow extends JFrame {
         add(commandPanel);
     }
 
-    //FIX
     private void initMenuBar() {
-        menuBar.getOpen().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //ДОБАВИТЬ ВВОД ИЗ ФАЙЛА
+        menuBar.getOpen().addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            int result = fileChooser.showOpenDialog(this);
+
+            if (result == JFileChooser.APPROVE_OPTION) {
+                try (FileReader fileReader = new FileReader(fileChooser.getSelectedFile())) {
+                    Scanner scanner = new Scanner(fileReader);
+
+                    Set<Pair<Integer, Integer>> edgeSet = new HashSet<>();
+
+                    int count = scanner.nextInt();
+
+                    if (count > Colors.size() || count < 0) {
+                        throw new IndexOutOfBoundsException("Incorrect count of vertexes");
+                    }
+
+                    while (scanner.hasNext()) {
+                        int source = scanner.nextInt();
+                        if (source >= Colors.size() || source < 0) {
+                            throw new IndexOutOfBoundsException("Incorrect source vertex: " + source);
+                        }
+                        int target = scanner.nextInt();
+                        if (target >= Colors.size() || target < 0) {
+                            throw new IndexOutOfBoundsException("Incorrect target vertex: " + target);
+                        }
+                        edgeSet.add(new Pair<>(source, target));
+                    }
+
+                    graph.createGraph(count, edgeSet);
+                    executeGraph();
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                    scrollTextPane.getTextArea().setText("Can't read data from file");
+                }
             }
         });
     }
@@ -116,11 +141,30 @@ public class MainWindow extends JFrame {
     }
 
     private void initCommandPanel() {
-        commandPanel.getIncreaseSpeedButton().addActionListener(e -> algorithm.decreaseDelay());
+        commandPanel.getProgressBar().setMinimum(0);
+        commandPanel.getProgressBar().setMaximum(Algorithm.MAX_DELAY + Algorithm.DELTA_DELAY);
+        commandPanel.getProgressBar().setValue((Algorithm.MAX_DELAY +
+                Algorithm.MIN_DELAY + Algorithm.DELTA_DELAY) / 2);
 
-        commandPanel.getDecreaseSpeedButton().addActionListener(e -> algorithm.increaseDelay());
+        commandPanel.getIncreaseSpeedButton().addActionListener(e -> {
+            algorithm.decreaseDelay();
+            int value = commandPanel.getProgressBar().getValue();
+            if (value + Algorithm.DELTA_DELAY <= Algorithm.MAX_DELAY) {
+                commandPanel.getProgressBar().setValue(value + Algorithm.DELTA_DELAY);
+            }
+        });
+
+        commandPanel.getDecreaseSpeedButton().addActionListener(e -> {
+            algorithm.increaseDelay();
+            int value = commandPanel.getProgressBar().getValue();
+            if (value - Algorithm.DELTA_DELAY > Algorithm.MIN_DELAY) {
+                commandPanel.getProgressBar().setValue(value - Algorithm.DELTA_DELAY);
+            }
+        });
 
         commandPanel.getStopButton().addActionListener(e -> {
+            commandPanel.getProgressBar().setValue((Algorithm.MAX_DELAY +
+                    Algorithm.MIN_DELAY + Algorithm.DELTA_DELAY) / 2);
             algorithm.cancel(true);
             graphComponent.setEnabled(true);
             isPaused = false;
@@ -166,6 +210,8 @@ public class MainWindow extends JFrame {
                 algorithm.unSleep();
                 isPaused = false;
             } else {
+                commandPanel.getProgressBar().setValue((Algorithm.MAX_DELAY +
+                        Algorithm.MIN_DELAY + Algorithm.DELTA_DELAY) / 2);
                 graph.paintDefault();
                 graph.save();
                 graphComponent.setEnabled(false);
@@ -190,6 +236,8 @@ public class MainWindow extends JFrame {
 
         algorithm.addPropertyChangeListener(evt -> {
             if (evt.getPropertyName().equals(Algorithm.ALGORITHM_ENDED)) {
+                commandPanel.getProgressBar().setValue((Algorithm.MAX_DELAY +
+                        Algorithm.MIN_DELAY + Algorithm.DELTA_DELAY) / 2);
                 for (Vertex vertex : algorithm.getGraph().getVertexList()) {
                     graph.paintVertex(vertex.getId(), Colors.get(vertex.getComponentId()));
                 }

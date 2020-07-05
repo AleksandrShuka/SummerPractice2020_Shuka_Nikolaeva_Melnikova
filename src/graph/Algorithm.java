@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
 
 /**
  * Класс, представляющий собой реализацию алгоритма поиска компонент
@@ -48,7 +49,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
     public static final String CLEAR_TEXT_PANE = "clearTextPane";
 
     public static final int MAX_DELAY = 2000;
-    public static final int MIN_DELAY = 100;
+    public static final int MIN_DELAY = 0;
     public static final int DELTA_DELAY = 100;
 
     private final AtomicBoolean isRun;
@@ -123,7 +124,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
             }
 
             sleepOrWait();
-            Logs.writeToLog( "List of vertexes in order of decreasing exit time: " + System.lineSeparator() +
+            Logs.writeToLog("List of vertexes in order of decreasing exit time: " + System.lineSeparator() +
                     orderListToString());
             firePropertyChange(ADD_TEXT, null, System.lineSeparator() +
                     "List of vertexes in order of decreasing exit time: " + System.lineSeparator() +
@@ -148,12 +149,11 @@ public class Algorithm extends SwingWorker<Void, Void> {
                     ++count;
                 }
             }
-
             unVisit(graph);
             transposeGraph();
             return null;
         } catch (Exception ignored) {
-
+            //ignored
         }
 
         return null;
@@ -194,7 +194,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
     protected void done() {
         try {
             get();
-            Logs.writeToLog( count + " STRONGLY CONNECTED COMPONENTS FOUND ");
+            Logs.writeToLog(count + " STRONGLY CONNECTED COMPONENTS FOUND ");
             firePropertyChange(ADD_TEXT, null, System.lineSeparator() + count +
                     " STRONGLY CONNECTED COMPONENTS FOUND " +
                     System.lineSeparator());
@@ -231,7 +231,6 @@ public class Algorithm extends SwingWorker<Void, Void> {
                 firstDFS(neighbour);
             }
         }
-
         sleepOrWait();
         Logs.writeToLog("The vertex " + vertex.getId() +
                 " is worked out ");
@@ -266,12 +265,10 @@ public class Algorithm extends SwingWorker<Void, Void> {
                 Logs.writeToLog("go to " + neighbour.getId());
                 firePropertyChange(ADD_TEXT, null,
                         "      go to " + neighbour.getId() + System.lineSeparator());
-
                 componentsString.append(", ");
                 secondDFS(neighbour);
             }
         }
-
         Logs.writeToLog("The vertex " + vertex.getId() +
                 " is worked out ");
         firePropertyChange(ADD_TEXT, null, "    The vertex " + vertex.getId() +
@@ -353,6 +350,12 @@ public class Algorithm extends SwingWorker<Void, Void> {
         }
     }
 
+    /**
+     * Метод, возвращающий строковое предсставление {@code orderList}
+     * в определенном формате.
+     *
+     * @return строковое представление {@code orderList}.
+     */
     private @NotNull String orderListToString() {
         StringBuilder string = new StringBuilder("[");
 
@@ -373,11 +376,20 @@ public class Algorithm extends SwingWorker<Void, Void> {
      */
     public void increaseDelay() {
         synchronized (this.delay) {
-            if (delay.get() < MAX_DELAY - DELTA_DELAY) {
+            if (delay.get() <= MAX_DELAY - DELTA_DELAY) {
                 Logs.writeToLog("Delay increased");
                 delay.addAndGet(DELTA_DELAY);
             }
         }
+    }
+
+    /**
+     * Метод, возвращающий количество компонент сильной связности {@code count}.
+     *
+     * @return количество компонент сильной связности.
+     */
+    public int getCount() {
+        return count;
     }
 
     /**
