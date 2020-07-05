@@ -113,6 +113,7 @@ public class MainWindow extends JFrame {
 
     private void initGraph() {
         layout = new mxCircleLayout(graph);
+
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -123,6 +124,7 @@ public class MainWindow extends JFrame {
                 executeGraph();
             }
         });
+
         graphComponent.getViewport().setBackground(Colors.getSecondBackgroundColor());
         graphComponent.setBackground(Colors.getSecondBackgroundColor());
         graphComponent.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));

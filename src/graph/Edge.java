@@ -1,6 +1,7 @@
 package graph;
 
 import logger.Logs;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Класс, представляющий собой ориентированное ребро графа.
@@ -30,7 +31,7 @@ public class Edge {
      *
      * @param (startVertex,targetVertex) начальная и конечная вершина.
      */
-    public Edge(Vertex startVertex, Vertex targetVertex) {
+    public Edge(@NotNull Vertex startVertex, @NotNull Vertex targetVertex) {
         Logs.writeToLog("Created edge from vertex " + startVertex.getId() + " to vertex " +
                 targetVertex.getId());
 
