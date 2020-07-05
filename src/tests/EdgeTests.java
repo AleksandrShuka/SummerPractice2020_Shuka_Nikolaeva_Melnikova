@@ -8,13 +8,15 @@ import org.junit.jupiter.api.Test;
 
 public class EdgeTests {
     @Test
-    public Edge testEdge() throws Exception{
+    public Edge testEdge() {
         Vertex start = new Vertex(5);
         Vertex end = new Vertex(6);
         Edge edge = new Edge(start, end);
-        Assertions.assertEquals(true, start.getId() == edge.getSourceVertex().getId() && end.getId() == edge.getTargetVertex().getId());
+        Assertions.assertTrue(start.getId() == edge.getSourceVertex().getId() &&
+                end.getId() == edge.getTargetVertex().getId());
         return edge;
     }
+
     @Test
     public void testSetGetSourceVertex() {
         Vertex v1 = new Vertex(5);
@@ -22,7 +24,7 @@ public class EdgeTests {
         Vertex source = new Vertex(3);
         Edge edge = new Edge(v1, v2);
         edge.setSourceVertex(source);
-        Assertions.assertEquals(true, source==edge.getSourceVertex());
+        Assertions.assertSame(source, edge.getSourceVertex());
     }
 
     @Test
@@ -32,7 +34,7 @@ public class EdgeTests {
         Vertex vertex = new Vertex(3);
         Edge edge = new Edge(v1, v2);
         edge.setTargetVertex(vertex);
-        Assertions.assertEquals(true, vertex==edge.getTargetVertex());
+        Assertions.assertSame(vertex, edge.getTargetVertex());
     }
 
     @Test
@@ -40,6 +42,7 @@ public class EdgeTests {
         Vertex v1 = new Vertex(5);
         Vertex v2 = new Vertex(6);
         Edge edge = new Edge(v1, v2);
-        Assertions.assertEquals(true, edge.toString() == (edge.getSourceVertex().toString()+edge.getTargetVertex().toString()));
+        Assertions.assertSame(edge.toString(),
+                (edge.getSourceVertex().toString() + edge.getTargetVertex().toString()));
     }
 }

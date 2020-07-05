@@ -1,8 +1,8 @@
 package tests;
 
 public class RunTests {
-    public void run (){
-        try{
+    public void run() {
+        try {
             VertexTest vertexTest = new VertexTest();
             vertexTest.testVertex();
             vertexTest.testSetGetId();
@@ -24,7 +24,7 @@ public class RunTests {
             graphTests.testSetGetVertexList();
             graphTests.testGetTransposedGraph();
 
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
