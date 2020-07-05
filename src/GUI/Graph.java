@@ -10,8 +10,9 @@ import java.util.*;
 /**
  * Класс, представляющий собой граф.
  * Наследуется от {@code mxGraph}.
- *
+ * <p>
  * Содержит в себе:
+ *
  * @value savedCellStyles - словарь для сохранения исходных стилей вершин
  * @value savedEdges - словарь для сохранения исходных ребер
  * @value cells - словарь вершин
@@ -123,7 +124,7 @@ public class Graph extends mxGraph {
     /**
      * Метод для раскрашивания вершины с индексом {@code id} в цвет {@code color}
      *
-     * @param id - индекс вершины
+     * @param id    - индекс вершины
      * @param color - строковое представление цвета для окрашивания вершины.
      */
     public void paintVertex(int id, String color) {
@@ -136,7 +137,7 @@ public class Graph extends mxGraph {
      *
      * @param idSource - индекс начальной вершины ребра
      * @param idTarget - индекс конечной вершины ребра
-     * @param color - строковое представление цвета для окрашивания ребра
+     * @param color    - строковое представление цвета для окрашивания ребра
      */
     public void paintEdge(int idSource, int idTarget, String color) {
         Object[] edges = getEdgesBetween(cells.get(idSource), cells.get(idTarget), true);
@@ -201,17 +202,22 @@ public class Graph extends mxGraph {
         }
     }
 
-    public void createGraph(int count, Set<Pair<Integer, Integer>> edgeList) {
+    /**
+     * Метод для создания графа по известному количеству вершин {@code count} и множеству
+     * рёбер {@code edgeSet}.
+     *
+     * @param count   - количество вершин
+     * @param edgeSet - множество рёбер
+     */
+    public void createGraph(int count, Set<Pair<Integer, Integer>> edgeSet) {
         clear();
-
         for (int i = 0; i < count; ++i) {
             insertVertex();
         }
 
-        for (Pair<Integer, Integer> elem : edgeList) {
+        for (Pair<Integer, Integer> elem : edgeSet) {
             insertEdge(getDefaultParent(), null, null, cells.get(elem.first),
                     cells.get(elem.second));
         }
-
     }
 }
