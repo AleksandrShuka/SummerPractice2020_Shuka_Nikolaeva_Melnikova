@@ -14,6 +14,8 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.FileReader;
 import java.util.*;
 
@@ -111,8 +113,16 @@ public class MainWindow extends JFrame {
 
     private void initGraph() {
         layout = new mxCircleLayout(graph);
-        layout.setX0(((double) width) / 20);
-        layout.setY0(((double) height) / 30);
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                int radius = Math.min(graphComponent.getHeight(), graphComponent.getWidth()) / 2 - 40;
+                layout.setRadius(radius);
+                layout.setX0(graphComponent.getWidth() / 2.0 - radius - 30);
+                layout.setY0(graphComponent.getHeight() / 2.0 - radius - 30);
+                executeGraph();
+            }
+        });
         graphComponent.getViewport().setBackground(Colors.getSecondBackgroundColor());
         graphComponent.setBackground(Colors.getSecondBackgroundColor());
         graphComponent.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
