@@ -5,10 +5,7 @@ import com.mxgraph.model.mxICell;
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.view.mxGraph;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Класс, представляющий собой граф.
@@ -186,5 +183,19 @@ public class Graph extends mxGraph {
             insertEdge(getDefaultParent(), null, null, key,
                     savedEdges.get(key));
         }
+    }
+
+    public void createGraph(int count, Set<Pair<Integer, Integer>> edgeList) {
+        clear();
+
+        for (int i = 0; i < count; ++i) {
+            insertVertex();
+        }
+
+        for (Pair<Integer, Integer> elem : edgeList) {
+            insertEdge(getDefaultParent(), null, null, cells.get(elem.first),
+                    cells.get(elem.second));
+        }
+
     }
 }
