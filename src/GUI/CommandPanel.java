@@ -113,7 +113,7 @@ public class CommandPanel extends JPanel {
         increaseSpeedButton.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
         decreaseSpeedButton.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
-        progressBar.setStringPainted(true);
+       // progressBar.setStringPainted(true);
 
         speedLabel.setBackground(Colors.getSecondBackgroundColor());
         speedPanel.setBackground(Colors.getSecondBackgroundColor());

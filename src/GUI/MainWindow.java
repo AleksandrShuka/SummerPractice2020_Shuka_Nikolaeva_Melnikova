@@ -142,22 +142,29 @@ public class MainWindow extends JFrame {
 
     private void initCommandPanel() {
         commandPanel.getProgressBar().setMinimum(0);
-        commandPanel.getProgressBar().setMaximum(Algorithm.MAX_DELAY - Algorithm.MIN_DELAY);
-        commandPanel.getProgressBar().setValue((Algorithm.MAX_DELAY - Algorithm.MIN_DELAY) / 2);
+        commandPanel.getProgressBar().setMaximum(Algorithm.MAX_DELAY + Algorithm.DELTA_DELAY);
+        commandPanel.getProgressBar().setValue((Algorithm.MAX_DELAY +
+                Algorithm.MIN_DELAY + Algorithm.DELTA_DELAY) / 2);
 
         commandPanel.getIncreaseSpeedButton().addActionListener(e -> {
             algorithm.decreaseDelay();
             int value = commandPanel.getProgressBar().getValue();
-            commandPanel.getProgressBar().setValue(value + Algorithm.DELTA_DELAY);
+            if (value + Algorithm.DELTA_DELAY <= Algorithm.MAX_DELAY) {
+                commandPanel.getProgressBar().setValue(value + Algorithm.DELTA_DELAY);
+            }
         });
 
         commandPanel.getDecreaseSpeedButton().addActionListener(e -> {
             algorithm.increaseDelay();
             int value = commandPanel.getProgressBar().getValue();
-            commandPanel.getProgressBar().setValue(value - Algorithm.DELTA_DELAY);
+            if (value - Algorithm.DELTA_DELAY > Algorithm.MIN_DELAY) {
+                commandPanel.getProgressBar().setValue(value - Algorithm.DELTA_DELAY);
+            }
         });
 
         commandPanel.getStopButton().addActionListener(e -> {
+            commandPanel.getProgressBar().setValue((Algorithm.MAX_DELAY +
+                    Algorithm.MIN_DELAY + Algorithm.DELTA_DELAY) / 2);
             algorithm.cancel(true);
             graphComponent.setEnabled(true);
             isPaused = false;
@@ -203,6 +210,8 @@ public class MainWindow extends JFrame {
                 algorithm.unSleep();
                 isPaused = false;
             } else {
+                commandPanel.getProgressBar().setValue((Algorithm.MAX_DELAY +
+                        Algorithm.MIN_DELAY + Algorithm.DELTA_DELAY) / 2);
                 graph.paintDefault();
                 graph.save();
                 graphComponent.setEnabled(false);
@@ -227,6 +236,8 @@ public class MainWindow extends JFrame {
 
         algorithm.addPropertyChangeListener(evt -> {
             if (evt.getPropertyName().equals(Algorithm.ALGORITHM_ENDED)) {
+                commandPanel.getProgressBar().setValue((Algorithm.MAX_DELAY +
+                        Algorithm.MIN_DELAY + Algorithm.DELTA_DELAY) / 2);
                 for (Vertex vertex : algorithm.getGraph().getVertexList()) {
                     graph.paintVertex(vertex.getId(), Colors.get(vertex.getComponentId()));
                 }
