@@ -48,7 +48,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
     public static final String CLEAR_TEXT_PANE = "clearTextPane";
 
     public static final int MAX_DELAY = 2000;
-    public static final int MIN_DELAY = 100;
+    public static final int MIN_DELAY = 0;
     public static final int DELTA_DELAY = 100;
 
     private final AtomicBoolean isRun;
@@ -375,7 +375,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
      */
     public void increaseDelay() {
         synchronized (this.delay) {
-            if (delay.get() < MAX_DELAY - DELTA_DELAY) {
+            if (delay.get() <= MAX_DELAY - DELTA_DELAY) {
                 Logs.writeToLog("Delay increased");
                 delay.addAndGet(DELTA_DELAY);
             }
