@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 public class EdgeTests {
     @Test
-    public Edge testEdge() throws Exception{
+    public Edge testEdge() throws Exception {
         Vertex start = new Vertex(5);
         Vertex end = new Vertex(6);
         Edge edge = new Edge(start, end);
@@ -29,7 +29,7 @@ public class EdgeTests {
     }
 
     @Test
-    public void tesSetGetTargetVertex() {
+    public void testSetGetTargetVertex() {
         Vertex v1 = new Vertex(5);
         Vertex v2 = new Vertex(6);
         Vertex vertex = new Vertex(3);

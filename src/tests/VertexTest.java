@@ -8,10 +8,8 @@ import org.junit.jupiter.api.Test;
 import java.util.LinkedList;
 
 public class VertexTest {
-    LinkedList<Vertex> vertexList;
-    Vertex v1;
-    Vertex v2;
-    Vertex v3;
+    private LinkedList<Vertex> vertexList;
+    private Vertex v2;
 
     @BeforeEach
     public static void BTestVertex() {
@@ -40,9 +38,9 @@ public class VertexTest {
 
     @BeforeEach
     public void BTestSetGetAdjacencyList() {
-        v1 = new Vertex(1);
+        Vertex v1 = new Vertex(1);
         v2 = new Vertex(2);
-        v3 = new Vertex(3);
+        Vertex v3 = new Vertex(3);
         vertexList = new LinkedList<>();
         vertexList.add(v1);
         vertexList.add(v3);
