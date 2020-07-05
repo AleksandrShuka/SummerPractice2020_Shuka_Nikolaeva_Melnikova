@@ -20,8 +20,9 @@ import java.io.IOException;
  * @value progressBar - прогресс-бар, которой показывает текущий уровень скорости алгоритма
  * @see JPanel
  * <p>
- * Содержит в себе экземпляры класса {@code JButton}:
+ * Содержит в себе экземпляры класса {@code JButton} и {@code JProgressBar}:
  * @see JButton
+ * @see JProgressBar
  */
 
 public class CommandPanel extends JPanel {
@@ -33,7 +34,7 @@ public class CommandPanel extends JPanel {
     private final JButton clearButton;
     private final JButton stopButton;
     private final JButton pauseButton;
-    private JProgressBar progressBar;
+    private final JProgressBar progressBar;
 
     /**
      * Конструктор панели, который инициализирует переменные,
@@ -112,8 +113,6 @@ public class CommandPanel extends JPanel {
 
         increaseSpeedButton.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
         decreaseSpeedButton.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
-
-       // progressBar.setStringPainted(true);
 
         speedLabel.setBackground(Colors.getSecondBackgroundColor());
         speedPanel.setBackground(Colors.getSecondBackgroundColor());
