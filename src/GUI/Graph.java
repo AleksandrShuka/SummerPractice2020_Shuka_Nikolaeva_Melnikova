@@ -14,6 +14,7 @@ import java.util.TreeSet;
  * Класс, представляющий собой граф.
  * Наследуется от {@code mxGraph}.
  *
+ * Содержит в себе:
  * @value savedCellStyles - словарь для сохранения исходных стилей вершин
  * @value savedEdges - словарь для сохранения исходных ребер
  * @value cells - словарь вершин
@@ -38,8 +39,8 @@ public class Graph extends mxGraph {
     private int count;
 
     /**
-     * Конструктор графа, который инициализирует переменные,
-     * устанавливает свойства и задает стиль вершин и рёбер по умолчанию.
+     * Конструктор графа.
+     * Инициализирует переменные, устанавливает свойства и задает стиль вершин и рёбер по умолчанию.
      */
     public Graph() {
         savedCellStyles = new HashMap<>();
@@ -69,9 +70,9 @@ public class Graph extends mxGraph {
     }
 
     /**
-     * добавляет вешину в граф.
-     * Если в удаленных вершинах нет вершин, то добавлет новую вершину со значением count,
-     * иначе добавляет первую из удаленных
+     * Метод для добавления вершины в граф.
+     * Добавление происходит следующим образом: если множество удаленных вершин пусто,
+     * то добавляется новая вершина со значением {@code id} count, иначе добавляется первая среди удаленных.
      */
     public void insertVertex() {
         if (removedCells.isEmpty()) {
@@ -87,7 +88,9 @@ public class Graph extends mxGraph {
     }
 
     /**
-     * удаляет вершину по индексу
+     * Метод для удаления вершины по индексу {@code index}.
+     *
+     * @param index - индекс вершины в графе.
      */
     public void deleteVertex(int index) {
         removeCells(new Object[]{cells.get(index)});
@@ -96,14 +99,17 @@ public class Graph extends mxGraph {
     }
 
     /**
-     * возвращает массив всех вершин в графе
+     * Метод для возвращения массива всех вершин в графе.
+     *
+     * @return массив всех вершин графа.
      */
     public Object[] getAllVertex() {
         return cells.values().toArray();
     }
 
     /**
-     * транспонирует
+     * Метод, транспонирующий исходный граф.
+     * Изменяет направление всех ребер графа на противоположное.
      */
     public void transpose() {
         for (Object vertex : getAllVertex()) {
@@ -118,14 +124,22 @@ public class Graph extends mxGraph {
     }
 
     /**
-     * раскрашивает вершину с индексом id в цвет color
+     * Метод для раскрашивания вершины с индексом {@code id} в цвет {@code color}
+     *
+     * @param id - индекс вершины
+     * @param color - строковое представление цвета для окрашивания вершины.
      */
     public void paintVertex(int id, String color) {
         ((mxCell) cells.get(id)).setStyle(mxConstants.STYLE_FILLCOLOR + "=" + color);
     }
 
     /**
-     * раскрашивает ребро с индексом вершин id (начальной и конечной) в цвет color
+     * Метод для раскрашивания ребра с индексом начальной вершины {@code idSource} и конечной
+     * вершины {@code idTarget}. Ребро окрашивается в цвет {@code color}.
+     *
+     * @param idSource - индекс начальной вершины ребра
+     * @param idTarget - индекс конечной вершины ребра
+     * @param color - строковое представление цвета для окрашивания ребра
      */
     public void paintEdge(int idSource, int idTarget, String color) {
         Object[] edges = getEdgesBetween(cells.get(idSource), cells.get(idTarget), true);
@@ -135,7 +149,7 @@ public class Graph extends mxGraph {
     }
 
     /**
-     * раскрашивает вершины в цвет по умолчанию
+     * Метод для раскрашивания всех вершин в цвет, заданный по умолчанию.
      */
     public void paintDefault() {
         for (Object cell : cells.values()) {
@@ -146,7 +160,7 @@ public class Graph extends mxGraph {
     }
 
     /**
-     * отчищает граф
+     * Метод для отчистки графа. Удаляет все вершины графа.
      */
     public void clear() {
         removeCells(getAllVertex());
@@ -156,7 +170,7 @@ public class Graph extends mxGraph {
     }
 
     /**
-     * сохраняет граф
+     * Метод, реализующий сохранение графа. В том числе: ребра графа и стиль вершин.
      */
     public void save() {
         savedEdges.clear();
@@ -171,7 +185,9 @@ public class Graph extends mxGraph {
     }
 
     /**
-     * восстанавливает сохраненный граф
+     * Метод для восстановления исходного графа.
+     *
+     * @see Graph#save()
      */
     public void load() {
         for (Object cell : cells.values()) {
