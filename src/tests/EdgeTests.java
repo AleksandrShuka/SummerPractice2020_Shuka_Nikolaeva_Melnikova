@@ -24,6 +24,7 @@ public class EdgeTests {
         Vertex source = new Vertex(3);
         Edge edge = new Edge(v1, v2);
         edge.setSourceVertex(source);
+
         Assertions.assertSame(source, edge.getSourceVertex());
     }
 
@@ -34,14 +35,16 @@ public class EdgeTests {
         Vertex vertex = new Vertex(3);
         Edge edge = new Edge(v1, v2);
         edge.setTargetVertex(vertex);
+
         Assertions.assertSame(vertex, edge.getTargetVertex());
-    }
+}
 
     @Test
     public void testToString() {
         Vertex v1 = new Vertex(5);
         Vertex v2 = new Vertex(6);
         Edge edge = new Edge(v1, v2);
+
         Assertions.assertSame(edge.toString(),
                 (edge.getSourceVertex().toString() + edge.getTargetVertex().toString()));
     }
