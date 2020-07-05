@@ -123,7 +123,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
             }
 
             sleepOrWait();
-            Logs.writeToLog( "List of vertexes in order of decreasing exit time: " + System.lineSeparator() +
+            Logs.writeToLog("List of vertexes in order of decreasing exit time: " + System.lineSeparator() +
                     orderListToString());
             firePropertyChange(ADD_TEXT, null, System.lineSeparator() +
                     "List of vertexes in order of decreasing exit time: " + System.lineSeparator() +
@@ -148,12 +148,11 @@ public class Algorithm extends SwingWorker<Void, Void> {
                     ++count;
                 }
             }
-
             unVisit(graph);
             transposeGraph();
             return null;
         } catch (Exception ignored) {
-
+            //ignored
         }
 
         return null;
@@ -194,7 +193,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
     protected void done() {
         try {
             get();
-            Logs.writeToLog( count + " STRONGLY CONNECTED COMPONENTS FOUND ");
+            Logs.writeToLog(count + " STRONGLY CONNECTED COMPONENTS FOUND ");
             firePropertyChange(ADD_TEXT, null, System.lineSeparator() + count +
                     " STRONGLY CONNECTED COMPONENTS FOUND " +
                     System.lineSeparator());
@@ -231,7 +230,6 @@ public class Algorithm extends SwingWorker<Void, Void> {
                 firstDFS(neighbour);
             }
         }
-
         sleepOrWait();
         Logs.writeToLog("The vertex " + vertex.getId() +
                 " is worked out ");
@@ -266,12 +264,10 @@ public class Algorithm extends SwingWorker<Void, Void> {
                 Logs.writeToLog("go to " + neighbour.getId());
                 firePropertyChange(ADD_TEXT, null,
                         "      go to " + neighbour.getId() + System.lineSeparator());
-
                 componentsString.append(", ");
                 secondDFS(neighbour);
             }
         }
-
         Logs.writeToLog("The vertex " + vertex.getId() +
                 " is worked out ");
         firePropertyChange(ADD_TEXT, null, "    The vertex " + vertex.getId() +
@@ -353,6 +349,12 @@ public class Algorithm extends SwingWorker<Void, Void> {
         }
     }
 
+    /**
+     * Метод, возвращающий строковое предсставление {@code orderList}
+     * в определенном формате.
+     *
+     * @return строковое представление {@code orderList}.
+     */
     private @NotNull String orderListToString() {
         StringBuilder string = new StringBuilder("[");
 
@@ -378,6 +380,15 @@ public class Algorithm extends SwingWorker<Void, Void> {
                 delay.addAndGet(DELTA_DELAY);
             }
         }
+    }
+
+    /**
+     * Метод, возвращающий количество компонент сильной связности {@code count}.
+     *
+     * @return количество компонент сильной связности.
+     */
+    public int getCount() {
+        return count;
     }
 
     /**
