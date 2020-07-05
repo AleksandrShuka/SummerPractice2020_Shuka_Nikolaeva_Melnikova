@@ -15,8 +15,7 @@ public class RunTests {
             EdgeTests edgeTests = new EdgeTests();
             edgeTests.testEdge();
             edgeTests.testSetGetSourceVertex();
-            edgeTests.tesSetGetTargetVertex();
-            edgeTests.testToString();
+            edgeTests.testSetGetTargetVertex();
 
             GraphTests graphTests = new GraphTests();
             graphTests.testGraph();
@@ -28,5 +27,4 @@ public class RunTests {
             System.out.println(e.getMessage());
         }
     }
-
 }

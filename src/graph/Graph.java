@@ -44,7 +44,7 @@ public class Graph {
      * @param vertexList список вершин.
      * @param edgeList   список ребер.
      */
-    public Graph(List<Vertex> vertexList, @NotNull List<Edge> edgeList) {
+    public Graph(@NotNull List<Vertex> vertexList, @NotNull List<Edge> edgeList) {
         super();
         Logs.writeToLog("Created graph with vertexes: " + vertexList.toString() +
                 System.lineSeparator() + "edges:" + edgeList.toString());
@@ -71,7 +71,7 @@ public class Graph {
      *
      * @param vertexList список вершин.
      */
-    public void setVertexList(List<Vertex> vertexList) {
+    public void setVertexList(@NotNull List<Vertex> vertexList) {
         Logs.writeToLog("Added list of vertexes to graph: " + vertexList.toString());
 
         this.vertexList = vertexList;
@@ -91,7 +91,7 @@ public class Graph {
      *
      * @param edgeList список ребер
      */
-    public void setEdgeList(List<Edge> edgeList) {
+    public void setEdgeList(@NotNull List<Edge> edgeList) {
         Logs.writeToLog("Added list of edges to graph: " + edgeList.toString());
 
         this.edgeList = edgeList;

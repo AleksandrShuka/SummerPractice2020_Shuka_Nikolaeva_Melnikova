@@ -8,13 +8,12 @@ import org.junit.jupiter.api.*;
 import java.util.LinkedList;
 
 public class GraphTests {
-    Vertex vertex1;
-    Vertex vertex2;
-    Vertex vertex3;
-    LinkedList<Vertex> vertexList;
-    LinkedList<Edge> edgeList;
-    Graph graph;
-    Graph graph1;
+    private Vertex vertex1;
+    private Vertex vertex3;
+    private LinkedList<Vertex> vertexList;
+    private LinkedList<Edge> edgeList;
+    private Graph graph;
+    private Graph graph1;
 
     @BeforeAll
     public void test() {
@@ -23,7 +22,7 @@ public class GraphTests {
 
         vertex1 = new Vertex(1);
         vertexList.add(vertex1);
-        vertex2 = new Vertex(2);
+        Vertex vertex2 = new Vertex(2);
         vertexList.add(vertex2);
         vertex3 = new Vertex(3);
         vertexList.add(vertex3);
@@ -35,47 +34,48 @@ public class GraphTests {
         graph = new Graph(vertexList, edgeList);
     }
 
-
     @Test
-    public void testGraph() throws Exception{
+    public void testGraph() {
         Assertions.assertEquals(vertexList, graph.getVertexList());
         Assertions.assertEquals(edgeList, graph.getEdgeList());
     }
 
     @BeforeEach
-    public void BTestSetGetVertexList(){
+    public void BTestSetGetVertexList() {
         Vertex vertex4 = new Vertex(4);
         vertexList.add(vertex4);
         graph.setVertexList(vertexList);
     }
 
     @Test
-    public void testSetGetVertexList() throws Exception{
+    public void testSetGetVertexList() {
         Assertions.assertEquals(vertexList, graph.getVertexList());
     }
 
     @BeforeEach
-    public void BTestSetGetEdgeList(){
+    public void BTestSetGetEdgeList() {
         edgeList.add(new Edge(vertex1, vertex3));
         graph.setEdgeList(edgeList);
     }
 
     @Test
-    public void testSetGetEdgeList() throws Exception{
+    public void testSetGetEdgeList() {
         Assertions.assertEquals(edgeList, graph.getEdgeList());
     }
 
     @BeforeEach
-    public void BTestGetTransposedGraph(){
+    public void BTestGetTransposedGraph() {
         graph1 = graph.getTransposedGraph();
     }
+
     @Test
-    public void testGetTransposedGraph() throws Exception{
-        Assertions.assertEquals(true, graph1.getEdgeList().get(0).getTargetVertex()==graph.getEdgeList().get(0).getSourceVertex());
+    public void testGetTransposedGraph() {
+        Assertions.assertSame(graph1.getEdgeList().get(0).getTargetVertex(),
+                graph.getEdgeList().get(0).getSourceVertex());
     }
 
     @AfterAll
-    public void ATest(){
+    public void ATest() {
 
     }
 }

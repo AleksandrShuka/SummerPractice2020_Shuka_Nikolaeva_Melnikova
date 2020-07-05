@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 public class EdgeTests {
     @Test
-    public Edge testEdge() {
+    public Edge testEdge() throws Exception {
         Vertex start = new Vertex(5);
         Vertex end = new Vertex(6);
         Edge edge = new Edge(start, end);
@@ -18,7 +18,7 @@ public class EdgeTests {
     }
 
     @Test
-    public void testSetGetSourceVertex() throws Exception{
+    public void testSetGetSourceVertex() {
         Vertex v1 = new Vertex(5);
         Vertex v2 = new Vertex(6);
         Vertex source = new Vertex(3);
@@ -29,7 +29,7 @@ public class EdgeTests {
     }
 
     @Test
-    public void tesSetGetTargetVertex() throws Exception{
+    public void testSetGetTargetVertex() {
         Vertex v1 = new Vertex(5);
         Vertex v2 = new Vertex(6);
         Vertex vertex = new Vertex(3);
@@ -37,15 +37,5 @@ public class EdgeTests {
         edge.setTargetVertex(vertex);
 
         Assertions.assertSame(vertex, edge.getTargetVertex());
-}
-
-    @Test
-    public void testToString() throws Exception{
-        Vertex v1 = new Vertex(5);
-        Vertex v2 = new Vertex(6);
-        Edge edge = new Edge(v1, v2);
-
-        Assertions.assertSame(edge.toString(),
-                (edge.getSourceVertex().toString() + edge.getTargetVertex().toString()));
     }
 }
