@@ -28,8 +28,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @value DELTA_DELAY - шаг изменения задержки анимации алгоритма
  * @see SwingWorker
  * <p>
- * Поле для хранения графа {@code graph}, количество компонент сильной связности в графе {@code count} и
- * список вершин, расположенных в порядке убывания времени выхода при первом обходе графа {@code orderList}.
+ * Поле для хранения графа {@code graph}, количество компонент сильной связности в графе {@code count},
+ * список вершин, расположенных в порядке убывания времени выхода при первом обходе графа {@code orderList} и
+ * строку с информацией о компонентах сильной связности {@code componentsString}.
  * <p>
  * Содержит методы для реализации алгоритма поиска компонент сильной связности Косарайю.
  */
@@ -52,7 +53,10 @@ public class Algorithm extends SwingWorker<Void, Void> {
     private final AtomicBoolean isRun;
     private final AtomicInteger delay;
 
-    private StringBuilder componentsString = new StringBuilder("");
+    /**
+     * Строка для сохранения информации о компонентах сильной связности.
+     */
+    private final StringBuilder componentsString;
     /**
      * Граф, на котором будет реализован алгоритм.
      */
@@ -73,6 +77,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
      * @param (graph) граф.
      */
     public Algorithm(@NotNull Graph graph) {
+        this.componentsString = new StringBuilder();
         this.isRun = new AtomicBoolean(true);
         this.delay = new AtomicInteger((MAX_DELAY + MIN_DELAY) / 2);
         this.graph = graph;
@@ -222,17 +227,22 @@ public class Algorithm extends SwingWorker<Void, Void> {
      * При обходе сохраняет в вершины {@code vertex.setComponentId}, входящие в одну компоненту сильной связности,
      * соответствующий номер компоненты.
      *
-     * @param vertex - вершина, к которой применяем обход в глубину
+     * @param vertex - вершина, к которой применяем обход в глубину.
+     * @throws InterruptedException если поток был прерван.
      */
-    private void secondDFS(@NotNull Vertex vertex) {
+    private void secondDFS(@NotNull Vertex vertex) throws InterruptedException {
+        sleepOrWait();
         vertex.setVisited(true);
         vertex.setComponentId(count);
         firePropertyChange(ADD_TEXT, null, "    " + vertex.getId() + " is visited " +
                 System.lineSeparator());
+        firePropertyChange(MARK_VISITED_VERTEX, count, vertex);
         componentsString.append(vertex.getId());
 
         for (Vertex neighbour : vertex.getAdjacencyList()) {
+            sleepOrWait();
             if (!neighbour.isVisited()) {
+                firePropertyChange(MARK_EDGE, vertex, neighbour);
                 firePropertyChange(ADD_TEXT, null,
                         "      go to " + neighbour.getId() + System.lineSeparator());
 

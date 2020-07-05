@@ -207,7 +207,11 @@ public class MainWindow extends JFrame {
 
         algorithm.addPropertyChangeListener(evt -> {
             if (evt.getPropertyName().equals(Algorithm.MARK_VISITED_VERTEX)) {
-                graph.paintVertex(((Vertex) evt.getNewValue()).getId(), "#DAA520");
+                if (evt.getOldValue() != null) {
+                    graph.paintVertex(((Vertex) evt.getNewValue()).getId(), Colors.get((Integer) evt.getOldValue()));
+                } else {
+                    graph.paintVertex(((Vertex) evt.getNewValue()).getId(), "#DAA520");
+                }
             }
             executeGraph();
         });
