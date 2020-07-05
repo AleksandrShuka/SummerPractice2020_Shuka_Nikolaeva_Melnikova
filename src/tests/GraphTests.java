@@ -8,13 +8,12 @@ import org.junit.jupiter.api.*;
 import java.util.LinkedList;
 
 public class GraphTests {
-    Vertex vertex1;
-    Vertex vertex2;
-    Vertex vertex3;
-    LinkedList<Vertex> vertexList;
-    LinkedList<Edge> edgeList;
-    Graph graph;
-    Graph graph1;
+    private Vertex vertex1;
+    private Vertex vertex3;
+    private LinkedList<Vertex> vertexList;
+    private LinkedList<Edge> edgeList;
+    private Graph graph;
+    private Graph graph1;
 
     @BeforeAll
     public void test() {
@@ -23,7 +22,7 @@ public class GraphTests {
 
         vertex1 = new Vertex(1);
         vertexList.add(vertex1);
-        vertex2 = new Vertex(2);
+        Vertex vertex2 = new Vertex(2);
         vertexList.add(vertex2);
         vertex3 = new Vertex(3);
         vertexList.add(vertex3);
@@ -70,7 +69,7 @@ public class GraphTests {
     }
 
     @Test
-    public void testGetTransposedGraph() throws Exception {
+    public void testGetTransposedGraph() {
         Assertions.assertSame(graph1.getEdgeList().get(0).getTargetVertex(),
                 graph.getEdgeList().get(0).getSourceVertex());
     }

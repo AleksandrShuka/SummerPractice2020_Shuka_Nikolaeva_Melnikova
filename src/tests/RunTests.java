@@ -15,7 +15,7 @@ public class RunTests {
             EdgeTests edgeTests = new EdgeTests();
             edgeTests.testEdge();
             edgeTests.testSetGetSourceVertex();
-            edgeTests.tesSetGetTargetVertex();
+            edgeTests.testSetGetTargetVertex();
 
             GraphTests graphTests = new GraphTests();
             graphTests.testGraph();
