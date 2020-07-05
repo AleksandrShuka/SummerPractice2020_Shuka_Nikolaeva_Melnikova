@@ -383,6 +383,15 @@ public class Algorithm extends SwingWorker<Void, Void> {
     }
 
     /**
+     * Метод, возвращающий количество компонент сильной связности {@code count}.
+     *
+     * @return количество компонент сильной связности.
+     */
+    public int getCount() {
+        return count;
+    }
+
+    /**
      * Уменьшает задержку анимации алгоритма на заданную константу {@code DELTA_DELAY}.
      */
     public void decreaseDelay() {
