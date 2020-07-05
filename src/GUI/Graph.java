@@ -19,9 +19,6 @@ import java.util.*;
  * @value removedCells - множество удаленных вершин
  * <p>
  * Содержит в себе счетчик вершин {@code count}
- * <p>
- * Класс предоставляет методы для добавления и удаления вершин:
- * {@code insertVertex}, {@code deleteVertex}.
  * @see mxGraph
  */
 
