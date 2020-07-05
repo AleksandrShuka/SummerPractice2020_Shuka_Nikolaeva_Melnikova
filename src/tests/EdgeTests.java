@@ -18,7 +18,7 @@ public class EdgeTests {
     }
 
     @Test
-    public void testSetGetSourceVertex() {
+    public void testSetGetSourceVertex() throws Exception{
         Vertex v1 = new Vertex(5);
         Vertex v2 = new Vertex(6);
         Vertex source = new Vertex(3);
@@ -29,7 +29,7 @@ public class EdgeTests {
     }
 
     @Test
-    public void tesSetGetTargetVertex() {
+    public void tesSetGetTargetVertex() throws Exception{
         Vertex v1 = new Vertex(5);
         Vertex v2 = new Vertex(6);
         Vertex vertex = new Vertex(3);
@@ -40,7 +40,7 @@ public class EdgeTests {
 }
 
     @Test
-    public void testToString() {
+    public void testToString() throws Exception{
         Vertex v1 = new Vertex(5);
         Vertex v2 = new Vertex(6);
         Edge edge = new Edge(v1, v2);

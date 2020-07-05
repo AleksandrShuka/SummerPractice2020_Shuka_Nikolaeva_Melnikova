@@ -5,61 +5,71 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.LinkedList;
+
 public class VertexTest {
+    LinkedList<Vertex> vertexList;
+    Vertex v1;
+    Vertex v2;
+    Vertex v3;
+
     @BeforeEach
     public static void BTestVertex() {
         Vertex vertex = new Vertex(5);
     }
 
     @Test
-    public void testVertex() {
+    public void testVertex() throws Exception{
         Vertex vertex = new Vertex(5);
         Assertions.assertEquals(5, vertex.getId());
     }
 
     @Test
-    public void testSetGetId() {
+    public void testSetGetId() throws Exception{
         Vertex vertex = new Vertex(5);
         vertex.setId(1);
         Assertions.assertEquals(1, vertex.getId());
     }
 
     @Test
-    public void testSetAndIsVisited() {
+    public void testSetAndIsVisited() throws Exception{
         Vertex vertex = new Vertex(5);
         vertex.setVisited(true);
         Assertions.assertTrue(vertex.isVisited());
     }
 
-    @Test
-    public void testSetGetAdjacencyList() {
-        Vertex v1 = new Vertex(1);
-        Vertex v2 = new Vertex(2);
-        Vertex v3 = new Vertex(3);
-        /*List<Vertex> adjacencyList = new List<>();
-        adjacencyList.add(v1);
-        adjacencyList.add(v3);
-        v2.setAdjacencyList(adjacencyList);
-        Assertions.assertEquals(adjacencyList, v2.getAdjacencyList());
-         */
+    @BeforeEach
+    public void BTestSetGetAdjacencyList(){
+        v1 = new Vertex(1);
+        v2 = new Vertex(2);
+        v3 = new Vertex(3);
+        vertexList = new LinkedList<>();
+        vertexList.add(v1);
+        vertexList.add(v3);
+        v2.setAdjacencyList(vertexList);
     }
 
     @Test
-    public void testSetGetComponentId() {
+    public void testSetGetAdjacencyList() throws Exception{
+        Assertions.assertEquals(vertexList, v2.getAdjacencyList());
+    }
+
+    @Test
+    public void testSetGetComponentId() throws Exception{
         Vertex v = new Vertex(1);
         v.setComponentId(5);
         Assertions.assertEquals(5, v.getComponentId());
     }
 
     @Test
-    public void testAddNeighbour() {
+    public void testAddNeighbour() throws Exception{
         Vertex v = new Vertex(1);
         v.addNeighbour(v);
         Assertions.assertEquals(v, v.getAdjacencyList().get(v.getAdjacencyList().size()));
     }
 
     @Test
-    public void testToString() {
+    public void testToString() throws Exception{
         Vertex v = new Vertex(1);
         v.setVisited(true);
         v.setComponentId(5);
