@@ -8,23 +8,17 @@ import org.junit.jupiter.api.*;
 import java.util.LinkedList;
 
 public class GraphTests {
-    private Vertex vertex1;
-    private Vertex vertex3;
-    private LinkedList<Vertex> vertexList;
-    private LinkedList<Edge> edgeList;
-    private Graph graph;
-    private Graph graph1;
+    Vertex vertex1 = new Vertex(1);
+    Vertex vertex2 = new Vertex(2);
+    Vertex vertex3 = new Vertex(3);
+    LinkedList<Vertex> vertexList = new LinkedList<>();
+    LinkedList<Edge> edgeList = new LinkedList<>();
+    Graph graph;
+    Graph graph1;
 
-    @BeforeAll
-    public void test() {
-        vertexList = new LinkedList<>();
-        edgeList = new LinkedList<>();
-
-        vertex1 = new Vertex(1);
+    public void test(){
         vertexList.add(vertex1);
-        Vertex vertex2 = new Vertex(2);
         vertexList.add(vertex2);
-        vertex3 = new Vertex(3);
         vertexList.add(vertex3);
 
         edgeList.add(new Edge(vertex1, vertex2));
@@ -35,47 +29,35 @@ public class GraphTests {
     }
 
     @Test
-    public void testGraph() {
+    public void testGraph() { //ок
+        test();
         Assertions.assertEquals(vertexList, graph.getVertexList());
         Assertions.assertEquals(edgeList, graph.getEdgeList());
     }
 
-    @BeforeEach
-    public void BTestSetGetVertexList() {
+    @Test
+    public void testSetGetVertexList() { //oк
+        test();
         Vertex vertex4 = new Vertex(4);
         vertexList.add(vertex4);
         graph.setVertexList(vertexList);
-    }
 
-    @Test
-    public void testSetGetVertexList() {
         Assertions.assertEquals(vertexList, graph.getVertexList());
     }
 
-    @BeforeEach
-    public void BTestSetGetEdgeList() {
+    @Test
+    public void testSetGetEdgeList() { //ok
+        test();
         edgeList.add(new Edge(vertex1, vertex3));
         graph.setEdgeList(edgeList);
-    }
-
-    @Test
-    public void testSetGetEdgeList() {
         Assertions.assertEquals(edgeList, graph.getEdgeList());
-    }
-
-    @BeforeEach
-    public void BTestGetTransposedGraph() {
-        graph1 = graph.getTransposedGraph();
     }
 
     @Test
     public void testGetTransposedGraph() {
-        Assertions.assertSame(graph1.getEdgeList().get(0).getTargetVertex(),
-                graph.getEdgeList().get(0).getSourceVertex());
-    }
-
-    @AfterAll
-    public void ATest() {
-
+        test();
+        graph1 = graph.getTransposedGraph();
+        Assertions.assertSame(graph1.getEdgeList().get(0).getTargetVertex().getId(),
+                graph.getEdgeList().get(0).getSourceVertex().getId());
     }
 }

@@ -11,26 +11,22 @@ public class VertexTest {
     private LinkedList<Vertex> vertexList;
     private Vertex v2;
 
-    @BeforeEach
-    public static void BTestVertex() {
-        Vertex vertex = new Vertex(5);
-    }
 
     @Test
-    public void testVertex() {
+    public void testVertex() {  //ок
         Vertex vertex = new Vertex(5);
         Assertions.assertEquals(5, vertex.getId());
     }
 
     @Test
-    public void testSetGetId() {
+    public void testSetGetId() {  //ок
         Vertex vertex = new Vertex(5);
         vertex.setId(1);
         Assertions.assertEquals(1, vertex.getId());
     }
 
     @Test
-    public void testSetAndIsVisited() {
+    public void testSetAndIsVisited() {  //ок
         Vertex vertex = new Vertex(5);
         vertex.setVisited(true);
         Assertions.assertTrue(vertex.isVisited());
@@ -50,24 +46,24 @@ public class VertexTest {
     @Test
     public void testSetGetAdjacencyList() {
         Assertions.assertEquals(vertexList, v2.getAdjacencyList());
-    }
+    }  //ок
 
     @Test
-    public void testSetGetComponentId() {
+    public void testSetGetComponentId() {  //ок
         Vertex v = new Vertex(1);
         v.setComponentId(5);
         Assertions.assertEquals(5, v.getComponentId());
     }
 
     @Test
-    public void testAddNeighbour() {
+    public void testAddNeighbour() {  //ок
         Vertex v = new Vertex(1);
         v.addNeighbour(v);
-        Assertions.assertEquals(v, v.getAdjacencyList().get(v.getAdjacencyList().size()));
+        Assertions.assertEquals(v, v.getAdjacencyList().get(v.getAdjacencyList().size()-1)) ;
     }
 
     @Test
-    public void testToString() {
+    public void testToString() {  //ок
         Vertex v = new Vertex(1);
         v.setVisited(true);
         v.setComponentId(5);
