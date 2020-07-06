@@ -58,7 +58,17 @@ public class GraphTests {
     public void testGetTransposedGraph() {
         test();
         graph1 = graph.getTransposedGraph();
-        Assertions.assertSame(graph1.getEdgeList().get(0).getTargetVertex().getId(),
-                graph.getEdgeList().get(0).getSourceVertex().getId());
+        int i = 0;
+        for(Edge edge1 : graph1.getEdgeList()){
+            Edge tmpEdge  = new Edge(edge1.getTargetVertex(), edge1.getSourceVertex());
+            for(Edge edge : graph.getEdgeList()){
+                if(tmpEdge.getSourceVertex().getId()==edge.getSourceVertex().getId() &&
+                        tmpEdge.getTargetVertex().getId()==edge.getTargetVertex().getId()){
+                    i++;
+                }
+            }
+        }
+
+        Assertions.assertSame(i, graph.getEdgeList().size());
     }
 }
