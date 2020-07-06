@@ -7,6 +7,7 @@ import org.junit.jupiter.api.*;
 
 import java.util.LinkedList;
 
+
 public class GraphTests {
     Vertex vertex1 = new Vertex(1);
     Vertex vertex2 = new Vertex(2);
@@ -16,7 +17,7 @@ public class GraphTests {
     Graph graph;
     Graph graph1;
 
-    public void test(){
+    public void test() {
         vertexList.add(vertex1);
         vertexList.add(vertex2);
         vertexList.add(vertex3);
@@ -29,14 +30,14 @@ public class GraphTests {
     }
 
     @Test
-    public void testGraph() { //ок
+    public void testGraph() {
         test();
         Assertions.assertEquals(vertexList, graph.getVertexList());
         Assertions.assertEquals(edgeList, graph.getEdgeList());
     }
 
     @Test
-    public void testSetGetVertexList() { //oк
+    public void testSetGetVertexList() {
         test();
         Vertex vertex4 = new Vertex(4);
         vertexList.add(vertex4);
@@ -46,7 +47,7 @@ public class GraphTests {
     }
 
     @Test
-    public void testSetGetEdgeList() { //ok
+    public void testSetGetEdgeList() {
         test();
         edgeList.add(new Edge(vertex1, vertex3));
         graph.setEdgeList(edgeList);
