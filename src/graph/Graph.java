@@ -115,8 +115,6 @@ public class Graph {
         }
 
         for (Edge edge : newEdgeList) {
-            newVertexList.get(newVertexList.indexOf(edge.getTargetVertex())).addNeighbour(edge.getSourceVertex());
-
             Vertex tmpSourceVertex = edge.getSourceVertex();
             edge.setSourceVertex(edge.getTargetVertex());
             edge.setTargetVertex(tmpSourceVertex);
