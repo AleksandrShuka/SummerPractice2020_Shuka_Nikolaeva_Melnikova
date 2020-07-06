@@ -3,6 +3,8 @@ package graph;
 import logger.Logs;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 /**
  * Класс, представляющий собой ориентированное ребро графа.
  * Содержит в себе информацию о начальной {@code sourceVertex} и конечной вершине {@code targetVertex}.
@@ -91,5 +93,19 @@ public class Edge {
                 "source=" + sourceVertex +
                 ", target=" + targetVertex +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Edge edge = (Edge) o;
+        return Objects.equals(sourceVertex, edge.sourceVertex) &&
+                Objects.equals(targetVertex, edge.targetVertex);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sourceVertex, targetVertex);
     }
 }

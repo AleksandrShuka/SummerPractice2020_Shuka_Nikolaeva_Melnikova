@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Класс, представляющий собой вершину графа.
@@ -170,5 +171,20 @@ public class Vertex {
                 ", adjacencyList=" + stringBuilder +
                 ", componentId=" + componentId +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Vertex vertex = (Vertex) o;
+        return id == vertex.id &&
+                isVisited == vertex.isVisited &&
+                componentId == vertex.componentId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, isVisited, componentId);
     }
 }
