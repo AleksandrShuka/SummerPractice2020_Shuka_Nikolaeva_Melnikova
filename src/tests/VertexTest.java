@@ -11,22 +11,21 @@ public class VertexTest {
     private LinkedList<Vertex> vertexList;
     private Vertex v2;
 
-
     @Test
-    public void testVertex() {  //ок
+    public void testVertex() {
         Vertex vertex = new Vertex(5);
         Assertions.assertEquals(5, vertex.getId());
     }
 
     @Test
-    public void testSetGetId() {  //ок
+    public void testSetGetId() {
         Vertex vertex = new Vertex(5);
         vertex.setId(1);
         Assertions.assertEquals(1, vertex.getId());
     }
 
     @Test
-    public void testSetAndIsVisited() {  //ок
+    public void testSetAndIsVisited() {
         Vertex vertex = new Vertex(5);
         vertex.setVisited(true);
         Assertions.assertTrue(vertex.isVisited());
@@ -46,24 +45,24 @@ public class VertexTest {
     @Test
     public void testSetGetAdjacencyList() {
         Assertions.assertEquals(vertexList, v2.getAdjacencyList());
-    }  //ок
+    }
 
     @Test
-    public void testSetGetComponentId() {  //ок
+    public void testSetGetComponentId() {
         Vertex v = new Vertex(1);
         v.setComponentId(5);
         Assertions.assertEquals(5, v.getComponentId());
     }
 
     @Test
-    public void testAddNeighbour() {  //ок
+    public void testAddNeighbour() {
         Vertex v = new Vertex(1);
         v.addNeighbour(v);
-        Assertions.assertEquals(v, v.getAdjacencyList().get(v.getAdjacencyList().size()-1)) ;
+        Assertions.assertEquals(v, v.getAdjacencyList().get(v.getAdjacencyList().size() - 1));
     }
 
     @Test
-    public void testToString() {  //ок
+    public void testToString() {
         Vertex v = new Vertex(1);
         v.setVisited(true);
         v.setComponentId(5);

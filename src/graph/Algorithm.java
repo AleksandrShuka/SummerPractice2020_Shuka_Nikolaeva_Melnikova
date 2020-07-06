@@ -301,6 +301,10 @@ public class Algorithm extends SwingWorker<Void, Void> {
         isRun.set(run);
     }
 
+    public void offDelay() {
+        delay.set(0);
+    }
+
     /**
      * Приостанавливает поток выполнения на {@code delay} мс, если {@code isRun == true}.
      * <p>
