@@ -1,5 +1,6 @@
 package graph;
 
+import GUI.Pair;
 import logger.Logs;
 import org.jetbrains.annotations.NotNull;
 
@@ -7,6 +8,7 @@ import javax.swing.*;
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
 
 /**
  * Класс, представляющий собой реализацию алгоритма поиска компонент
@@ -27,6 +29,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @value MAX_DELAY - максимальная задержка анимации алгоритма
  * @value MIN_DELAY - минимальная задержка анимации алгоритма
  * @value DELTA_DELAY - шаг изменения задержки анимации алгоритма
+ * @value SET_VERTEX_VALUE - установить новое значение вершины
+ * @value RESET_VERTEX_VALUES - сбросить все значения вершин
  * @see SwingWorker
  * <p>
  * Поле для хранения графа {@code graph}, количество компонент сильной связности в графе {@code count},
@@ -37,7 +41,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 
 public class Algorithm extends SwingWorker<Void, Void> {
-    public static final String MARK_EDGE = "markEdge";
+    public static final String MARK_VISITED_EDGE = "markVisitedEdge";
+    public static final String MARK_UNVISITED_EDGE = "markUnvisitedEdge";
     public static final String UNMARK_EDGE = "unmarkEdge";
     public static final String MARK_VISITED_VERTEX = "markVisitedVertex";
     public static final String MARK_FINISHED_VERTEX = "markFinishedVertex";
@@ -46,6 +51,8 @@ public class Algorithm extends SwingWorker<Void, Void> {
     public static final String ALGORITHM_ENDED = "algorithmEnded";
     public static final String ADD_TEXT = "addText";
     public static final String CLEAR_TEXT_PANE = "clearTextPane";
+    public static final String SET_VERTEX_VALUE = "setVertexValue";
+    public static final String RESET_VERTEX_VALUES = "resetVertexValues";
 
     public static final int MAX_DELAY = 2000;
     public static final int MIN_DELAY = 0;
@@ -150,6 +157,8 @@ public class Algorithm extends SwingWorker<Void, Void> {
             }
             unVisit(graph);
             transposeGraph();
+            firePropertyChange(RESET_VERTEX_VALUES, null, null);
+
             return null;
         } catch (Exception ignored) {
             //ignored
@@ -226,8 +235,10 @@ public class Algorithm extends SwingWorker<Void, Void> {
                 Logs.writeToLog("go to " + neighbour.getId());
                 firePropertyChange(ADD_TEXT, null,
                         "      go to " + neighbour.getId() + System.lineSeparator());
-                firePropertyChange(MARK_EDGE, vertex, neighbour);
+                firePropertyChange(MARK_VISITED_EDGE, vertex, neighbour);
                 firstDFS(neighbour);
+            } else {
+                firePropertyChange(MARK_UNVISITED_EDGE, vertex, neighbour);
             }
         }
         sleepOrWait();
@@ -236,6 +247,8 @@ public class Algorithm extends SwingWorker<Void, Void> {
         firePropertyChange(ADD_TEXT, null, "    The vertex " + vertex.getId() +
                 " is worked out " + System.lineSeparator());
         firePropertyChange(MARK_FINISHED_VERTEX, null, vertex);
+        firePropertyChange(SET_VERTEX_VALUE, null,
+                new Pair<>(vertex.getId(), orderList.size()));
         orderList.addFirst(vertex);
     }
 
@@ -260,12 +273,14 @@ public class Algorithm extends SwingWorker<Void, Void> {
         for (Vertex neighbour : vertex.getAdjacencyList()) {
             sleepOrWait();
             if (!neighbour.isVisited()) {
-                firePropertyChange(MARK_EDGE, vertex, neighbour);
+                firePropertyChange(MARK_VISITED_EDGE, vertex, neighbour);
                 Logs.writeToLog("go to " + neighbour.getId());
                 firePropertyChange(ADD_TEXT, null,
                         "      go to " + neighbour.getId() + System.lineSeparator());
                 componentsString.append(", ");
                 secondDFS(neighbour);
+            } else {
+                firePropertyChange(MARK_UNVISITED_EDGE, vertex, neighbour);
             }
         }
         Logs.writeToLog("The vertex " + vertex.getId() +

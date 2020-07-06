@@ -22,12 +22,13 @@ import java.util.*;
 
 /**
  * Класс основного окна. Наследуется от JFrame
- * @see JFrame
  *
+ * @see JFrame
+ * <p>
  * Содержит в себе: алгоритм {@code algorithm}, коммандную панель {@code commandPanel}, граф {@code graph},
  * меню {@code menuBar}, текстовое поле {@code scrollTextPane}, {@code layout},
  * {@code graphComponent}, длину {@code height} и ширину {@code width}.
- *
+ * <p>
  * Имеет метод инициализации {@code init}, а также методы инициализации меню {@code initMenuBar}, текстового
  * поля {@code initScrollTextPane}, графа {@code initGraph}, коммандной панели {@code initCommandPanel} и
  * алгоритма {@code initAlgorithm}.
@@ -266,6 +267,7 @@ public class MainWindow extends JFrame {
                     Algorithm.MIN_DELAY + Algorithm.DELTA_DELAY) / 2);
             algorithm.cancel(true);
             graphComponent.setEnabled(true);
+            graph.resetVertexValues();
             isPaused = false;
             graph.load();
             setButtonsStateWhenStop(true);
@@ -383,9 +385,17 @@ public class MainWindow extends JFrame {
         });
 
         algorithm.addPropertyChangeListener(evt -> {
-            if (evt.getPropertyName().equals(Algorithm.MARK_EDGE)) {
+            if (evt.getPropertyName().equals(Algorithm.MARK_VISITED_EDGE)) {
                 graph.paintEdge(((Vertex) evt.getOldValue()).getId(),
                         ((Vertex) evt.getNewValue()).getId(), "#B8860B");
+            }
+            executeGraph();
+        });
+
+        algorithm.addPropertyChangeListener(evt -> {
+            if (evt.getPropertyName().equals(Algorithm.MARK_UNVISITED_EDGE)) {
+                graph.paintEdge(((Vertex) evt.getOldValue()).getId(),
+                        ((Vertex) evt.getNewValue()).getId(), "#FFDEAD");
             }
             executeGraph();
         });
@@ -394,6 +404,21 @@ public class MainWindow extends JFrame {
             if (evt.getPropertyName().equals(Algorithm.UNMARK_EDGE)) {
                 graph.paintEdge(((Vertex) evt.getOldValue()).getId(),
                         ((Vertex) evt.getNewValue()).getId(), "#000000");
+            }
+            executeGraph();
+        });
+
+        algorithm.addPropertyChangeListener(evt -> {
+            if (evt.getPropertyName().equals(Algorithm.SET_VERTEX_VALUE)) {
+                Pair<Integer, Integer> pair = (Pair<Integer, Integer>) evt.getNewValue();
+                graph.setVertexValue(pair.first, pair.second);
+            }
+            executeGraph();
+        });
+
+        algorithm.addPropertyChangeListener(evt -> {
+            if (evt.getPropertyName().equals(Algorithm.RESET_VERTEX_VALUES)) {
+                graph.resetVertexValues();
             }
             executeGraph();
         });

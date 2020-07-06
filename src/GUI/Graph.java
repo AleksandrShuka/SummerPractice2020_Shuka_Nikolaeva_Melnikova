@@ -4,6 +4,8 @@ import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxICell;
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.view.mxGraph;
+import graph.Vertex;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -215,6 +217,25 @@ public class Graph extends mxGraph {
         for (Pair<Integer, Integer> elem : edgeSet) {
             insertEdge(getDefaultParent(), null, null, cells.get(elem.first),
                     cells.get(elem.second));
+        }
+    }
+
+    /**
+     * Метод для обновления значений вершин.
+     *
+     * @param id    - номер вершины
+     * @param order - порядковый номер вершины
+     */
+    public void setVertexValue(int id, int order) {
+        ((mxCell) cells.get(id)).setValue(id + " (" + order + ")");
+    }
+
+    /**
+     * Метод для установки значений вершин по умолчанию.
+     */
+    public void resetVertexValues() {
+        for (Integer key : cells.keySet()) {
+            ((mxCell) cells.get(key)).setValue(key);
         }
     }
 }
