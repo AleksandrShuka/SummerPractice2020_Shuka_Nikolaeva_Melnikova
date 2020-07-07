@@ -149,6 +149,7 @@ public class MainWindow extends JFrame {
 
                     graph.createGraph(count, edgeSet);
                     executeGraph();
+                    layout.execute(graph.getDefaultParent());
                 } catch (Exception exception) {
                     exception.printStackTrace();
                     scrollTextPane.getTextArea().setText("Can't read data from file");
@@ -192,7 +193,7 @@ public class MainWindow extends JFrame {
      * Метод инициализации текстового поля. Задает свойства поля.
      */
     private void initScrollTextPane() {
-        scrollTextPane.getTextArea().setFocusable(false);
+        scrollTextPane.getTextArea().setEditable(false);
         scrollTextPane.setMaximumSize(new Dimension(width / 5, height));
         scrollTextPane.setMinimumSize(new Dimension(width / 5, height));
         scrollTextPane.setPreferredSize(new Dimension(width / 5, height));

@@ -24,7 +24,6 @@ import java.util.*;
 
 public class Graph extends mxGraph {
     private final Map<Integer, String> savedCellStyles;
-    private final Map<Object, String> savedEdgesStyles;
     private final Map<Integer, Object> cells;
     private final SortedSet<Integer> removedCells;
     private boolean isTransposed;
@@ -42,7 +41,6 @@ public class Graph extends mxGraph {
         isTransposed = false;
         savedCellStyles = new HashMap<>();
         removedCells = new TreeSet<>();
-        savedEdgesStyles = new HashMap<>();
         cells = new HashMap<>();
         count = 0;
 
@@ -171,13 +169,9 @@ public class Graph extends mxGraph {
      * Метод, реализующий сохранение графа. В том числе: ребра графа и стиль вершин.
      */
     public void save() {
-        savedEdgesStyles.clear();
         savedCellStyles.clear();
 
         for (Object cell : cells.values()) {
-            for (Object edge : getOutgoingEdges(cell)) {
-                savedEdgesStyles.put(edge, ((mxCell) edge).getStyle());
-            }
             savedCellStyles.put((Integer) ((mxCell) cell).getValue(), ((mxCell) cell).getStyle());
         }
     }
@@ -196,9 +190,9 @@ public class Graph extends mxGraph {
             ((mxCell) cells.get(key)).setStyle(savedCellStyles.get(key));
         }
 
-        for (Object cell : cells.values()) {
-            for (Object edge : getOutgoingEdges(cell)) {
-                ((mxCell) edge).setStyle(savedEdgesStyles.get(edge));
+        for (Object cell : getAllVertex()) {
+            for (Object edge : getEdges(cell)) {
+                ((mxCell) edge).setStyle(getStylesheet().getDefaultEdgeStyle().toString());
             }
         }
     }
