@@ -77,6 +77,15 @@ public class Graph {
         this.vertexList = vertexList;
     }
 
+    public Vertex getVertex(int id) {
+        for (Vertex vertex : vertexList) {
+            if (vertex.getId() == id) {
+                return vertex;
+            }
+        }
+        return null;
+    }
+
     /**
      * Возвращает список ориентированных ребер графа {@code edgeList}.
      *
