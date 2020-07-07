@@ -93,6 +93,11 @@ public class Algorithm extends SwingWorker<Void, Void> {
         this.orderList = new LinkedList<>();
     }
 
+    public Algorithm(@NotNull Graph graph, int delay) {
+        this(graph);
+        this.delay.set(delay);
+    }
+
     /**
      * Перегруженный метод родительского класса
      *
@@ -419,6 +424,12 @@ public class Algorithm extends SwingWorker<Void, Void> {
                 Logs.writeToLog("Delay decreased");
                 delay.addAndGet(-DELTA_DELAY);
             }
+        }
+    }
+
+    public void setDelay(int delay) {
+        if (delay >= MIN_DELAY && delay <= MAX_DELAY) {
+            this.delay.set(delay);
         }
     }
 }

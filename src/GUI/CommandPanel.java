@@ -9,14 +9,14 @@ import java.io.IOException;
  * Класс, представляющий собой коммандную панель.
  * Наследуется от класса {@code JPanel}
  *
- * @value startButton - кнопка для запуска работы алгоритма
+ * @value startButton - кнопка для запуска работы алгоритма и с помощью
+ * которой визуализацию можно поставить на паузу
  * @value increaseSpeedButton - кнопка для увеличения скорости визуализаии
  * @value decreaseSpeedButton - кнопка для уменьшения скорости визуализации
  * @value addVertexButton - кнопка для добавления вершин
  * @value deleteButton - кнопка для удаления выбранной вершины/ребра
  * @value clearButton - кнопка для очищения окна
  * @value stopButton - кнопка для остановки работы алгоритма
- * @value pauseButton - кнопка, с помощью которой визуализацию можно поставить на паузу
  * @value progressBar - прогресс-бар, которой показывает текущий уровень скорости алгоритма
  * @see JPanel
  * <p>
@@ -26,14 +26,13 @@ import java.io.IOException;
  */
 
 public class CommandPanel extends JPanel {
-    private final JButton startButton;
+    private final JButton startPauseButton;
     private final JButton increaseSpeedButton;
     private final JButton decreaseSpeedButton;
     private final JButton addVertexButton;
     private final JButton deleteButton;
     private final JButton clearButton;
     private final JButton stopButton;
-    private final JButton pauseButton;
     private final JProgressBar progressBar;
 
     /**
@@ -62,8 +61,7 @@ public class CommandPanel extends JPanel {
             e.printStackTrace();
         }
 
-        startButton = new JButton("Start");
-        pauseButton = new JButton("Pause");
+        startPauseButton = new JButton("Start");
         stopButton = new JButton("Stop");
         addVertexButton = new JButton("Add vertex");
         deleteButton = new JButton("Delete");
@@ -73,40 +71,33 @@ public class CommandPanel extends JPanel {
         decreaseSpeedButton = new JButton(iconMinus);
         progressBar = new JProgressBar();
 
-        startButton.setAlignmentX(CENTER_ALIGNMENT);
-        pauseButton.setAlignmentX(CENTER_ALIGNMENT);
+        startPauseButton.setAlignmentX(CENTER_ALIGNMENT);
         stopButton.setAlignmentX(CENTER_ALIGNMENT);
         addVertexButton.setAlignmentX(CENTER_ALIGNMENT);
         deleteButton.setAlignmentX(CENTER_ALIGNMENT);
         clearButton.setAlignmentX(CENTER_ALIGNMENT);
 
-        increaseSpeedButton.setEnabled(false);
-        decreaseSpeedButton.setEnabled(false);
         stopButton.setEnabled(false);
-        pauseButton.setEnabled(false);
 
-        startButton.setPreferredSize(new Dimension(0, (int) height / 20));
+        startPauseButton.setPreferredSize(new Dimension(0, (int) height / 20));
         stopButton.setPreferredSize(new Dimension(0, (int) height / 20));
-        pauseButton.setPreferredSize(new Dimension(0, (int) height / 20));
         addVertexButton.setPreferredSize(new Dimension(0, (int) height / 20));
         deleteButton.setPreferredSize(new Dimension(0, (int) height / 20));
         clearButton.setPreferredSize(new Dimension(0, (int) height / 20));
 
-        startButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) height / 15));
+        startPauseButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) height / 15));
         stopButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) height / 15));
-        pauseButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) height / 15));
         addVertexButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) height / 15));
         deleteButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) height / 15));
         clearButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) height / 15));
 
         stopButton.setBackground(Colors.getFirstBackgroundColor());
-        startButton.setBackground(Colors.getFirstBackgroundColor());
+        startPauseButton.setBackground(Colors.getFirstBackgroundColor());
         increaseSpeedButton.setBackground(Colors.getFirstBackgroundColor());
         decreaseSpeedButton.setBackground(Colors.getFirstBackgroundColor());
         deleteButton.setBackground(Colors.getFirstBackgroundColor());
         addVertexButton.setBackground(Colors.getFirstBackgroundColor());
         clearButton.setBackground(Colors.getFirstBackgroundColor());
-        pauseButton.setBackground(Colors.getFirstBackgroundColor());
 
         JPanel speedPanel = new JPanel();
         speedPanel.setLayout(new BoxLayout(speedPanel, BoxLayout.LINE_AXIS));
@@ -124,9 +115,7 @@ public class CommandPanel extends JPanel {
         speedPanel.add(increaseSpeedButton);
         speedPanel.add(Box.createHorizontalGlue());
 
-        add(startButton);
-        add(Box.createVerticalGlue());
-        add(pauseButton);
+        add(startPauseButton);
         add(Box.createVerticalGlue());
         add(stopButton);
         add(Box.createVerticalGlue());
@@ -182,19 +171,10 @@ public class CommandPanel extends JPanel {
     /**
      * Возвращает {@code startButton}.
      *
-     * @return кнопка для запуска работы алгоритма.
+     * @return кнопка для запуска работы алгоритма и с помощью которой визуализацию можно поставить на паузу.
      */
-    public JButton getStartButton() {
-        return startButton;
-    }
-
-    /**
-     * Возвращает {@code pauseButton}.
-     *
-     * @return кнопка, с помощью которой визуализацию можно поставить на паузу.
-     */
-    public JButton getPauseButton() {
-        return pauseButton;
+    public JButton getStartPauseButton() {
+        return startPauseButton;
     }
 
     /**
