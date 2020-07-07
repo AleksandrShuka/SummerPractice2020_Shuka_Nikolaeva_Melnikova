@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Level;
 
 /**
  * Класс, представляющий собой реализацию алгоритма поиска компонент
