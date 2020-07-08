@@ -107,17 +107,32 @@ public class Graph {
         Logs.writeToLog("Created transposed graph with vertexes: " + vertexList.toString() +
                 System.lineSeparator() + "edges:" + edgeList.toString());
 
-        List<Vertex> newVertexList = new ArrayList<>(this.vertexList);
-        List<Edge> newEdgeList = new ArrayList<>(this.edgeList);
-
-        for (Vertex vertex : newVertexList) {
-            vertex.getAdjacencyList().clear();
+        List<Vertex> newVertexList = new ArrayList<>();
+        for (Vertex vertex : vertexList) {
+            Vertex newVertex = new Vertex(vertex.getId());
+            newVertex.setVisited(vertex.isVisited());
+            newVertex.setComponentId(vertex.getComponentId());
+            newVertexList.add(newVertex);
         }
 
-        for (Edge edge : newEdgeList) {
-            Vertex tmpSourceVertex = edge.getSourceVertex();
-            edge.setSourceVertex(edge.getTargetVertex());
-            edge.setTargetVertex(tmpSourceVertex);
+        List<Edge> newEdgeList = new ArrayList<>();
+        for (Edge edge : edgeList) {
+            Vertex sourceVertex = null;
+            Vertex targetVertex = null;
+
+            for (Vertex vertex : newVertexList) {
+                if (vertex.getId() == edge.getTargetVertex().getId()) {
+                    sourceVertex = vertex;
+                }
+                if (vertex.getId() == edge.getSourceVertex().getId()) {
+                    targetVertex = vertex;
+                }
+            }
+
+            assert targetVertex != null;
+            assert sourceVertex != null;
+            Edge newEdge = new Edge(sourceVertex, targetVertex);
+            newEdgeList.add(newEdge);
         }
 
         return new Graph(newVertexList, newEdgeList);

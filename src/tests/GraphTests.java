@@ -3,7 +3,8 @@ package tests;
 import graph.Edge;
 import graph.Graph;
 import graph.Vertex;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;
 
@@ -51,6 +52,7 @@ public class GraphTests {
         test();
         edgeList.add(new Edge(vertex1, vertex3));
         graph.setEdgeList(edgeList);
+
         Assertions.assertEquals(edgeList, graph.getEdgeList());
     }
 
@@ -58,12 +60,12 @@ public class GraphTests {
     public void testGetTransposedGraph() {
         test();
         graph1 = graph.getTransposedGraph();
+
         int i = 0;
-        for(Edge edge1 : graph1.getEdgeList()){
-            Edge tmpEdge  = new Edge(edge1.getTargetVertex(), edge1.getSourceVertex());
-            for(Edge edge : graph.getEdgeList()){
-                if(tmpEdge.getSourceVertex().getId()==edge.getSourceVertex().getId() &&
-                        tmpEdge.getTargetVertex().getId()==edge.getTargetVertex().getId()){
+        for (Edge edge1 : graph1.getEdgeList()) {
+            Edge tmpEdge = new Edge(edge1.getTargetVertex(), edge1.getSourceVertex());
+            for (Edge edge : graph.getEdgeList()) {
+                if (tmpEdge.equals(edge)) {
                     i++;
                 }
             }
