@@ -255,6 +255,7 @@ public class Algorithm extends SwingWorker<Void, Void> {
         firePropertyChange(MARK_FINISHED_VERTEX, null, vertex);
         firePropertyChange(SET_VERTEX_VALUE, null,
                 new Pair<>(vertex.getId(), orderList.size()));
+
         orderList.addFirst(vertex);
     }
 
@@ -269,7 +270,9 @@ public class Algorithm extends SwingWorker<Void, Void> {
     private void secondDFS(@NotNull Vertex vertex) throws InterruptedException {
         sleepOrWait();
         vertex.setVisited(true);
+
         vertex.setComponentId(count);
+
         Logs.writeToLog(vertex.getId() + " is visited ");
         firePropertyChange(ADD_TEXT, null, "    " + vertex.getId() + " is visited " +
                 System.lineSeparator());
