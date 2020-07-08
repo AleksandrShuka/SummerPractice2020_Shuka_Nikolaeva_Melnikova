@@ -4,8 +4,6 @@ import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxICell;
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.view.mxGraph;
-import graph.Vertex;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -26,9 +24,9 @@ import java.util.*;
 
 public class Graph extends mxGraph {
     private final Map<Integer, String> savedCellStyles;
-    private final Map<Object, Object> savedEdges;
     private final Map<Integer, Object> cells;
     private final SortedSet<Integer> removedCells;
+    private boolean isTransposed;
 
     /**
      * Счетчик вершин.
@@ -40,14 +38,13 @@ public class Graph extends mxGraph {
      * Инициализирует переменные, устанавливает свойства и задает стиль вершин и рёбер по умолчанию.
      */
     public Graph() {
+        isTransposed = false;
         savedCellStyles = new HashMap<>();
         removedCells = new TreeSet<>();
-        savedEdges = new HashMap<>();
         cells = new HashMap<>();
         count = 0;
 
         setAllowDanglingEdges(false);
-        setCellsMovable(false);
         setMultigraph(false);
         setCellsEditable(false);
         setCellsResizable(false);
@@ -118,6 +115,8 @@ public class Graph extends mxGraph {
                 mxEdge.setSource(target);
             }
         }
+
+        isTransposed = !isTransposed;
     }
 
     /**
@@ -170,13 +169,9 @@ public class Graph extends mxGraph {
      * Метод, реализующий сохранение графа. В том числе: ребра графа и стиль вершин.
      */
     public void save() {
-        savedEdges.clear();
         savedCellStyles.clear();
 
         for (Object cell : cells.values()) {
-            for (Object edge : getOutgoingEdges(cell)) {
-                savedEdges.put(cell, ((mxCell) edge).getTarget());
-            }
             savedCellStyles.put((Integer) ((mxCell) cell).getValue(), ((mxCell) cell).getStyle());
         }
     }
@@ -187,17 +182,18 @@ public class Graph extends mxGraph {
      * @see Graph#save()
      */
     public void load() {
-        for (Object cell : cells.values()) {
-            removeCells(getOutgoingEdges(cell));
+        if (isTransposed) {
+            transpose();
         }
 
         for (int key : savedCellStyles.keySet()) {
             ((mxCell) cells.get(key)).setStyle(savedCellStyles.get(key));
         }
 
-        for (Object key : savedEdges.keySet()) {
-            insertEdge(getDefaultParent(), null, null, key,
-                    savedEdges.get(key));
+        for (Object cell : getAllVertex()) {
+            for (Object edge : getEdges(cell)) {
+                ((mxCell) edge).setStyle(getStylesheet().getDefaultEdgeStyle().toString());
+            }
         }
     }
 

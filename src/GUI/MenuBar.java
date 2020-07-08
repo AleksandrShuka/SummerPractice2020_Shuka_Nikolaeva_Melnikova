@@ -22,6 +22,7 @@ import java.awt.event.ActionEvent;
 public class MenuBar extends JMenuBar {
     private final JMenuItem open;
     private final JMenuItem exit;
+    private final JMenuItem sort;
     private final JMenuItem help;
     private final JMenuItem about;
 
@@ -32,6 +33,7 @@ public class MenuBar extends JMenuBar {
     public MenuBar() {
         setBackground(Colors.getFirstBackgroundColor());
 
+        sort = new JMenuItem("Sort graph");
         open = new JMenuItem("Open");
         exit = new JMenuItem(new ExitAction());
         help = new JMenuItem("Help");
@@ -52,6 +54,7 @@ public class MenuBar extends JMenuBar {
         JMenu file = new JMenu("File");
 
         file.add(open);
+        file.add(sort);
         file.addSeparator();
         file.add(exit);
 
@@ -112,5 +115,9 @@ public class MenuBar extends JMenuBar {
         public void actionPerformed(ActionEvent e) {
             System.exit(0);
         }
+    }
+
+    public JMenuItem getSort() {
+        return sort;
     }
 }

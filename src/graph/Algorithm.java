@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Level;
 
 /**
  * Класс, представляющий собой реализацию алгоритма поиска компонент
@@ -93,6 +92,11 @@ public class Algorithm extends SwingWorker<Void, Void> {
         this.orderList = new LinkedList<>();
     }
 
+    public Algorithm(@NotNull Graph graph, int delay) {
+        this(graph);
+        this.delay.set(delay);
+    }
+
     /**
      * Перегруженный метод родительского класса
      *
@@ -142,7 +146,9 @@ public class Algorithm extends SwingWorker<Void, Void> {
             Logs.writeToLog("SECOND DFS STARTED");
             firePropertyChange(ADD_TEXT, null, System.lineSeparator() + "SECOND DFS STARTED" +
                     System.lineSeparator());
-            for (Vertex vertex : orderList) {
+            for (Vertex vertexTmp : orderList) {
+                int id = vertexTmp.getId();
+                Vertex vertex = graph.getVertex(id);
                 if (!vertex.isVisited()) {
                     sleepOrWait();
                     Logs.writeToLog(" Start from " + vertex.getId() + " (" + (count + 1) + " component)");
@@ -419,6 +425,12 @@ public class Algorithm extends SwingWorker<Void, Void> {
                 Logs.writeToLog("Delay decreased");
                 delay.addAndGet(-DELTA_DELAY);
             }
+        }
+    }
+
+    public void setDelay(int delay) {
+        if (delay >= MIN_DELAY && delay <= MAX_DELAY) {
+            this.delay.set(delay);
         }
     }
 }

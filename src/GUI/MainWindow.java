@@ -16,6 +16,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.beans.PropertyChangeListener;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
@@ -35,6 +36,7 @@ import java.util.*;
  * Содержит метод для установки состояния кнопкам при остановке {@code setButtonsStateWhenStop}
  */
 public class MainWindow extends JFrame {
+    private boolean isRun;
     /**
      * Алгоритм.
      */
@@ -89,6 +91,8 @@ public class MainWindow extends JFrame {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         width = dimension.width;
         height = dimension.height;
+
+        isRun = false;
 
         setBounds(width / 6, height / 6, 2 * width / 3, 2 * height / 3);
         setMinimumSize(new Dimension(2 * width / 3, height / 2));
@@ -145,6 +149,7 @@ public class MainWindow extends JFrame {
 
                     graph.createGraph(count, edgeSet);
                     executeGraph();
+                    layout.execute(graph.getDefaultParent());
                 } catch (Exception exception) {
                     exception.printStackTrace();
                     scrollTextPane.getTextArea().setText("Can't read data from file");
@@ -180,13 +185,15 @@ public class MainWindow extends JFrame {
             JOptionPane.showMessageDialog(this,
                     scrollPane, "Help", JOptionPane.PLAIN_MESSAGE);
         });
+
+        menuBar.getSort().addActionListener(e -> layout.execute(graph.getDefaultParent()));
     }
 
     /**
      * Метод инициализации текстового поля. Задает свойства поля.
      */
     private void initScrollTextPane() {
-        scrollTextPane.getTextArea().setFocusable(false);
+        scrollTextPane.getTextArea().setEditable(false);
         scrollTextPane.setMaximumSize(new Dimension(width / 5, height));
         scrollTextPane.setMinimumSize(new Dimension(width / 5, height));
         scrollTextPane.setPreferredSize(new Dimension(width / 5, height));
@@ -247,7 +254,9 @@ public class MainWindow extends JFrame {
                 Algorithm.MIN_DELAY + Algorithm.DELTA_DELAY) / 2);
 
         commandPanel.getIncreaseSpeedButton().addActionListener(e -> {
-            algorithm.decreaseDelay();
+            if (isRun || isPaused) {
+                algorithm.decreaseDelay();
+            }
             int value = commandPanel.getProgressBar().getValue();
             if (value + Algorithm.DELTA_DELAY <= Algorithm.MAX_DELAY) {
                 commandPanel.getProgressBar().setValue(value + Algorithm.DELTA_DELAY);
@@ -255,7 +264,9 @@ public class MainWindow extends JFrame {
         });
 
         commandPanel.getDecreaseSpeedButton().addActionListener(e -> {
-            algorithm.increaseDelay();
+            if (isRun || isPaused) {
+                algorithm.increaseDelay();
+            }
             int value = commandPanel.getProgressBar().getValue();
             if (value - Algorithm.DELTA_DELAY > Algorithm.MIN_DELAY) {
                 commandPanel.getProgressBar().setValue(value - Algorithm.DELTA_DELAY);
@@ -263,12 +274,15 @@ public class MainWindow extends JFrame {
         });
 
         commandPanel.getStopButton().addActionListener(e -> {
-            commandPanel.getProgressBar().setValue((Algorithm.MAX_DELAY +
-                    Algorithm.MIN_DELAY + Algorithm.DELTA_DELAY) / 2);
+            scrollTextPane.getTextArea().setText("");
+            for (PropertyChangeListener listener : algorithm.getPropertyChangeSupport().getPropertyChangeListeners()) {
+                algorithm.removePropertyChangeListener(listener);
+            }
             algorithm.cancel(true);
             graphComponent.setEnabled(true);
             graph.resetVertexValues();
             isPaused = false;
+            isRun = false;
             graph.load();
             setButtonsStateWhenStop(true);
             executeGraph();
@@ -281,19 +295,8 @@ public class MainWindow extends JFrame {
 
         commandPanel.getClearButton().addActionListener(e -> {
             graph.clear();
-            commandPanel.getStartButton().setEnabled(true);
             scrollTextPane.getTextArea().setText("");
             executeGraph();
-        });
-
-        commandPanel.getPauseButton().addActionListener(e -> {
-            algorithm.setRun(false);
-            isPaused = true;
-
-            commandPanel.getDecreaseSpeedButton().setEnabled(false);
-            commandPanel.getIncreaseSpeedButton().setEnabled(false);
-            commandPanel.getPauseButton().setEnabled(false);
-            commandPanel.getStartButton().setEnabled(true);
         });
 
         commandPanel.getDeleteButton().addActionListener(e -> {
@@ -306,22 +309,33 @@ public class MainWindow extends JFrame {
             executeGraph();
         });
 
-        commandPanel.getStartButton().addActionListener(e -> {
-            if (isPaused) {
-                algorithm.unSleep();
-                isPaused = false;
+        commandPanel.getStartPauseButton().addActionListener(e -> {
+            if (!isRun) {
+                commandPanel.getStartPauseButton().setText("Pause");
+                isRun = true;
+                if (isPaused) {
+                    algorithm.setDelay(Algorithm.MAX_DELAY - commandPanel.getProgressBar().getValue() + 50);
+                    algorithm.unSleep();
+                    graphComponent.setEnabled(false);
+                    isPaused = false;
+                } else {
+                    graph.paintDefault();
+                    graph.save();
+                    graphComponent.setEnabled(false);
+                    graph.setSelectionCells(new Object[]{});
+                    algorithm = new Algorithm(createGraph(),
+                            Algorithm.MAX_DELAY - commandPanel.getProgressBar().getValue() + 50);
+                    initAlgorithm();
+                    algorithm.execute();
+                }
+                setButtonsStateWhenStop(false);
             } else {
-                commandPanel.getProgressBar().setValue((Algorithm.MAX_DELAY +
-                        Algorithm.MIN_DELAY + Algorithm.DELTA_DELAY) / 2);
-                graph.paintDefault();
-                graph.save();
-                graphComponent.setEnabled(false);
-                graph.setSelectionCells(new Object[]{});
-                algorithm = new Algorithm(createGraph());
-                initAlgorithm();
-                algorithm.execute();
+                commandPanel.getStartPauseButton().setText("Start");
+                isRun = false;
+                graphComponent.setEnabled(true);
+                algorithm.setRun(false);
+                isPaused = true;
             }
-            setButtonsStateWhenStop(false);
         });
 
         commandPanel.setMaximumSize(new Dimension(width / 7, height));
@@ -342,11 +356,11 @@ public class MainWindow extends JFrame {
 
         algorithm.addPropertyChangeListener(evt -> {
             if (evt.getPropertyName().equals(Algorithm.ALGORITHM_ENDED)) {
-                commandPanel.getProgressBar().setValue((Algorithm.MAX_DELAY +
-                        Algorithm.MIN_DELAY + Algorithm.DELTA_DELAY) / 2);
                 for (Vertex vertex : algorithm.getGraph().getVertexList()) {
                     graph.paintVertex(vertex.getId(), Colors.get(vertex.getComponentId()));
                 }
+                isPaused = false;
+                isRun = false;
                 setButtonsStateWhenStop(true);
                 graphComponent.setEnabled(true);
                 executeGraph();
@@ -436,26 +450,25 @@ public class MainWindow extends JFrame {
      * @param isStop {@code true}, если работа алгоритма остановлена.
      */
     private void setButtonsStateWhenStop(boolean isStop) {
-        commandPanel.getIncreaseSpeedButton().setEnabled(!isStop);
-        commandPanel.getDecreaseSpeedButton().setEnabled(!isStop);
         commandPanel.getStopButton().setEnabled(!isStop);
-        commandPanel.getPauseButton().setEnabled(!isStop);
 
         commandPanel.getAddVertexButton().setEnabled(isStop);
         commandPanel.getClearButton().setEnabled(isStop);
         commandPanel.getDeleteButton().setEnabled(isStop);
-        commandPanel.getStartButton().setEnabled(isStop);
+
+        if (isStop) {
+            commandPanel.getStartPauseButton().setText("Start");
+        } else {
+            commandPanel.getStartPauseButton().setText("Pause");
+        }
     }
 
     /**
      * Метод, перерисовывающий граф.
      */
     private void executeGraph() {
-        graph.setCellsMovable(true);
         graph.refresh();
         graph.repaint();
-        layout.execute(graph.getDefaultParent());
-        graph.setCellsMovable(false);
     }
 
     /**
